@@ -1,0 +1,20 @@
+[Unit]
+Description=LIFE//LEVEL named outbound Cloudflare Tunnel
+Wants=network-online.target
+After=network-online.target life-level-web.service
+
+[Service]
+Type=simple
+User=cloudflared
+Group=cloudflared
+ExecStart=/usr/local/bin/cloudflared tunnel --config /etc/cloudflared/life-level.yml run
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0077
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

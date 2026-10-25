@@ -1,0 +1,52 @@
+{
+  "name": "life-level-desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Windows shell for the hosted LIFE//LEVEL application",
+  "main": "main.cjs",
+  "scripts": {
+    "test": "node --test *.test.cjs",
+    "prepare:config": "node prepare-config.cjs",
+    "start": "electron .",
+    "build:win": "npm run prepare:config && electron-builder --win nsis --x64 --publish never && node write-checksum.cjs"
+  },
+  "devDependencies": {
+    "electron": "45.0.0",
+    "electron-builder": "26.18.0"
+  },
+  "build": {
+    "appId": "com.lifelevel.neonhaven",
+    "productName": "LIFE LEVEL",
+    "asar": true,
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.cjs",
+      "security.cjs",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "build/server.json",
+        "to": "server.json"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "icon.ico",
+      "artifactName": "LIFE-LEVEL-${version}-Setup.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
+}

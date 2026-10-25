@@ -1,0 +1,8 @@
+# Template only. Do not start the tunnel until the owner approves public access
+# and Grok Cloud policy permits externally accessible hosting.
+tunnel: REPLACE_WITH_NAMED_TUNNEL_ID
+credentials-file: /etc/cloudflared/REPLACE_WITH_NAMED_TUNNEL_ID.json
+ingress:
+  - hostname: REPLACE_WITH_APPROVED_HOSTNAME
+    service: http://127.0.0.1:3000
+  - service: http_status:404

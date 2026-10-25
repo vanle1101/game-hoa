@@ -1,0 +1,26 @@
+[Unit]
+Description=LIFE//LEVEL durable job worker
+Wants=network-online.target
+Requires=postgresql.service
+After=network-online.target postgresql.service
+
+[Service]
+Type=simple
+User=lifelevel
+Group=lifelevel
+WorkingDirectory=/opt/life-level/current
+Environment=NODE_ENV=production
+EnvironmentFile=/etc/life-level/life-level.env
+ExecStart=/usr/bin/npm run worker
+Restart=always
+RestartSec=5
+TimeoutStopSec=60
+KillSignal=SIGTERM
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0077
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
