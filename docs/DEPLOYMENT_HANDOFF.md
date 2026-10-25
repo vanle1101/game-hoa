@@ -64,6 +64,8 @@ npm run db:migrate
 
 Migration `0001` adds accounts and hashed sessions; `0002` adds server-owned artifacts and durable jobs; `0003` adds accepted command intents for retry after a client disconnect. Review and apply all three in order before enabling the new routes and worker. Secure cookies require the public HTTPS origin. The auth attempt brake inside the Next process is not distributed; configure a shared limit at the approved reverse proxy/tunnel edge before allowing open registration/login at scale.
 
+**Public exposure gate:** configure shared edge/IP limits for guest reads, registration, login, mutations, downloads, and AI requests before starting the tunnel. A guest `GET /api/game` can create a database row; rotating account emails can bypass per-email in-process limits and consume expensive password hashing work. Set a registration budget/invite policy and monitor database growth. Production AI requests require an authenticated account and a legitimate configured provider. Do not treat the in-process throttle as an Internet-facing abuse control.
+
 Start locally for a controlled smoke test (separate terminals or systemd units):
 
 ```sh
