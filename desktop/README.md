@@ -32,3 +32,7 @@ The browser partition is persistent so a server-issued HttpOnly session cookie s
 6. Disconnect/reconnect the network. A server-accepted job must be visible after reconnect even if the Electron process was closed.
 
 These UI checks require Electron dependencies, an HTTPS server, and a Windows test machine. They are not established by the pure Node security tests.
+
+### Local smoke test performed during implementation
+
+An **unpackaged** Electron 45 window was opened against an already running `http://127.0.0.1:3333/` development server with `LIFE_LEVEL_ALLOW_LOCAL_HTTP=true`. Via that window's Chromium debug protocol, the page title loaded, six canvases were present, WebGL2 and `navigator.locks` were available, and `GET /api/game` returned HTTP 200 in the local mock mode. `GET /api/backup` returned HTTP 200 with a JSON attachment, and a Blob download was triggered; the native save dialog completion was not verified. Local mock mode issues no account cookie, so secure production cookie persistence was **not** tested. This is not evidence that the packaged client works with the eventual HTTPS/Grok server.
