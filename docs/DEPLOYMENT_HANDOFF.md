@@ -33,6 +33,8 @@ npm run build
 
 `npm ci` installs the locked versions; `--include=dev` keeps the build tools. `npm run build` creates both the Next.js build and `dist-worker/index.cjs`. Do not use `npm install` to rewrite the lockfile on the server. Provide environment variables through a root-owned file outside the release tree (for example `/etc/life-level/life-level.env`, mode 0600) or another approved secret store. Do not copy Windows `.env.local` or place secrets in the deployment archive.
 
+The current `npm run worker` command resolves its runtime libraries from the release's `node_modules`. Do not prune dev dependencies until the worker and web runtime have been tested after pruning on the target Linux distribution.
+
 ### Required environment variable names
 
 | Name | Purpose |
