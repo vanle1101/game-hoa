@@ -1,0 +1,14 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+13 / 26
+C · RPG / KHO ĐỒ
+13   Bộ vũ khí RPG
+WEAPON ASSET SHEET
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design an original collectible weapon concept sheet for LIFE//LEVEL, a premium cyberpunk 3D RPG.
+Show eight fictional game weapons progressing from common to mythic rarity: compact training blade,
+neon-edged katana, plasma saber, advanced energy blade, crystalline sword, heavy technological
+greatsword, legendary quantum edge and mythic luminous relic. Each weapon has a unique
+recognizable silhouette, increasing intricate detail and tasteful cyan, purple, amber or crimson glow
+according to rarity. Show each item isolated at the same scale and three-quarter angle, polished stylized
+3D game-ready art, dark neutral presentation background, no character hands, no branding, 16:9.

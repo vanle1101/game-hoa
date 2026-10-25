@@ -1,0 +1,26 @@
+{
+  "name": "Plank Flooring 04",
+  "source": "https://polyhaven.com/a/plank_flooring_04",
+  "sourceApi": "https://api.polyhaven.com/files/plank_flooring_04",
+  "license": "CC0",
+  "licenseUrl": "https://polyhaven.com/license",
+  "downloadedOn": "2026-10-18",
+  "resolution": "2K JPEG",
+  "rights": "Modification and redistribution permitted under CC0",
+  "integrationStatus": "CANDIDATE - NOT USED BY RUNTIME",
+  "note": "The surface is darker than the current laminate but its narrow, deep plank gaps resemble outdoor decking. Keep for material comparison; do not claim it matches REF-D or is integrated.",
+  "files": {
+    "diffuse.jpg": {
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/plank_flooring_04/plank_flooring_04_diff_2k.jpg",
+      "md5": "11d44a0732d764ff533f6bf24b6b933c"
+    },
+    "normal.jpg": {
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/plank_flooring_04/plank_flooring_04_nor_gl_2k.jpg",
+      "md5": "b03eb36efcb871ee7f2cb8890d50c268"
+    },
+    "roughness.jpg": {
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/plank_flooring_04/plank_flooring_04_rough_2k.jpg",
+      "md5": "cc1d450bd25039b6294890549ddb64c2"
+    }
+  }
+}

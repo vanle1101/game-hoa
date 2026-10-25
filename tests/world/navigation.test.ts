@@ -1,0 +1,9 @@
+import { describe, expect, it } from "vitest";
+import { findPath, getRoomFixtures, placementValid, roomDimensions, walkable } from "../../src/components/world/geometry";
+describe("apartment navigation geometry",()=>{
+  it("routes around furnishings instead of passing through them",()=>{const room={width:8,depth:6};const obstacle={x:0,z:0,width:2,depth:3};const route=findPath({x:-3,z:0},{x:3,z:0},room,[obstacle]);expect(route.length).toBeGreaterThan(1);let start={x:-3,z:0};for(const end of route){for(let i=1;i<=30;i++)expect(walkable({x:start.x+(end.x-start.x)*i/30,z:start.z+(end.z-start.z)*i/30},room,[obstacle])).toBe(true);start=end;}expect(route.at(-1)).toEqual({x:3,z:0});});
+  it("keeps blocked destinations on reachable floor",()=>{const room={width:8,depth:6};const obstacles=[{x:0,z:0,width:2,depth:3}];const route=findPath({x:-3,z:0},{x:0,z:0},room,obstacles);expect(route.length).toBeGreaterThan(0);expect(walkable(route.at(-1)!,room,obstacles)).toBe(true);});
+  it("does not cross a wall dividing the entire room",()=>{const room={width:8,depth:6},barrier={x:0,z:0,width:.3,depth:6};const route=findPath({x:-3,z:0},{x:3,z:0},room,[barrier]);expect(route.every(point=>point.x<0)).toBe(true);});
+  it("rejects furniture at boundaries and occupied footprints",()=>{const room={width:8,depth:6};expect(placementValid({x:3.9,z:0,width:1,depth:1},room,[])).toBe(false);expect(placementValid({x:0,z:0,width:1,depth:1},room,[{x:.5,z:0,width:1,depth:1}])).toBe(false);});
+  it("uses actual catalog dimensions and distinct room fixtures",()=>{expect(roomDimensions("living")).toMatchObject({width:13,depth:9});expect(getRoomFixtures("training").some(f=>f.kind==="training-rack")).toBe(true);expect(getRoomFixtures("workshop").some(f=>f.kind==="fabricator")).toBe(true);expect(getRoomFixtures("gaming")).not.toEqual(getRoomFixtures("living"));});
+});

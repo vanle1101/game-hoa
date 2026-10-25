@@ -1,0 +1,14 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+15 / 26
+C · RPG / KHO ĐỒ
+15   Chế tạo & nâng cấp
+CRAFTING & ENHANCEMENT
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design a premium cyberpunk RPG crafting workshop interface for LIFE//LEVEL. Background shows a
+detailed futuristic workshop with metal workbench, robotic fabrication equipment and controlled neon
+lighting. Center features a large three-dimensional holographic preview of an energy sword being
+upgraded. Left side recipe and crafting category navigation. Right side stats before and after upgrade,
+required materials, available resources, Gold cost and a prominent enhance button. Bottom shows
+upgrade materials and blueprint icons. Sophisticated dark metallic game interface, clear visual focus,
+attractive restrained cyan and violet effects, immersive and functional, widescreen 16:9.

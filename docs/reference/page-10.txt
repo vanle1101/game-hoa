@@ -1,0 +1,15 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+04 / 26
+A · NHÂN VẬT & THẾ GIỚI
+04   Căn hộ khởi đầu
+STARTER APARTMENT
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Create a beautiful premium stylized 3D isometric starter apartment for LIFE//LEVEL, an original
+cyberpunk life simulation game. Small but thoughtfully designed customizable apartment with
+bedroom, compact living area, computer workstation, kitchenette and large futuristic city-facing
+windows. Modular floor and wall structure, one-meter architectural grid proportions, matte charcoal
+surfaces, warm interior lighting, controlled cyan accent lights, detailed furniture, soft shadows, carefully
+composed cozy environment. Orthographic three-quarter isometric camera showing the entire room as
+a cutaway dollhouse, no roof blocking the view. Clearly separated furniture objects suitable for a real 3D
+building game. Wide 16:9, no UI, no text.

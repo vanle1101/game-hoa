@@ -1,0 +1,15 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+08 / 26
+B · XÂY NHÀ THE SIMS-STYLE
+08   Cửa, cửa sổ và vật liệu
+DOORS WINDOWS MATERIALS
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Create an original premium cyberpunk architectural catalog art sheet for a 3D building game. Showcase
+a modular selection of hinged doors, automatic sliding doors, reinforced futuristic doors, glass doors,
+narrow windows, panoramic smart-glass windows, dark concrete walls, brushed titanium walls, glass
+partitions, luxury wood flooring, graphite ceramic flooring and illuminated metallic floor panels. Every
+model uses consistent realistic game scale and clean geometric construction, individual object
+presentation, subtle material labels represented only as blank caption spaces. Professional stylized 3D
+PBR asset showcase, soft controlled lighting, clean dark neutral background, organized catalog
+arrangement, 16:9.

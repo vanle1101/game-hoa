@@ -1,0 +1,16 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+06 / 26
+B · XÂY NHÀ THE SIMS-STYLE
+06   Build Mode tổng thể
+BUILD MODE OVERVIEW
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design a fully featured 3D house construction mode interface for LIFE//LEVEL, a premium cyberpunk life
+simulation RPG. Inspired by the interaction depth of sophisticated house-building simulation games but
+with an entirely original visual identity. Large central 3D orthographic isometric construction viewport,
+partially built futuristic apartment, clearly visible square floor grid, individually editable wall segments, a
+rectangular room being drawn with a translucent preview, structural placement indicators. Bottom
+construction toolbar with walls, rooms, floors, doors, windows, stairs, roof, materials and demolition tool
+icons. Right contextual catalog, top currency and building cost display, undo/redo, confirm and cancel.
+Premium dark futuristic game UI, restrained cyan and violet highlights. Clean 16:9 desktop
+screenshot-style concept, readable spatial composition.

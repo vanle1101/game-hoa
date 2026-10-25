@@ -1,0 +1,58 @@
+LIFE//LEVEL  /  GLOBAL QA
+02  Kiểm soát đồng nhất đồ họa
+Codex must enforce a visual contract, not merely use a color theme.
+FINAL EDITION  /  CYBERPUNK STYLE LOCK  /  CHARACTER & WARDROBE SYSTEM
+SUPPLEMENT 02/07
+ART CONSISTENCY CONTRACT
+Scene / architecture
+Stylized physically coherent 3D; modular floors
+and wall openings; reusable materials; purposeful
+signage; believable proportions; constrained
+isometric camera; cozy warm interiors against
+blue/purple city lighting.
+Character / animation
+One consistent body rig and asset scale; clothes
+fit the same character; same face, hair and outfit
+visible in character creator, home, equipment,
+wardrobe, boss and relevant overlays. No
+silhouette replacements between screens.
+Game UI
+Shared components for navigation, inventory
+slots, action buttons, iconography, tooltip,
+typography, focus outlines, rewards and alerts.
+Neon must highlight meaning, not dominate
+reading.
+Store / economy
+Cosmetic style stays cyberpunk; no medieval
+fantasy jackets or unrelated assets unless
+redesigned into the world. All shop previews must
+match the equipped 3D result.
+VISUAL ACCEPTANCE CONTRACT
+Mandatory visual quality gates
+01. Screenshot every affected screen at desktop
+and mobile viewports.
+02. Compare palette, 3D proportions, material
+scale, typography, HUD density and scene
+composition to the references.
+03. Verify actual 3D and interactive controls, not a
+static screenshot.
+04. Reject obvious placeholders as final assets.
+05. Inspect face/body clipping, outfit
+intersections, hair/headwear collisions, wall
+collision and camera behavior.
+06. Test reduced-motion and low graphics modes.
+07. Track deviations and fix before claiming visual
+acceptance.
+Locked style tokens
+Colors: #080D18, #10192C, #32E6F4, #9067FF,
+#EE5ACB, #FFBC62, #EDF4FF.
+Any added semantic colors must harmonize with
+these and remain accessible.
+Explicit instruction
+Do not silently reinterpret “Cyberpunk” as
+neon-only styling. The architectural world, avatar,
+garments, item silhouettes and UI need to share
+one art direction.
+ONE 3D UNIVERSE
+ONE DESIGN SYSTEM
+NO STYLE DRIFT

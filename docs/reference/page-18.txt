@@ -1,0 +1,14 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+12 / 26
+C · RPG / KHO ĐỒ
+12   Trang bị nhân vật
+EQUIPMENT UI
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Create a high-end futuristic RPG character equipment screen for LIFE//LEVEL. Center shows the full-body
+stylized cyberpunk male hero wearing premium black and cyan techwear. Equipment slot frames are
+arranged naturally around the character: weapon, head, chest, gloves, boots, accessories and relic. Right
+panel displays attack, defense, critical rate, combat power and detailed equipment comparison with
+positive and negative stat deltas. Left panel displays level, XP, HP and progression. Premium minimalist
+dark sci-fi game interface, refined visual hierarchy, subtle holographic detailing, cyan and violet accents,
+polished game-art presentation, landscape 16:9.

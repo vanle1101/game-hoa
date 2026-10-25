@@ -1,0 +1,15 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+22 / 26
+E · CÁC MÀN HÌNH KHÁC
+22   Màn hình chính
+HOME / HUD
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design the definitive LIFE//LEVEL main game screen, a premium cyberpunk 3D life simulation RPG. The
+central 75 percent of the screen is an interactive-looking isometric luxury apartment with a stylized
+character walking between furniture. Large, beautiful futuristic city windows, high-quality architectural
+details, cozy lighting and controlled cyan/violet accents. Compact top HUD for player level, Gold and
+notifications. Bottom HUD for HP, Energy, Mood and XP. Small contextual active boss widget and a
+compact three-priority quest panel. Collapsible minimal navigation instead of a huge sidebar. Gameplay
+world dominates the composition. Premium commercial game presentation, immersive, practical and
+uncluttered. Desktop widescreen 16:9.

@@ -1,0 +1,15 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+09 / 26
+B · XÂY NHÀ THE SIMS-STYLE
+09   Buy Mode - Mua nội thất
+BUY MODE
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design a sophisticated Buy Mode interface for LIFE//LEVEL, a premium cyberpunk 3D apartment building
+game. Large isometric apartment viewport showing a partially furnished room, translucent ghost
+preview of a futuristic sofa being positioned on a visible floor grid, cyan valid placement outlines and
+subtle occupied-cell feedback. Bottom furniture catalog with thumbnail cards, category icons, prices in
+fictional game Gold and owned-item indicators. Contextual side panel showing furniture dimensions,
+rotation controls and purchase details. Smooth, spacious premium game interface, dark charcoal and
+navy surfaces, small controlled cyan and violet highlights. The apartment remains the visual focus. 16:9
+desktop UI concept, no watermark.

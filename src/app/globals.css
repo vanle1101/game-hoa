@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  --bg-void: #080d18;
+  --background: #080d18;
+  --bg-surface-1: #0c1424;
+  --panel-deep: #0c1424;
+  --bg-surface-2: #10192c;
+  --panel: #10192c;
+  --bg-surface-3: #16233b;
+  --bg-input: #091220;
+  --bg-glass: rgba(14, 23, 40, 0.80);
+  --bg-scrim: rgba(4, 9, 18, 0.82);
+  --fg-primary: #edf4ff;
+  --foreground: #edf4ff;
+  --fg-secondary: #9aaac3;
+  --muted: #9aaac3;
+  --fg-tertiary: #6c829e;
+  --cyan: #32e6f4;
+  --violet: #9067ff;
+  --magenta: #ee5acb;
+  --amber: #ffbc62;
+  --emerald: #5ed5af;
+  --border-subtle: rgba(154, 170, 195, 0.16);
+  --border: rgba(154, 170, 195, 0.16);
+  --border-highlight: rgba(50, 230, 244, 0.38);
+  --shadow-panel: 0 20px 56px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(237, 244, 255, 0.07);
+  --rarity-common: #a7bed1;
+  --rarity-uncommon: #69dcb1;
+  --rarity-rare: #32e6f4;
+  --rarity-epic: #9067ff;
+  --rarity-legendary: #ffbc62;
+  --rarity-mythic: #ee5acb;
+  --skill-health: #ee5acb;
+  --skill-knowledge: #32e6f4;
+  --skill-career: #9067ff;
+  --skill-finance: #ffbc62;
+  --skill-relationships: #5ed5af;
+  --skill-creativity: #b48eff;
+  --font-sans: "Be Vietnam Pro", "Inter", "Segoe UI", Arial, sans-serif;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius: 12px;
+  --shell-sidebar: 224px;
+  --shell-rail: 72px;
+  --shell-topbar: 60px;
+  --shell-bottomnav: 64px;
+  --surface-panel: linear-gradient(145deg, #131f33 0%, #0c1424 100%);
+  --motion-fast: 160ms;
+  --motion-standard: 240ms;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-panel: var(--panel);
+  --color-muted: var(--muted);
+  --color-cyan: var(--cyan);
+  --color-violet: var(--violet);
+  --color-magenta: var(--magenta);
+  --color-amber: var(--amber);
+  --color-emerald: var(--emerald);
+  --color-border: var(--border);
+  --font-sans: "Be Vietnam Pro", "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { min-height: 100%; background: var(--bg-void); }
+body { margin: 0; min-height: 100vh; color: var(--fg-primary); background: var(--bg-void); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+button, input, select, textarea { font: inherit; }
+button, a, input, textarea, select { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+a { color: inherit; text-decoration: none; }
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+progress { appearance: none; -webkit-appearance: none; width: 100%; height: 8px; border-radius: 999px; background: var(--bg-input); border: 1px solid rgba(154, 170, 195, 0.18); overflow: hidden; }
+progress::-webkit-progress-bar { background: var(--bg-input); border-radius: 999px; }
+progress::-webkit-progress-value { background: linear-gradient(90deg, var(--cyan), var(--violet)); border-radius: 999px; }
+progress::-moz-progress-bar { background: linear-gradient(90deg, var(--cyan), var(--violet)); border-radius: 999px; }
+.tabular-nums { font-variant-numeric: tabular-nums; }
+::selection { background: #32e6f440; color: #fff; }
+::-webkit-scrollbar { width: 7px; height: 7px; }
+::-webkit-scrollbar-thumb { background: #27374d; border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: #364c69; }
+::-webkit-scrollbar-track { background: #080d18; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }

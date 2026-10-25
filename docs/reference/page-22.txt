@@ -1,0 +1,14 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+16 / 26
+C · RPG / KHO ĐỒ
+16   Rơi đồ hiếm
+LEGENDARY LOOT REVEAL
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Create an exciting premium cyberpunk RPG legendary loot reward reveal interface for LIFE//LEVEL. One
+beautiful legendary plasma blade suspended in the center with controlled golden and violet particles,
+cinematic dark background, subtle radial lighting and polished item rarity presentation. Supporting
+rewards underneath include Gold coins, upgrade materials, XP and rare fragments, each displayed as
+refined 3D item icons. Clear equipment action and inventory action in a balanced game UI layout.
+Dramatic but sophisticated, no excessive bloom, sharp item silhouette, high-end original game
+presentation, widescreen 16:9.

@@ -1,0 +1,14 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+18 / 26
+D · BOSS & NHIỆM VỤ
+18   Đấu trường Boss
+BOSS ARENA
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design a premium cyberpunk RPG boss encounter screen for LIFE//LEVEL. Central visual is a large
+original robotic boss on a futuristic arena platform overlooking the neon megacity, dynamic but
+controlled cinematic lighting. A clear boss HP and phase display sits across the upper screen. The
+player's character is visible at the foreground edge with equipped weapon. Side interface displays linked
+real-life quests that trigger attacks and damage when completed, combat history, equipment power and
+potential loot. Combat is task-driven, not button-mashing. Premium immersive 3D browser game
+design, strong visual hierarchy, restrained HUD, widescreen 16:9.

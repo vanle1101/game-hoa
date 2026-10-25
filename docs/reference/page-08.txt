@@ -1,0 +1,52 @@
+LIFE//LEVEL  /  CHARACTER IMPLEMENTATION
+04  Tóc, khuôn mặt và outfit ban đầu
+Production rules and first-run customization flow.
+FINAL EDITION  /  CYBERPUNK STYLE LOCK  /  CHARACTER & WARDROBE SYSTEM
+SUPPLEMENT 04/07
+CHARACTER MESH + INTERACTIONS
+3D asset contract
+Create a single avatar rig compatible with game
+locomotion and idle/action animations. Use
+reusable modular hairstyle meshes with correct
+scalp placement, eye/skin material variants and
+facial morph targets where feasible. Anchor
+eyewear, hats and earrings at consistent
+attachment points. Meshes need correct pivots
+and scale.
+Face editor
+Tabs: Hair, Face, Eyes, Brows, Nose, Ears, Mouth,
+Skin, Body, Makeup, Accessories and Outfit. Click
+a facial tab → camera smoothly frames the head;
+choose a preset or validated slider → immediate
+3D update; switch back to full body for clothing.
+Allow Save, Cancel, Reset and Randomize.
+Character persistence
+Save a structured appearance configuration
+server-side, including avatar version/model
+references, selected morph values or preset IDs
+and equipped cosmetic item instance IDs. Load it
+consistently after refresh and on mobile.
+INITIAL FREE CLOTHES + RULES
+FREE STARTER WARDROBE
+On first character creation, grant a starter
+cosmetic collection ONCE, server-side. Offer at
+least 3 complete free cyberpunk outfits (Street
+Runner, Neo-Corporate and Night Technician) with
+mix-and-match pieces. Suggested free options: 6
+tops, 4 bottoms, 4 shoe styles, 3 outerwear pieces
+and 4 small accessories, compatible with avatar
+variants.
+Starter selection
+Preview complete looks and individual layers.
+Choose a full starter set or create a custom
+combination from owned free items. Show the
+exact final 3D look before confirmation. All chosen
+items must remain owned and can be re-equipped
+later.
+Important boundary
+Appearance cosmetics are independent from
+combat equipment bonuses unless an item
+explicitly declares both capabilities; do not let
+wardrobe garments inadvertently alter boss
+damage. No real-money requirement or external
+payment for starter customization.

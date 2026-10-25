@@ -1,0 +1,14 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+23 / 26
+E · CÁC MÀN HÌNH KHÁC
+23   Tài chính cá nhân
+FINANCE
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design an elegant premium futuristic personal banking screen integrated into LIFE//LEVEL, a cyberpunk
+life simulation game. Sophisticated financial interface with real-money account balances, cashflow
+visualization, expense categories, monthly spending, budgets, savings goals, transactions and recurring
+payments. Dark graphite, midnight blue, muted cyan and subtle metallic accents. Professional
+bank-grade readability and refined typography, controlled use of glass surfaces, no excessive glow. A
+unique cyberpunk-inspired financial interface that feels trustworthy and useful, not a generic
+dashboard. Real money must be visually separate from fictional game Gold. Desktop widescreen 16:9.

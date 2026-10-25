@@ -1,0 +1,2134 @@
+.quest-manager {
+  --quest-surface: var(--bg-surface-2, #10192c);
+  --quest-ink: var(--fg-primary, #edf4ff);
+  --quest-muted: var(--fg-secondary, #9aaac3);
+  min-width: 0;
+  display: grid;
+  gap: 18px;
+  color: #edf4ff;
+  font-variant-numeric: tabular-nums;
+}
+
+.quest-manager .stats-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0;
+}
+
+.quest-stat-card {
+  position: relative;
+  overflow: hidden;
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #131f33 0%, #0c1424 100%);
+  border: 1px solid rgba(154, 170, 195, 0.16);
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(237, 244, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.quest-stat-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: #32e6f4;
+  box-shadow: 0 0 14px rgba(50, 230, 244, 0.65);
+}
+
+.quest-stat-card.is-done::before {
+  background: #5ed5af;
+  box-shadow: 0 0 14px rgba(94, 213, 175, 0.65);
+}
+
+.quest-stat-card.is-alert {
+  border-color: rgba(255, 188, 98, 0.36);
+  background: radial-gradient(circle at 100% 0%, rgba(255, 188, 98, 0.12), transparent 60%),
+    linear-gradient(145deg, #162033 0%, #0c1424 100%);
+}
+
+.quest-stat-card.is-alert::before {
+  background: #ffbc62;
+  box-shadow: 0 0 14px rgba(255, 188, 98, 0.7);
+}
+
+.quest-stat-card.is-clear::before {
+  background: #6c829e;
+  box-shadow: none;
+}
+
+.quest-stat-meta {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.quest-stat-meta .eyebrow {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #6c829e;
+  line-height: 1.4;
+}
+
+.quest-stat-meta > span:last-child {
+  font-size: 13px;
+  font-weight: 600;
+  color: #c5d4e8;
+  line-height: 1.35;
+}
+
+.quest-stat-card > strong {
+  font-size: clamp(24px, 2.4vw, 32px);
+  font-weight: 750;
+  letter-spacing: -0.03em;
+  color: #edf4ff;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.quest-stat-card.is-open > strong {
+  color: #32e6f4;
+}
+
+.quest-stat-card.is-done > strong {
+  color: #5ed5af;
+}
+
+.quest-stat-card.is-alert > strong {
+  color: #ffbc62;
+}
+
+.quest-warning {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px !important;
+  margin: 0 !important;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 188, 98, 0.38) !important;
+  background: radial-gradient(circle at 0% 50%, rgba(255, 188, 98, 0.14), transparent 55%),
+    linear-gradient(145deg, #171f32 0%, #0d1424 100%) !important;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.42);
+}
+
+.quest-warning-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  background: rgba(255, 188, 98, 0.14);
+  border: 1px solid rgba(255, 188, 98, 0.38);
+  color: #ffbc62;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.quest-warning-copy {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.quest-warning-copy .eyebrow {
+  color: #ffbc62;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  font-weight: 700;
+}
+
+.quest-warning-copy strong {
+  font-size: 15px;
+  color: #fff3df;
+  line-height: 1.35;
+}
+
+.quest-warning-copy p {
+  font-size: 12px;
+  color: #b7c6db;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.quest-command-bar {
+  margin: 0 !important;
+  padding: 18px 20px !important;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #121d31 0%, #0b1322 100%);
+  border: 1px solid rgba(154, 170, 195, 0.16);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.4);
+  display: grid;
+  gap: 14px;
+}
+
+.quest-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin: 0;
+}
+
+.quest-toolbar .search {
+  flex: 1;
+  max-width: 560px;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  background: #091220;
+  border: 1px solid rgba(130, 158, 190, 0.28);
+  border-radius: 10px;
+  color: #89a0bc;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.quest-toolbar .search:focus-within {
+  border-color: rgba(50, 230, 244, 0.58);
+  box-shadow: 0 0 0 3px rgba(50, 230, 244, 0.12);
+  color: #32e6f4;
+}
+
+.quest-toolbar .search input {
+  flex: 1;
+  min-width: 0;
+  border: 0 !important;
+  background: transparent !important;
+  color: #edf4ff;
+  padding: 9px 0 !important;
+  font-size: 13px;
+  outline: none !important;
+}
+
+.quest-create-btn {
+  min-height: 42px;
+  padding: 10px 16px !important;
+  border-radius: 10px !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  background: linear-gradient(115deg, #6ef2f8, #28bfd4) !important;
+  color: #06202b !important;
+  font-weight: 700 !important;
+  border: 1px solid #7ef7ff !important;
+  box-shadow: 0 8px 24px rgba(50, 230, 244, 0.22);
+}
+
+.quest-filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  align-items: end;
+  gap: 12px;
+}
+
+.quest-filters label {
+  display: grid;
+  gap: 6px;
+  margin: 0 !important;
+  min-width: 0;
+}
+
+.quest-filter-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #8fa4bf;
+}
+
+.quest-filters select {
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: #091220;
+  border: 1px solid rgba(130, 158, 190, 0.28);
+  color: #edf4ff;
+  font-size: 13px;
+}
+
+.quest-reset-filter {
+  min-height: 42px;
+  padding: 0 14px !important;
+  border-radius: 10px;
+  border: 1px solid rgba(154, 170, 195, 0.2) !important;
+  background: rgba(19, 32, 51, 0.65) !important;
+  color: #b8cae0 !important;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quest-reset-filter:hover:not(:disabled) {
+  border-color: rgba(50, 230, 244, 0.45) !important;
+  color: #32e6f4 !important;
+}
+
+.quest-status-pills {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.quest-status-pill {
+  flex: 0 0 auto;
+  min-height: 34px;
+  padding: 6px 12px !important;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #93a7c2 !important;
+  background: rgba(9, 18, 32, 0.78) !important;
+  border: 1px solid rgba(154, 170, 195, 0.18) !important;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.quest-status-pill:hover {
+  color: #edf4ff !important;
+  border-color: rgba(50, 230, 244, 0.35) !important;
+}
+
+.quest-status-pill.active {
+  color: #06202b !important;
+  font-weight: 700;
+  background: linear-gradient(115deg, #6ef2f8, #28bfd4) !important;
+  border-color: #7ef7ff !important;
+  box-shadow: 0 0 16px rgba(50, 230, 244, 0.24);
+}
+
+.quest-result-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 4px;
+}
+
+.quest-result-count {
+  margin: 0 !important;
+  font-size: 12px;
+  color: #8fa3bd;
+}
+
+.quest-result-count strong {
+  color: #32e6f4;
+  font-weight: 700;
+}
+
+.quest-result-count span {
+  color: #c7d6ea;
+  font-weight: 600;
+}
+
+.quest-cards {
+  display: grid;
+  gap: 14px;
+}
+
+.quest-card {
+  position: relative;
+  overflow: hidden;
+  margin: 0 !important;
+  padding: 20px 22px !important;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #131f33 0%, #0c1424 100%);
+  border: 1px solid rgba(154, 170, 195, 0.18);
+  box-shadow: 0 20px 52px rgba(0, 0, 0, 0.44), inset 0 1px 0 rgba(237, 244, 255, 0.06);
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.quest-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: #32e6f4;
+}
+
+.quest-card.difficulty-easy::before {
+  background: #69dcb1;
+}
+
+.quest-card.difficulty-medium::before {
+  background: #32e6f4;
+}
+
+.quest-card.difficulty-hard::before {
+  background: #9067ff;
+}
+
+.quest-card.difficulty-epic::before {
+  background: linear-gradient(180deg, #ffbc62, #ee5acb);
+}
+
+.quest-card.priority-high {
+  border-color: rgba(255, 188, 98, 0.28);
+  background: radial-gradient(circle at 100% 0%, rgba(255, 188, 98, 0.07), transparent 50%),
+    linear-gradient(145deg, #142136 0%, #0c1424 100%);
+}
+
+.quest-card.is-overdue {
+  border-color: rgba(255, 188, 98, 0.42);
+  background: radial-gradient(circle at 100% 0%, rgba(238, 90, 203, 0.09), transparent 52%),
+    linear-gradient(145deg, #171f33 0%, #0c1424 100%);
+}
+
+.quest-card.is-overdue::before {
+  background: #ffbc62;
+  box-shadow: 0 0 12px rgba(255, 188, 98, 0.65);
+}
+
+.quest-card.is-archived {
+  opacity: 0.72;
+}
+
+.quest-card-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.quest-kind-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(50, 230, 244, 0.1);
+  border: 1px solid rgba(50, 230, 244, 0.28);
+  color: #32e6f4;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.quest-kind-icon.skill-health {
+  color: #ee5acb;
+  background: rgba(238, 90, 203, 0.12);
+  border-color: rgba(238, 90, 203, 0.32);
+}
+
+.quest-kind-icon.skill-knowledge {
+  color: #32e6f4;
+  background: rgba(50, 230, 244, 0.12);
+  border-color: rgba(50, 230, 244, 0.32);
+}
+
+.quest-kind-icon.skill-career {
+  color: #9067ff;
+  background: rgba(144, 103, 255, 0.14);
+  border-color: rgba(144, 103, 255, 0.34);
+}
+
+.quest-kind-icon.skill-finance {
+  color: #ffbc62;
+  background: rgba(255, 188, 98, 0.12);
+  border-color: rgba(255, 188, 98, 0.34);
+}
+
+.quest-kind-icon.skill-relationships {
+  color: #5ed5af;
+  background: rgba(94, 213, 175, 0.12);
+  border-color: rgba(94, 213, 175, 0.32);
+}
+
+.quest-kind-icon.skill-creativity {
+  color: #b48eff;
+  background: rgba(180, 142, 255, 0.14);
+  border-color: rgba(180, 142, 255, 0.34);
+}
+
+.quest-card-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.quest-card-title h3 {
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.38;
+  color: #edf4ff;
+  margin: 8px 0 4px !important;
+  overflow-wrap: anywhere;
+}
+
+.quest-card-title p {
+  white-space: pre-wrap;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #9aaac3;
+  margin: 0;
+}
+
+.quest-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.quest-tags span {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border-radius: 6px;
+  padding: 3px 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(154, 170, 195, 0.16);
+  color: #b6c6dc;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 1.4;
+}
+
+.quest-tags .skill-tag.skill-health {
+  color: #ff9be2;
+  background: rgba(238, 90, 203, 0.12);
+  border-color: rgba(238, 90, 203, 0.28);
+}
+
+.quest-tags .skill-tag.skill-knowledge {
+  color: #7ef7ff;
+  background: rgba(50, 230, 244, 0.1);
+  border-color: rgba(50, 230, 244, 0.26);
+}
+
+.quest-tags .skill-tag.skill-career {
+  color: #c4aeff;
+  background: rgba(144, 103, 255, 0.14);
+  border-color: rgba(144, 103, 255, 0.3);
+}
+
+.quest-tags .skill-tag.skill-finance {
+  color: #ffd089;
+  background: rgba(255, 188, 98, 0.12);
+  border-color: rgba(255, 188, 98, 0.28);
+}
+
+.quest-tags .skill-tag.skill-relationships {
+  color: #86eccb;
+  background: rgba(94, 213, 175, 0.12);
+  border-color: rgba(94, 213, 175, 0.28);
+}
+
+.quest-tags .skill-tag.skill-creativity {
+  color: #d3bcff;
+  background: rgba(180, 142, 255, 0.14);
+  border-color: rgba(180, 142, 255, 0.3);
+}
+
+.quest-tags .difficulty-tag.difficulty-hard {
+  color: #c4aeff;
+  border-color: rgba(144, 103, 255, 0.28);
+}
+
+.quest-tags .difficulty-tag.difficulty-epic {
+  color: #ffd089;
+  border-color: rgba(255, 188, 98, 0.34);
+}
+
+.quest-tags .priority-tag {
+  color: #ffbc62;
+  background: rgba(255, 188, 98, 0.14);
+  border-color: rgba(255, 188, 98, 0.34);
+}
+
+.quest-tags .commit-tag {
+  color: #c8b6ff;
+  background: rgba(144, 103, 255, 0.15);
+  border-color: rgba(144, 103, 255, 0.34);
+}
+
+.quest-tags .overdue-tag {
+  color: #ff9be2;
+  background: rgba(238, 90, 203, 0.14);
+  border-color: rgba(238, 90, 203, 0.36);
+}
+
+.quest-expand-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid rgba(154, 170, 195, 0.18) !important;
+  background: rgba(15, 25, 42, 0.75) !important;
+  color: #9aaac3 !important;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: transform 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.quest-expand-btn.active {
+  transform: rotate(180deg);
+  border-color: rgba(50, 230, 244, 0.45) !important;
+  color: #32e6f4 !important;
+}
+
+.quest-telemetry-row {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(154, 170, 195, 0.12);
+}
+
+.quest-meta {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin: 0;
+  color: #8fa2bc;
+  font-size: 11px;
+}
+
+.quest-meta span,
+.quest-rewards span {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.quest-meta .is-overdue-date {
+  color: #ffbc62;
+  font-weight: 600;
+}
+
+.quest-rewards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.quest-rewards > span {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(9, 18, 32, 0.82);
+  border: 1px solid rgba(154, 170, 195, 0.18);
+}
+
+.quest-rewards .reward-xp {
+  color: #c7b3ff;
+  border-color: rgba(144, 103, 255, 0.34);
+  background: rgba(144, 103, 255, 0.11);
+}
+
+.quest-rewards .reward-gold {
+  color: #ffbc62;
+  border-color: rgba(255, 188, 98, 0.34);
+  background: rgba(255, 188, 98, 0.1);
+}
+
+.quest-rewards .reward-damage {
+  color: #32e6f4;
+  border-color: rgba(50, 230, 244, 0.32);
+  background: rgba(50, 230, 244, 0.09);
+}
+
+.quest-rewards .penalty {
+  color: #ff9be2;
+  border-color: rgba(238, 90, 203, 0.38);
+  background: rgba(238, 90, 203, 0.12);
+}
+
+.quest-checklist {
+  padding: 12px 14px;
+  margin-top: 14px;
+  border-radius: 10px;
+  background: rgba(9, 18, 32, 0.68);
+  border: 1px solid rgba(154, 170, 195, 0.14);
+}
+
+.quest-checklist-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 11px;
+  color: #93a7c2;
+  margin-bottom: 6px;
+}
+
+.quest-checklist-head strong {
+  color: #32e6f4;
+  font-weight: 700;
+}
+
+.quest-checklist-bar {
+  height: 6px;
+  background: #070e1a;
+  border: 1px solid rgba(154, 170, 195, 0.16);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.quest-checklist-bar i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #32e6f4, #5ed5af);
+  transition: width 0.25s ease;
+}
+
+.quest-checklist-items {
+  display: grid;
+  gap: 6px;
+}
+
+.quest-checklist label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 !important;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(16, 25, 44, 0.55);
+  color: #d6e4f7;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.quest-checklist label.is-done {
+  background: rgba(94, 213, 175, 0.06);
+}
+
+.quest-checklist input {
+  accent-color: #32e6f4;
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+.quest-checklist .checked {
+  text-decoration: line-through;
+  color: #6c829e;
+}
+
+.quest-card-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(154, 170, 195, 0.12);
+}
+
+.quest-card-actions .btn {
+  min-height: 40px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 9px 14px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.quest-card-actions .btn.primary {
+  background: linear-gradient(115deg, #6ef2f8, #28bfd4);
+  color: #06202b;
+  font-weight: 700;
+  border: 1px solid #7ef7ff;
+}
+
+.quest-card-actions .btn.ghost {
+  background: #132033;
+  color: #d5e5f7;
+  border: 1px solid rgba(154, 170, 195, 0.24);
+}
+
+.quest-cancel-link {
+  min-height: 40px;
+  padding: 0 10px !important;
+  font-size: 12px;
+  color: #ff9be2 !important;
+}
+
+.quest-archive-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid rgba(154, 170, 195, 0.2) !important;
+  background: #111c2f !important;
+  color: #93a7c2 !important;
+  display: grid;
+  place-items: center;
+}
+
+.quest-done-counter {
+  margin-left: auto;
+  color: #7c90aa;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.quest-expanded {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: rgba(8, 14, 26, 0.72);
+  border: 1px solid rgba(154, 170, 195, 0.14);
+  display: grid;
+  gap: 10px;
+}
+
+.quest-boss-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(144, 103, 255, 0.12);
+  border: 1px solid rgba(144, 103, 255, 0.28);
+  color: #d8cbff !important;
+  font-size: 12px !important;
+}
+
+.quest-boss-link svg {
+  color: #9067ff;
+  flex-shrink: 0;
+}
+
+.quest-authority-note {
+  font-size: 11px !important;
+  color: #8b9fb9 !important;
+  line-height: 1.6;
+}
+
+.quest-expanded h4 {
+  margin: 4px 0 2px !important;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #32e6f4;
+}
+
+.quest-expanded ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.quest-expanded li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 11px;
+  padding: 7px 10px;
+  border-radius: 7px;
+  background: rgba(16, 25, 44, 0.6);
+  border: 1px solid rgba(154, 170, 195, 0.08);
+}
+
+.quest-expanded li time {
+  color: #c5d5ea;
+  font-weight: 600;
+}
+
+.quest-expanded li small {
+  margin-left: auto;
+  color: #ffbc62;
+}
+
+.occurrence-open {
+  color: #32e6f4;
+  font-weight: 600;
+}
+
+.occurrence-completed {
+  color: #5ed5af;
+  font-weight: 600;
+}
+
+.occurrence-missed {
+  color: #ff9be2;
+  font-weight: 600;
+}
+
+.occurrence-canceled {
+  color: #6c829e;
+}
+
+.quest-empty {
+  text-align: center;
+  padding: 48px 24px !important;
+  border-radius: 14px;
+  background: radial-gradient(circle at 50% 0%, rgba(50, 230, 244, 0.1), transparent 60%),
+    linear-gradient(145deg, #131f33 0%, #0c1424 100%);
+  border: 1px solid rgba(154, 170, 195, 0.18);
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+}
+
+.quest-empty-emblem {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: rgba(50, 230, 244, 0.1);
+  border: 1px solid rgba(50, 230, 244, 0.28);
+  color: #32e6f4;
+  display: grid;
+  place-items: center;
+  margin-bottom: 4px;
+}
+
+.quest-empty h3 {
+  font-size: 19px;
+  margin: 0 !important;
+  color: #edf4ff;
+}
+
+.quest-empty p {
+  max-width: 420px;
+  margin: 0;
+  color: #9aaac3;
+}
+
+.quest-empty .btn {
+  margin-top: 10px;
+  min-height: 42px;
+  padding: 10px 18px;
+}
+
+.quest-edit-modal,
+.quest-confirm-modal {
+  max-width: min(720px, calc(100vw - 24px)) !important;
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
+  background: linear-gradient(155deg, #132035 0%, #0a1220 100%) !important;
+  border: 1px solid rgba(50, 230, 244, 0.3) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.78) !important;
+}
+
+.quest-confirm-modal {
+  max-width: min(480px, calc(100vw - 24px)) !important;
+}
+
+.quest-edit-modal form {
+  display: grid;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.quest-edit-modal label {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #b7c8de;
+  margin: 0 !important;
+}
+
+.quest-edit-modal input:not([type="checkbox"]),
+.quest-edit-modal select,
+.quest-edit-modal textarea {
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: #091220;
+  border: 1px solid rgba(130, 158, 190, 0.28);
+  color: #edf4ff;
+  font-size: 13px;
+}
+
+.quest-edit-modal .form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.quest-edit-modal .checkbox-label {
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(9, 18, 32, 0.7);
+  border: 1px solid rgba(154, 170, 195, 0.16);
+  font-weight: 500;
+}
+
+.quest-lock-note {
+  padding: 12px 14px;
+  background: rgba(144, 103, 255, 0.12);
+  border: 1px solid rgba(144, 103, 255, 0.3);
+  border-radius: 10px;
+  margin: 10px 0 0 !important;
+  font-size: 12px;
+  color: #d6c8ff !important;
+}
+
+.quest-lock-note svg {
+  display: inline;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+.quest-form-alert {
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(238, 90, 203, 0.14);
+  border: 1px solid rgba(238, 90, 203, 0.36);
+  color: #ff9be2 !important;
+  font-size: 12px;
+}
+
+.quest-form-status {
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(50, 230, 244, 0.1);
+  border: 1px solid rgba(50, 230, 244, 0.28);
+  color: #8cf3fb !important;
+  font-size: 12px;
+}
+
+.quest-edit-modal .button-row,
+.quest-confirm-modal .button-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.quest-manager .footnote {
+  margin: 4px 0 0 !important;
+  font-size: 11px;
+  color: #7c90aa;
+}
+
+@media (max-width: 900px) {
+  .quest-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .quest-manager .stats-strip {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .quest-stat-card {
+    padding: 14px 16px;
+  }
+
+  .quest-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .quest-toolbar .search {
+    max-width: none;
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .quest-toolbar .search input,
+  .quest-filters select,
+  .quest-edit-modal input:not([type="checkbox"]),
+  .quest-edit-modal select,
+  .quest-edit-modal textarea {
+    font-size: 16px !important;
+  }
+
+  .quest-create-btn {
+    width: 100%;
+    min-height: 44px;
+    justify-content: center;
+  }
+
+  .quest-filters {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .quest-reset-filter {
+    min-height: 44px;
+    width: 100%;
+  }
+
+  .quest-card {
+    padding: 16px !important;
+  }
+
+  .quest-card-head {
+    gap: 10px;
+  }
+
+  .quest-kind-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .quest-expand-btn,
+  .quest-archive-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .quest-card-actions .btn {
+    min-height: 44px;
+    font-size: 12px;
+  }
+
+  .quest-done-counter {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .quest-warning {
+    flex-wrap: wrap;
+  }
+
+  .quest-warning .btn {
+    width: 100%;
+    min-height: 44px;
+    justify-content: center;
+  }
+
+  .quest-edit-modal .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .quest-expanded li {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+
+.quest-journal-caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  color: var(--quest-muted);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+}
+
+.quest-journal-caption > span,
+.quest-stat-meta .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quest-journal-caption > span:first-child {
+  color: var(--cyan, #32e6f4);
+  font-weight: 700;
+}
+
+.quest-manager .stats-strip {
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle, rgba(154, 170, 195, 0.16));
+  border-radius: 14px;
+  background: var(--quest-surface);
+}
+
+.quest-stat-card {
+  min-height: 96px;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.quest-stat-card + .quest-stat-card {
+  border-left: 1px solid var(--border-subtle, rgba(154, 170, 195, 0.16));
+}
+
+.quest-stat-card::before {
+  inset: auto 20px 0;
+  height: 2px;
+  width: auto;
+  opacity: 0.7;
+  box-shadow: none;
+}
+
+.quest-stat-meta .eyebrow {
+  color: var(--quest-muted);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.quest-stat-card > strong {
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1.25;
+}
+
+.quest-filter-disclosure {
+  min-width: 0;
+  border-top: 1px solid var(--border-subtle, rgba(154, 170, 195, 0.16));
+}
+
+.quest-filter-disclosure > summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  list-style: none;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--quest-ink);
+}
+
+.quest-filter-disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+
+.quest-filter-disclosure > summary > span {
+  margin-left: auto;
+  color: var(--quest-muted);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.quest-filter-disclosure[open] > summary > svg:last-child {
+  transform: rotate(180deg);
+}
+
+.quest-filter-disclosure .quest-filters {
+  padding: 4px 0 12px;
+}
+
+.quest-command-bar {
+  gap: 10px;
+  box-shadow: none;
+}
+
+.quest-status-pills {
+  flex-wrap: wrap;
+  overflow: visible;
+}
+
+.quest-status-pill {
+  min-height: 40px;
+  font-size: 12px;
+  border-radius: 8px;
+}
+
+.quest-status-pill.active {
+  color: var(--cyan, #32e6f4) !important;
+  background: rgba(50, 230, 244, 0.1) !important;
+  border-color: rgba(50, 230, 244, 0.45) !important;
+  box-shadow: inset 0 -2px var(--cyan, #32e6f4);
+}
+
+.quest-result-bar h2 {
+  margin: 4px 0 0;
+  font-size: 19px;
+  line-height: 1.4;
+  font-weight: 650;
+  color: var(--quest-ink);
+}
+
+.quest-result-bar .eyebrow {
+  color: var(--quest-muted);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  line-height: 1.6;
+}
+
+.quest-result-count {
+  text-align: right;
+  color: var(--quest-muted);
+}
+
+.quest-result-count > span {
+  display: block;
+  font-size: 10px;
+  font-weight: 400;
+  margin-top: 4px;
+  overflow-wrap: anywhere;
+}
+
+.quest-card {
+  box-shadow: inset 0 1px rgba(237, 244, 255, 0.04);
+}
+
+.quest-card.is-expanded {
+  border-color: rgba(50, 230, 244, 0.4);
+}
+
+.quest-card-title h3 {
+  font-size: clamp(17px, 1.5vw, 20px);
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+}
+
+.quest-tags span {
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.quest-meta {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--quest-muted);
+}
+
+.quest-checklist label {
+  min-height: 40px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.quest-checklist label > span {
+  overflow-wrap: anywhere;
+}
+
+.quest-checklist .checked,
+.quest-done-counter,
+.quest-manager .footnote,
+.quest-authority-note {
+  color: var(--quest-muted) !important;
+}
+
+.quest-expanded li {
+  min-height: 40px;
+  font-size: 12px;
+}
+
+.quest-manager :is(button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid var(--cyan, #32e6f4);
+  outline-offset: 3px;
+}
+
+.quest-manager .modal-scrim {
+  background: var(--bg-scrim, rgba(4, 9, 18, 0.82));
+  backdrop-filter: blur(10px);
+  padding: 12px;
+}
+
+.quest-manager :is(.quest-edit-modal, .quest-confirm-modal) h2 {
+  font-size: clamp(22px, 2.2vw, 28px);
+  line-height: 1.4;
+  padding-right: 40px;
+  letter-spacing: -0.02em;
+}
+
+.quest-manager :is(.quest-edit-modal, .quest-confirm-modal) .modal-close {
+  width: 44px;
+  height: 44px;
+}
+
+.quest-manager .quest-confirm-modal > p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--quest-muted);
+}
+
+.quest-edit-modal .button-row {
+  position: sticky;
+  bottom: -1px;
+  padding: 14px 0 4px;
+  background: #0d1728;
+  border-top: 1px solid var(--border-subtle, rgba(154, 170, 195, 0.16));
+  z-index: 1;
+}
+
+.quest-edit-modal :is(input, select, textarea) {
+  scroll-margin-bottom: 90px;
+}
+
+@media (min-width: 1180px) {
+  .quest-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 240px;
+    column-gap: 24px;
+    align-items: start;
+  }
+
+  .quest-card-head,
+  .quest-card-actions,
+  .quest-checklist {
+    grid-column: 1;
+  }
+
+  .quest-telemetry-row {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    height: 100%;
+    align-content: start;
+    margin: 0;
+    padding: 4px 0 4px 20px;
+    border-top: 0;
+    border-left: 1px solid var(--border-subtle, rgba(154, 170, 195, 0.16));
+    gap: 16px;
+  }
+
+  .quest-telemetry-row .quest-meta,
+  .quest-telemetry-row .quest-rewards {
+    display: grid;
+    gap: 8px;
+    justify-items: start;
+  }
+
+  .quest-expanded {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .quest-manager {
+    gap: 14px;
+  }
+
+  .quest-manager .stats-strip {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+  }
+
+  .quest-stat-card {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 6px;
+    min-height: 128px;
+    padding: 12px 10px;
+  }
+
+  .quest-stat-meta > span:last-child {
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .quest-stat-meta .eyebrow {
+    display: none;
+  }
+
+  .quest-stat-card::before {
+    inset-inline: 10px;
+  }
+
+  .quest-command-bar {
+    padding: 14px !important;
+  }
+
+  .quest-filter-disclosure > summary > span {
+    display: none;
+  }
+
+  .quest-filter-disclosure > summary > svg:last-child {
+    margin-left: auto;
+  }
+
+  .quest-status-pills {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 3px 3px 6px;
+    scrollbar-width: thin;
+  }
+
+  .quest-status-pill,
+  .quest-manager :is(.btn, .quest-cancel-link, .quest-checklist label) {
+    min-height: 44px;
+  }
+
+  .quest-result-bar {
+    align-items: flex-start;
+  }
+
+  .quest-result-count {
+    max-width: 45%;
+  }
+
+  .quest-card-head {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr) 44px;
+  }
+
+  .quest-card-title {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .quest-expand-btn {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .quest-kind-icon {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .quest-card-actions > .btn.primary {
+    flex-basis: 100%;
+    justify-content: center;
+  }
+
+  .quest-rewards > span {
+    padding: 6px 9px;
+    line-height: 1.5;
+  }
+
+  .quest-empty {
+    padding: 32px 18px !important;
+  }
+
+  .quest-edit-modal .button-row > .btn,
+  .quest-confirm-modal .button-row > .btn {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+.quest-manager[data-reduced-motion="true"] *,
+.quest-manager[data-reduced-motion="true"] *::before,
+.quest-manager[data-reduced-motion="true"] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quest-manager *,
+  .quest-manager *::before,
+  .quest-manager *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.quest-manager {
+  --quest-bg: #091321;
+  --quest-bg-raised: #101d31;
+  --quest-bg-soft: #0c1728;
+  --quest-line: rgba(154, 170, 195, 0.16);
+  --quest-line-strong: rgba(154, 170, 195, 0.28);
+  --quest-cyan: #32e6f4;
+  --quest-cyan-soft: rgba(50, 230, 244, 0.1);
+  --quest-violet: #aa91ff;
+  --quest-amber: #ffbc62;
+  --quest-success: #5ed5af;
+  --quest-radius: 16px;
+  --quest-shadow: 0 18px 48px rgba(0, 0, 0, 0.3);
+  gap: 20px;
+}
+
+.quest-manager > * {
+  min-width: 0;
+}
+
+.quest-manager .quest-result-bar {
+  padding: 4px 2px 0;
+}
+
+.quest-manager .quest-result-bar h2 {
+  margin: 0;
+  letter-spacing: -0.025em;
+}
+
+.quest-manager .quest-result-count {
+  color: var(--quest-cyan);
+  font-variant-numeric: tabular-nums;
+}
+
+.quest-manager .quest-empty {
+  background: radial-gradient(circle at 50% 0%, rgba(50, 230, 244, 0.08), transparent 48%), linear-gradient(145deg, rgba(16, 29, 49, 0.98), rgba(8, 15, 27, 0.98));
+}
+
+.quest-journal-caption {
+  min-height: 24px;
+  padding: 0 2px;
+  color: var(--quest-muted);
+}
+
+.quest-journal-caption > span {
+  min-height: 24px;
+}
+
+.quest-journal-caption > span:first-child {
+  color: #8feaf1;
+  letter-spacing: 0.14em;
+}
+
+.quest-manager .stats-strip {
+  border-color: var(--quest-line);
+  border-radius: var(--quest-radius);
+  box-shadow: var(--quest-shadow);
+  background: linear-gradient(145deg, rgba(18, 32, 53, 0.94), rgba(9, 19, 33, 0.96));
+}
+
+.quest-stat-card {
+  min-height: 104px;
+  padding: 19px 22px;
+}
+
+.quest-stat-card::before {
+  inset-inline: 22px;
+  height: 3px;
+  border-radius: 999px 999px 0 0;
+}
+
+.quest-stat-meta {
+  gap: 7px;
+}
+
+.quest-stat-meta .eyebrow {
+  color: #7e94af;
+  letter-spacing: 0.14em;
+}
+
+.quest-stat-meta > span:last-child {
+  color: #cbd8e8;
+}
+
+.quest-stat-card > strong {
+  font-size: clamp(30px, 3vw, 40px);
+}
+
+.quest-warning {
+  padding: 18px 22px !important;
+  border-radius: var(--quest-radius);
+  box-shadow: var(--quest-shadow);
+}
+
+.quest-warning-icon {
+  width: 44px;
+  height: 44px;
+}
+
+.quest-command-bar {
+  gap: 15px;
+  padding: 20px 22px !important;
+  border-radius: var(--quest-radius);
+  border-color: var(--quest-line);
+  background: linear-gradient(145deg, rgba(17, 31, 51, 0.96), rgba(9, 18, 32, 0.98));
+  box-shadow: var(--quest-shadow);
+}
+
+.quest-toolbar {
+  gap: 16px;
+}
+
+.quest-toolbar .search {
+  min-height: 46px;
+  padding-inline: 15px;
+  border-color: var(--quest-line-strong);
+  border-radius: 11px;
+  background: rgba(5, 13, 25, 0.78);
+}
+
+.quest-toolbar .search input::placeholder {
+  color: #6f839f;
+}
+
+.quest-create-btn {
+  min-height: 46px;
+  padding-inline: 18px !important;
+  border-radius: 11px !important;
+}
+
+.quest-filter-disclosure {
+  border-top-color: var(--quest-line);
+}
+
+.quest-filter-disclosure > summary {
+  min-height: 46px;
+  color: #dbe7f5;
+}
+
+.quest-filter-disclosure > summary:hover {
+  color: var(--quest-cyan);
+}
+
+.quest-filters {
+  gap: 14px;
+}
+
+.quest-filter-label {
+  color: #9db0c8;
+  letter-spacing: 0.02em;
+}
+
+.quest-filters select {
+  min-height: 44px;
+  border-color: var(--quest-line-strong);
+  border-radius: 10px;
+  background: rgba(5, 13, 25, 0.78);
+}
+
+.quest-status-pills {
+  gap: 7px;
+  padding-top: 2px;
+}
+
+.quest-status-pill {
+  min-height: 38px;
+  padding-inline: 13px !important;
+  border-radius: 9px;
+  color: #a8b8cd !important;
+}
+
+.quest-status-pill.active {
+  color: #8ff5fa !important;
+  background: rgba(50, 230, 244, 0.12) !important;
+  box-shadow: inset 0 -2px var(--quest-cyan), 0 5px 18px rgba(50, 230, 244, 0.08);
+}
+
+.quest-result-bar {
+  align-items: end;
+  padding-inline: 3px;
+}
+
+.quest-result-bar h2 {
+  font-size: clamp(20px, 2vw, 24px);
+  letter-spacing: -0.02em;
+}
+
+.quest-result-count {
+  font-size: 13px;
+}
+
+.quest-cards {
+  gap: 16px;
+}
+
+.quest-card {
+  padding: 22px 24px !important;
+  border-radius: var(--quest-radius);
+  border-color: var(--quest-line);
+  background: linear-gradient(145deg, rgba(18, 31, 52, 0.96), rgba(9, 18, 32, 0.98));
+  box-shadow: var(--quest-shadow), inset 0 1px rgba(237, 244, 255, 0.045);
+}
+
+.quest-card:not(.is-archived):hover {
+  border-color: rgba(50, 230, 244, 0.34);
+}
+
+.quest-card.is-overdue:hover {
+  border-color: rgba(255, 188, 98, 0.5);
+}
+
+.quest-card-head {
+  gap: 16px;
+}
+
+.quest-kind-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 13px;
+}
+
+.quest-card-title h3 {
+  margin-top: 9px !important;
+  font-size: clamp(18px, 1.6vw, 21px);
+  line-height: 1.35;
+}
+
+.quest-card-title p {
+  max-width: 72ch;
+  color: #aabbd0;
+  line-height: 1.65;
+}
+
+.quest-tags {
+  gap: 7px;
+}
+
+.quest-tags span {
+  min-height: 24px;
+  padding: 3px 9px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.quest-expand-btn,
+.quest-archive-btn {
+  transition: transform 180ms ease, border-color 180ms ease, color 180ms ease, background 180ms ease;
+}
+
+.quest-expand-btn:hover:not(:disabled),
+.quest-archive-btn:hover:not(:disabled) {
+  border-color: rgba(50, 230, 244, 0.46) !important;
+  color: var(--quest-cyan) !important;
+  background: rgba(50, 230, 244, 0.1) !important;
+}
+
+.quest-telemetry-row {
+  gap: 12px;
+  margin-top: 17px;
+  padding-top: 14px;
+  border-top-color: var(--quest-line);
+}
+
+.quest-meta {
+  gap: 8px 16px;
+  color: #91a6c0;
+}
+
+.quest-meta span {
+  min-height: 22px;
+}
+
+.quest-rewards {
+  gap: 7px;
+}
+
+.quest-rewards > span {
+  min-height: 28px;
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+.quest-checklist {
+  padding: 14px 16px;
+  margin-top: 16px;
+  border-radius: 12px;
+  background: rgba(5, 13, 25, 0.58);
+  border-color: var(--quest-line);
+}
+
+.quest-checklist-head {
+  margin-bottom: 8px;
+  color: #a2b4c9;
+}
+
+.quest-checklist-bar {
+  height: 7px;
+  margin-bottom: 11px;
+  background: #07101d;
+}
+
+.quest-checklist-items {
+  gap: 5px;
+}
+
+.quest-checklist label {
+  min-height: 42px;
+  padding: 7px 10px;
+  border: 1px solid transparent;
+  background: rgba(16, 27, 45, 0.64);
+}
+
+.quest-checklist label:hover {
+  border-color: rgba(50, 230, 244, 0.22);
+}
+
+.quest-checklist label.is-done {
+  border-color: rgba(94, 213, 175, 0.16);
+}
+
+.quest-card-actions {
+  gap: 9px;
+  margin-top: 17px;
+  padding-top: 15px;
+  border-top-color: var(--quest-line);
+}
+
+.quest-card-actions .btn {
+  min-height: 42px;
+  border-radius: 10px;
+}
+
+.quest-card-actions .btn.primary {
+  padding-inline: 16px;
+  box-shadow: 0 7px 20px rgba(50, 230, 244, 0.12);
+}
+
+.quest-card-actions .btn.ghost {
+  background: rgba(19, 32, 51, 0.82);
+}
+
+.quest-cancel-link {
+  min-height: 42px;
+  border-radius: 8px;
+}
+
+.quest-done-counter {
+  color: #8499b3 !important;
+}
+
+.quest-expanded {
+  margin-top: 18px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: rgba(5, 12, 23, 0.68);
+  border-color: var(--quest-line);
+}
+
+.quest-expanded h4 {
+  letter-spacing: 0.1em;
+}
+
+.quest-expanded li {
+  min-height: 42px;
+  padding-inline: 12px;
+  border-color: rgba(154, 170, 195, 0.1);
+}
+
+.quest-empty {
+  min-height: 280px;
+  padding: 56px 24px !important;
+  border-radius: var(--quest-radius);
+  border-color: var(--quest-line);
+  box-shadow: var(--quest-shadow);
+}
+
+.quest-empty-emblem {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  box-shadow: 0 0 34px rgba(50, 230, 244, 0.1);
+}
+
+.quest-empty h3 {
+  font-size: clamp(20px, 2.2vw, 24px);
+  letter-spacing: -0.02em;
+}
+
+.quest-empty p {
+  max-width: 50ch;
+  line-height: 1.7;
+}
+
+.quest-edit-modal,
+.quest-confirm-modal {
+  border-radius: 18px !important;
+  border-color: rgba(50, 230, 244, 0.34) !important;
+}
+
+.quest-edit-modal {
+  padding: 28px !important;
+}
+
+.quest-edit-modal form {
+  gap: 16px;
+}
+
+.quest-edit-modal label {
+  gap: 7px;
+  color: #bfd0e3;
+}
+
+.quest-edit-modal input:not([type="checkbox"]),
+.quest-edit-modal select,
+.quest-edit-modal textarea {
+  min-height: 44px;
+  border-color: var(--quest-line-strong);
+  border-radius: 10px;
+  background: rgba(5, 13, 25, 0.86);
+}
+
+.quest-edit-modal input:not([type="checkbox"]):focus,
+.quest-edit-modal select:focus,
+.quest-edit-modal textarea:focus {
+  border-color: rgba(50, 230, 244, 0.68);
+  box-shadow: 0 0 0 3px rgba(50, 230, 244, 0.1);
+  outline: none;
+}
+
+.quest-edit-modal .form-grid {
+  gap: 14px;
+}
+
+.quest-lock-note,
+.quest-form-alert,
+.quest-form-status {
+  line-height: 1.6;
+}
+
+.quest-edit-modal .button-row {
+  gap: 9px;
+  padding-top: 16px;
+}
+
+.quest-manager .footnote {
+  padding-inline: 3px;
+  line-height: 1.6;
+}
+
+@media (min-width: 1180px) {
+  .quest-card {
+    column-gap: 28px;
+    padding: 24px 26px !important;
+  }
+
+  .quest-telemetry-row {
+    padding-left: 24px;
+  }
+}
+
+@media (max-width: 900px) {
+  .quest-stat-card {
+    padding-inline: 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .quest-manager {
+    gap: 15px;
+  }
+
+  .quest-journal-caption {
+    font-size: 10px;
+  }
+
+  .quest-manager .stats-strip {
+    border-radius: 13px;
+  }
+
+  .quest-stat-card {
+    min-height: 118px;
+    padding: 13px 11px;
+  }
+
+  .quest-stat-card::before {
+    inset-inline: 11px;
+  }
+
+  .quest-stat-card > strong {
+    font-size: 28px;
+  }
+
+  .quest-command-bar {
+    padding: 15px !important;
+    border-radius: 14px;
+  }
+
+  .quest-toolbar {
+    gap: 10px;
+  }
+
+  .quest-toolbar .search,
+  .quest-create-btn {
+    min-height: 46px;
+  }
+
+  .quest-status-pills {
+    margin-inline: -3px;
+    padding-inline: 3px;
+  }
+
+  .quest-result-bar {
+    gap: 10px;
+  }
+
+  .quest-result-bar h2 {
+    font-size: 19px;
+  }
+
+  .quest-result-count {
+    font-size: 12px;
+  }
+
+  .quest-card {
+    padding: 17px !important;
+    border-radius: 14px;
+  }
+
+  .quest-card-head {
+    gap: 9px;
+  }
+
+  .quest-kind-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+  }
+
+  .quest-card-title h3 {
+    margin-top: 8px !important;
+    font-size: 18px;
+  }
+
+  .quest-card-title p {
+    font-size: 12px;
+  }
+
+  .quest-telemetry-row {
+    gap: 11px;
+    margin-top: 14px;
+    padding-top: 12px;
+  }
+
+  .quest-meta {
+    gap: 6px 11px;
+    font-size: 11px;
+  }
+
+  .quest-rewards {
+    gap: 6px;
+  }
+
+  .quest-rewards > span {
+    min-height: 30px;
+    padding-inline: 9px;
+  }
+
+  .quest-checklist {
+    padding: 12px;
+    margin-top: 13px;
+  }
+
+  .quest-checklist label {
+    min-height: 44px;
+    padding-inline: 9px;
+  }
+
+  .quest-card-actions {
+    margin-top: 14px;
+    padding-top: 13px;
+  }
+
+  .quest-card-actions .btn,
+  .quest-cancel-link {
+    min-height: 44px;
+  }
+
+  .quest-expanded {
+    margin-top: 14px;
+    padding: 13px;
+  }
+
+  .quest-empty {
+    min-height: 250px;
+    padding: 38px 18px !important;
+  }
+
+  .quest-edit-modal,
+  .quest-confirm-modal {
+    padding: 22px 17px !important;
+  }
+
+  .quest-edit-modal .button-row,
+  .quest-confirm-modal .button-row {
+    padding-top: 14px;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .quest-manager :is(.quest-card, .quest-command-bar, .quest-empty, .quest-stat-card) {
+    border-color: rgba(237, 244, 255, 0.42);
+  }
+
+  .quest-manager :is(.quest-tags span, .quest-rewards > span, .quest-checklist label) {
+    border-color: rgba(237, 244, 255, 0.3);
+  }
+}

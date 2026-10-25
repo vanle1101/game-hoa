@@ -1,0 +1,28 @@
+LIFE//LEVEL  /  CODEX IMPLEMENTATION
+07  Lệnh bổ sung bắt buộc cho Codex
+Integrate into existing plan; spawn agents when the runtime supports it.
+FINAL EDITION  /  CYBERPUNK STYLE LOCK  /  CHARACTER & WARDROBE SYSTEM
+SUPPLEMENT 07/07
+STRICT INSTRUCTION  /  SELECTABLE TEXT
+IMPLEMENTATION DIRECTIVE: Preserve the existing 26 original image references and prompts. The rules in
+these seven supplementary pages take precedence where a reference is ambiguous, especially for
+cyberpunk consistency, facial customization and starting/future clothing. Do not substitute a static
+screenshot for an editable 3D avatar or a working shop. Do not overwrite working quest, boss, apartment,
+finance or Muse/AI systems.
+Multi-agent delegation: If Codex supports real subagents, launch independent agents with explicit file
+ownership and test contracts: (A) cyberpunk design system/visual QA, (B) character rig + facial
+customization, (C) starter wardrobe + wearables, (D) cosmetic shop + server economy, (E) cross-screen
+integration + regression tests. Coordinate shared data contracts before parallel edits; integrate the results
+after each wave. Do not claim to have spawned agents if unavailable.
+Suggested plan: repo audit → visual/style inventory → avatar data contract → facial controls and actual mesh
+responses → free starter outfits → saved avatar → wardrobe UI → Gold-powered fashion shop → item
+ownership → world/profile synchronization → UI and 3D QA → production build and persistence tests.
+Required report: implemented/verified/not-yet-verified/blocked status for each facial option, starter outfit,
+clothing category, purchase, equip, persistence, cyberpunk visual check and FPS test. Include screenshots
+when a browser exists. Do not mark final “done” based solely on successful compilation.
+NON-NEGOTIABLE CHECKPOINT
+Minimum acceptance: editable hair + face + eyes + nose + ears + mouth + skin; 3 free cyberpunk starter
+outfits; Gold-funded purchase of additional clothing; inventory ownership and live equip; 3D avatar
+appearance persistence across relevant screens; no style drift from premium cyberpunk; QA tests pass.
+Preview rule: If the user asks to run the application while work continues, treat it only as an interim preview
+— not approval or completion.

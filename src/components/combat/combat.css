@@ -1,0 +1,158 @@
+.combat-page{--combat-void:#080d18;--combat-deep:#0c1424;--combat-panel:#10192c;--combat-raised:#16233b;--combat-cyan:#32e6f4;--combat-violet:#9067ff;--combat-magenta:#ee5acb;--combat-amber:#ffbc62;--combat-emerald:#5ed5af;--combat-text:#edf4ff;--combat-muted:#9aaac3;--combat-dim:#6c829e;--combat-line:rgba(154,170,195,.16);--combat-shadow:0 20px 56px rgba(0,0,0,.45),inset 0 1px 0 rgba(237,244,255,.07)}
+
+.combat-page{color:var(--combat-text);font-family:"Be Vietnam Pro","Inter","Segoe UI",Arial,sans-serif}
+.combat-toolbar{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-bottom:18px;padding:4px 0}
+.combat-toolbar p{color:var(--combat-muted);font-size:13px;line-height:1.6;margin:8px 0 0}
+.combat-toolbar .eyebrow{color:var(--combat-cyan)}
+.combat-page .eyebrow{font-size:10px;font-weight:700;letter-spacing:.16em;line-height:1.5;color:#86b6c8}
+.combat-boss-tabs{display:flex;gap:8px;overflow-x:auto;margin-bottom:14px;padding:2px 1px 8px;scrollbar-width:thin}
+.combat-boss-tabs button{display:flex;align-items:center;gap:8px;min-height:42px;white-space:nowrap;padding:10px 14px;border:1px solid var(--combat-line);background:linear-gradient(145deg,#132035,#0c1424);border-radius:10px;color:var(--combat-muted);transition:border-color .18s ease,background .18s ease,color .18s ease}
+.combat-boss-tabs button:hover{border-color:#32e6f466;background:var(--combat-raised);color:var(--combat-text)}
+.combat-boss-tabs .selected{border-color:#32e6f4aa;color:var(--combat-text);box-shadow:0 0 18px #32e6f412}
+.combat-boss-tabs small{color:var(--combat-cyan);font-variant-numeric:tabular-nums}
+.combat-stage{height:min(65vh,670px);min-height:430px;position:relative;overflow:hidden;border:1px solid var(--combat-line);border-radius:14px;background:var(--combat-void);box-shadow:var(--combat-shadow)}
+.combat-viewport{position:absolute;inset:0;min-width:0}
+.combat-stage:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(8,13,24,.42),transparent 24%,transparent 72%,rgba(8,13,24,.65));z-index:1}
+.combat-stage canvas{touch-action:pan-y}
+.combat-boss-hud{position:absolute;top:18px;left:20%;right:20%;z-index:2;pointer-events:none;text-align:center;padding:14px 18px;border:1px solid #52617c66;border-radius:12px;background:#0b1426e8;box-shadow:0 8px 28px #0004}
+.combat-hud-kicker{display:flex;align-items:center;justify-content:center;gap:9px}
+.combat-page .hud-signal{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--combat-cyan);box-shadow:0 0 12px var(--combat-cyan);flex-shrink:0}
+.combat-hud-state{border:1px solid #32e6f455;border-radius:999px;padding:3px 7px;color:var(--combat-cyan);font-size:9px;letter-spacing:.1em;white-space:nowrap}
+.combat-boss-hud h2{margin:10px 0 7px;letter-spacing:-.025em;line-height:1.25;font-size:clamp(23px,2.3vw,36px);text-shadow:0 2px 18px #000}
+.combat-hud-explainer{max-width:480px;margin:0 auto 14px;color:#cad7e9;font-size:12px;line-height:1.6}
+.combat-health{height:10px;border:1px solid #ee5acb66;background:#0d0c1d;border-radius:999px;padding:2px;box-shadow:0 0 18px #ee5acb18}
+.combat-health i{display:block;height:100%;background:linear-gradient(90deg,var(--combat-violet),var(--combat-magenta));box-shadow:0 0 14px #ee5acb66;border-radius:999px;transition:width 1s}
+.combat-health-label{display:flex;justify-content:space-between;gap:10px;margin-top:8px;font-size:10px;color:#d2b8dc;font-variant-numeric:tabular-nums}
+.combat-health-label b{color:var(--combat-text)}
+.combat-player-hud{position:absolute;left:22px;bottom:60px;z-index:2;padding:16px 18px;min-width:190px;max-width:230px;background:linear-gradient(120deg,rgba(16,25,44,.94),rgba(16,25,44,.48));border:1px solid #9aaac322;border-left:2px solid var(--combat-cyan);border-radius:0 10px 10px 0;display:grid;gap:10px;font-size:11px;color:var(--combat-muted);box-shadow:0 12px 32px #0005;backdrop-filter:blur(12px)}
+.combat-player-hud strong{display:flex;align-items:center;gap:8px;font-size:25px;color:var(--combat-text);font-variant-numeric:tabular-nums}
+.combat-player-hud strong svg{color:var(--combat-cyan)}
+.combat-player-hud strong small{font-size:8px;max-width:48px;line-height:1.5;letter-spacing:1px;color:#8a9db8}
+.combat-player-hud button{display:flex;gap:10px;align-items:center;min-height:30px;background:none;color:var(--combat-cyan);border:0;padding:0;text-align:left}
+.combat-player-hud button:hover{text-decoration:underline}
+.combat-caption{position:absolute;bottom:0;left:0;right:0;z-index:3;display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-top:1px solid #63749122;background:#080d18c7;font-size:9px;letter-spacing:1.5px;color:#a0abc0;backdrop-filter:blur(12px)}
+.combat-caption span{display:flex;align-items:center;gap:8px}
+.combat-page .live-dot{width:6px;height:6px;border-radius:50%;background:var(--combat-emerald);box-shadow:0 0 10px var(--combat-emerald)}
+.combat-caption button{display:grid;place-items:center;width:36px;height:36px;border:1px solid #9aaac333;border-radius:8px;background:#132033;color:var(--combat-text)}
+.combat-caption button:hover{border-color:var(--combat-cyan)}
+.combat-detail-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,1fr);gap:18px;margin-top:20px;align-items:start}
+.combat-detail-grid .panel{margin-bottom:18px;background:linear-gradient(145deg,#132035,#0c1424);border:1px solid var(--combat-line);border-radius:14px;box-shadow:var(--combat-shadow);padding:20px}
+.combat-page .section-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.combat-page .section-heading h3{margin:6px 0 0;font-size:clamp(17px,1.5vw,21px);line-height:1.35}
+.combat-page .section-index,.combat-page .feed-count{color:var(--combat-cyan);font-size:10px;letter-spacing:.12em;font-variant-numeric:tabular-nums}
+.objective-lede,.combat-objectives>p{font-size:13px;line-height:1.7;color:var(--combat-muted)}
+.objective-rule{display:flex;align-items:center;gap:8px;margin:18px 0 8px;padding:9px 11px;border:1px solid #32e6f426;border-radius:8px;background:#32e6f40b;color:#a9cbd4;font-size:11px}
+.combat-task,.combat-milestone{display:flex;align-items:center;gap:14px;justify-content:space-between;padding:15px 0;border-bottom:1px solid #9ab2df13}
+.combat-task strong,.combat-milestone strong{font-size:13px;line-height:1.4}
+.combat-task small,.combat-milestone small{display:block;color:var(--combat-dim);font-size:10px;margin-top:6px}
+.combat-task .btn{font-size:10px;flex-shrink:0;padding:9px}
+.combat-milestone>div{flex:1}
+.combat-milestone .complete{color:var(--combat-emerald)}
+.combat-feed>div:not(.section-heading){display:flex;gap:10px;border-bottom:1px solid #ffffff0c}
+.combat-feed i{height:6px;width:6px;flex-shrink:0;background:var(--combat-violet);border-radius:50%;margin-top:20px;box-shadow:0 0 8px var(--combat-violet)}
+.combat-feed p{font-size:12px;line-height:1.6;color:#b7c2d5}
+.combat-feed small{display:block;color:#657892;font-size:10px}
+.combat-focus p{font-size:12px;line-height:1.7;color:var(--combat-muted)}
+.combat-focus h3{margin-bottom:16px}
+.combat-fallback{height:100%;display:grid;place-items:center;padding:30px;color:var(--combat-muted)}
+.habit-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:20px 0}
+.habit-metrics div{padding:13px;border:1px solid #32e6f422;background:#14233766;border-radius:8px}
+.habit-metrics b{font-size:22px;color:var(--combat-cyan);font-variant-numeric:tabular-nums}
+.habit-metrics small{display:block;font-size:9px;color:#94a7bf;margin-top:5px}
+.habit-days{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:18px}
+.habit-days span{font-size:9px;padding:6px 7px;border:1px solid #263349;color:#73859d;border-radius:4px;font-variant-numeric:tabular-nums}
+.habit-days .success{background:#32e6f41c;border-color:var(--combat-cyan);color:var(--combat-cyan)}
+.habit-days .missed{border-color:#d27883;color:#d27883}
+.habit-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.boss-create{margin-bottom:18px}
+.boss-create h3{display:flex;gap:10px;align-items:center}
+.boss-create fieldset{border:1px solid #29354a;border-radius:8px;padding:14px}
+.boss-task-choice{display:flex!important;align-items:center;gap:12px}
+.boss-task-choice input[type=checkbox]{width:auto}
+.boss-task-choice input[type=number]{width:70px}
+.boss-task-choice span{flex:1}
+.combat-objectives .footnote svg{display:inline;vertical-align:middle}
+.boss-create .btn{margin-top:18px}
+.combat-page input,.combat-page select,.combat-page textarea{background:#091220;border:1px solid rgba(130,158,190,.28);border-radius:8px;color:var(--combat-text);min-height:42px;padding:9px 12px}
+.combat-page input:focus,.combat-page select:focus,.combat-page textarea:focus{outline:2px solid var(--combat-cyan);outline-offset:1px}
+.combat-page .btn{min-height:40px;border-radius:8px}
+.combat-page .btn.primary{background:linear-gradient(115deg,#6ef2f8,#28bfd4);color:#06202b;border:1px solid #7ef7ff;font-weight:700}
+.combat-page .btn.ghost{background:#132033;color:#d5e5f7;border:1px solid rgba(154,170,195,.24)}
+.combat-page .btn.ghost:hover{border-color:#32e6f488}
+.combat-page .focus-readout{font-variant-numeric:tabular-nums;letter-spacing:.05em}
+.combat-page button:focus-visible,.combat-page input:focus-visible,.combat-page select:focus-visible,.combat-page textarea:focus-visible{outline:2px solid var(--combat-cyan);outline-offset:2px}
+@media(max-width:900px){.combat-detail-grid{grid-template-columns:1fr}
+.combat-boss-hud{left:10%;right:10%}
+.combat-toolbar{align-items:flex-start;flex-direction:column;gap:12px}
+.combat-toolbar .btn{width:100%}
+.combat-player-hud{bottom:55px;padding:12px;left:14px;min-width:160px}
+.combat-stage{min-height:390px;height:55vh}
+.combat-task{align-items:flex-start;flex-direction:column}
+.combat-task .btn{font-size:11px;width:100%}
+.combat-boss-hud .eyebrow{font-size:8px}
+.combat-player-hud strong{font-size:19px}
+.combat-detail-grid .panel{padding:16px}
+}
+@media(max-width:520px){.combat-stage{height:62dvh;min-height:440px;border-radius:12px}
+.combat-boss-hud{top:18px;left:14px;right:14px}
+.combat-hud-kicker{flex-wrap:wrap}
+.combat-hud-state{display:none}
+.combat-boss-hud h2{font-size:24px}
+.combat-hud-explainer{font-size:10px;max-width:310px}
+.combat-player-hud{left:10px;bottom:56px;padding:11px;min-width:145px}
+.combat-caption{padding:10px 12px}
+.combat-detail-grid{gap:12px;margin-top:14px}
+.habit-metrics{gap:6px}
+.habit-metrics div{padding:10px 8px}
+.habit-metrics b{font-size:18px}
+.section-index{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){.combat-health i,.combat-boss-tabs button{transition:none}
+}
+
+
+.combat-page{min-width:0;font-variant-numeric:tabular-nums}
+.combat-page[data-reduced-motion="true"] *, .combat-page[data-reduced-motion="true"] *::before, .combat-page[data-reduced-motion="true"] *::after{animation:none!important;transition:none!important}
+.combat-page .combat-feed small,.combat-page .combat-task small,.combat-page .combat-milestone small{color:var(--combat-muted)}
+.combat-page .combat-hud-kicker{flex-wrap:wrap}
+.combat-page .combat-task > div{min-width:0}
+.combat-page .boss-task-choice input[type=number]{width:70px;flex:0 0 70px}
+.combat-page .boss-task-choice span{min-width:0;overflow-wrap:anywhere}
+.combat-page *, .combat-page *::before,.combat-page *::after{box-sizing:border-box}
+.combat-page h2,.combat-page h3,.combat-task strong,.combat-milestone strong{overflow-wrap:anywhere}
+.combat-page input:not([type=checkbox]),.combat-page select,.combat-page textarea{width:100%;max-width:100%;font:inherit}
+.combat-page input[type=checkbox]{min-height:18px;width:18px;height:18px;padding:0;flex-shrink:0;accent-color:var(--combat-cyan)}
+.combat-page label{display:grid;gap:8px;font-size:12px;line-height:1.6}
+.combat-page .checkbox-label{display:flex;align-items:flex-start;gap:10px;padding:12px 0}
+.combat-page .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.combat-page .boss-create{padding:24px;border:1px solid var(--combat-line);border-radius:14px;background:var(--combat-panel)}
+.combat-page button{cursor:pointer}
+.combat-page button:disabled{cursor:not-allowed;opacity:.5}
+.combat-page .footnote{font-size:11px;line-height:1.7;color:var(--combat-muted)}
+.combat-focus .focus-readout{font-size:clamp(30px,3vw,46px);line-height:1.3;color:var(--combat-text);margin:20px 0}
+.combat-focus .focus-readout small{font-size:12px;color:var(--combat-muted)}
+.combat-focus>.btn{margin-top:12px}
+.combat-page .habit-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+.combat-page .habit-days span{text-align:center}
+.combat-page .habit-days .rest{border-color:var(--combat-muted);color:var(--combat-text)}
+@media(max-width:640px){.combat-page button,.combat-page .btn,.combat-caption button,.combat-player-hud button{min-height:44px}
+.combat-caption button{width:44px}
+.combat-page input:not([type=checkbox]),.combat-page select,.combat-page textarea{font-size:16px;min-width:0}
+.combat-page .form-grid{grid-template-columns:minmax(0,1fr)}
+.combat-page .habit-actions{display:grid;grid-template-columns:minmax(0,1fr)}
+.combat-player-hud{bottom:76px}
+.combat-health-label{flex-wrap:wrap}
+.combat-page .boss-create{padding:16px}
+.combat-page .combat-stage{display:flex;flex-direction:column;height:auto;min-height:0}
+.combat-page .combat-stage:after{display:none}
+.combat-page .combat-boss-hud{position:relative;inset:auto;order:0;border:0;border-bottom:1px solid #52617c66;border-radius:0;padding:16px;text-align:left;box-shadow:none}
+.combat-page .combat-hud-kicker{justify-content:flex-start}
+.combat-page .combat-hud-explainer{font-size:12px;margin:8px 0 12px;max-width:none}
+.combat-page .combat-health-label{font-size:11px}
+.combat-page .combat-viewport{position:relative;inset:auto;order:1;height:300px}
+.combat-page .combat-player-hud{position:relative;inset:auto;order:2;display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;min-width:0;max-width:none;border:0;border-top:1px solid #52617c66;border-radius:0;padding:12px 16px;background:#101b2d;box-shadow:none;backdrop-filter:none}
+.combat-page .combat-player-hud strong{font-size:20px}
+.combat-page .combat-player-hud button{margin-left:auto}
+.combat-page .combat-caption{position:relative;inset:auto;order:3;padding:10px 16px;backdrop-filter:none}
+}
+

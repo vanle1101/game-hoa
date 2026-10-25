@@ -1,0 +1,67 @@
+.butler-panel {
+  --nova-ink: #edf4ff;
+  --nova-muted: #afc0d5;
+  --nova-line: #344960;
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+  color: var(--nova-ink);
+}
+.butler-panel .panel { min-width: 0; border: 1px solid var(--nova-line); border-radius: 18px; background: linear-gradient(135deg, #14243a, #0d1728); }
+.butler-panel .nova-hero { padding: clamp(20px, 3vw, 34px); background: radial-gradient(ellipse at 0 0, #32325d80, transparent 65%), linear-gradient(120deg, #142b3e, #111a2e); }
+.butler-panel .nova-identity-layout { display: grid; grid-template-columns: minmax(220px, .85fr) minmax(0, 1.15fr); gap: clamp(24px, 4vw, 48px); align-items: center; }
+.butler-panel .nova-hologram { position: relative; height: 300px; min-width: 0; overflow: hidden; border: 1px solid #397083; border-radius: 14px; background: radial-gradient(ellipse at 50% 70%, #19475b, #080f20 75%); }
+.butler-panel .nova-hologram > div { height: 100%; }
+.butler-panel .nova-hologram::after { content: ""; position: absolute; inset: 12px; border: 1px solid #80d4df30; border-radius: 8px; pointer-events: none; }
+.butler-panel .nova-signal { position: absolute; z-index: 1; top: 18px; left: 18px; right: 18px; color: #a7e6ef; font-size: 10px; letter-spacing: .12em; }
+.butler-panel .nova-hologram-loading { display: grid; align-content: center; justify-items: center; gap: 12px; color: var(--nova-muted); }
+.butler-panel .nova-identity-copy { min-width: 0; }
+.butler-panel .nova-identity-copy h2 { margin: 12px 0 16px; font-size: clamp(28px, 3.5vw, 46px); line-height: 1.12; letter-spacing: -.035em; }
+.butler-panel .nova-identity-copy p { max-width: 52ch; color: var(--nova-muted); line-height: 1.7; }
+.butler-panel .nova-identity-copy .tag { display: inline-flex; margin: 8px 0; padding: 8px 12px; border: 1px solid #698199; background: #0a1425; color: #e2edf8; }
+.butler-panel .nova-identity-copy .text-link { display: flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 8px; }
+.butler-panel :is(button, textarea):focus-visible { outline: 2px solid #32e6f4; outline-offset: 4px; }
+.butler-panel button { min-height: 44px; }
+.butler-panel .nova-permission-drawer { margin-top: 24px; padding: 18px 20px; border: 1px solid #706598; border-left: 3px solid #a48beb; border-radius: 12px; background: #10172b; }
+.butler-panel .nova-permission-drawer :is(p, small) { color: var(--nova-muted); line-height: 1.7; }
+.butler-panel .nova-unconfigured { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 14px; align-items: start; padding: 20px 24px; border-color: #8c7149; background: linear-gradient(115deg, #342b204d, #101b2d); }
+.butler-panel .nova-unconfigured > svg { grid-row: 1 / 3; color: #ffca7f; }
+.butler-panel .nova-unconfigured :is(h3, p) { margin: 0; grid-column: 2; }
+.butler-panel .nova-unconfigured p { color: var(--nova-muted); line-height: 1.65; }
+.butler-panel :is(.nova-composer, .nova-proposal, .nova-history) { padding: clamp(20px, 3vw, 28px); }
+.butler-panel .nova-composer label { display: block; margin-bottom: 12px; font-size: 17px; }
+.butler-panel .nova-prompt { display: block; width: 100%; min-height: 130px; padding: 16px; border: 1px solid #486079; border-radius: 12px; resize: vertical; background: #081321; color: var(--nova-ink); font: inherit; line-height: 1.6; }
+.butler-panel .nova-prompt::placeholder { color: #9aaec4; }
+.butler-panel .nova-prompt:disabled { opacity: .75; cursor: not-allowed; }
+.butler-panel .nova-composer-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin-top: 16px; }
+.butler-panel .nova-composer-footer small { color: var(--nova-muted); }
+.butler-panel .empty-state { display: grid; justify-items: center; align-content: center; gap: 12px; min-height: 180px; padding: 30px; text-align: center; border: 1px dashed #435972; border-radius: 16px; background: #0b1728; }
+.butler-panel .empty-state :is(h3, p) { margin: 0; }
+.butler-panel .empty-state p { max-width: 58ch; color: var(--nova-muted); }
+.butler-panel .empty-state > svg { color: #72dfec; }
+.butler-panel .nova-task-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 24px 0; }
+.butler-panel .nova-task { min-width: 0; padding: 20px; border: 1px solid #3b526c; border-radius: 12px; background: #091525; }
+.butler-panel .nova-task :is(h3, p) { overflow-wrap: anywhere; }
+.butler-panel .nova-task h3 { margin: 10px 0; }
+.butler-panel .nova-task-meta { display: flex; flex-wrap: wrap; gap: 10px; }
+.butler-panel .nova-task-meta small { display: inline-flex; align-items: center; gap: 5px; color: var(--nova-muted); }
+.butler-panel .nova-proposal-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.butler-panel .nova-history-list { display: grid; gap: 10px; margin-top: 18px; }
+.butler-panel .nova-history-item { display: flex; justify-content: space-between; align-items: center; gap: 18px; width: 100%; padding: 14px; text-align: left; white-space: normal; }
+.butler-panel .nova-history-item > span { min-width: 0; overflow-wrap: anywhere; }
+.butler-panel .nova-history-meta { display: block; margin-top: 6px; color: var(--nova-muted); }
+.butler-panel .butler-feedback { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding: 18px; }
+.butler-panel .butler-feedback.is-error { border-color: #d38b98; color: #ffd0d8; }
+.butler-panel :is(.butler-notice, .butler-approved) { color: #9ce5ca; line-height: 1.6; }
+@media (max-width: 760px) {
+  .butler-panel .nova-identity-layout { grid-template-columns: 1fr; gap: 24px; }
+  .butler-panel .nova-hologram { height: 220px; }
+  .butler-panel .nova-identity-copy h2 { font-size: 32px; }
+  .butler-panel .nova-task-list { grid-template-columns: 1fr; }
+  .butler-panel .nova-history-item { align-items: flex-start; flex-direction: column; gap: 8px; }
+  .butler-panel .nova-composer-footer .btn { width: 100%; }
+  .butler-panel .nova-unconfigured { padding: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .butler-panel *, .butler-panel *::before, .butler-panel *::after { scroll-behavior: auto; transition: none; }
+}

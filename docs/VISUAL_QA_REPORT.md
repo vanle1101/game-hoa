@@ -1,0 +1,93 @@
+# Báo cáo Visual QA V7
+
+**INCOMPLETE — 0 VERIFIED.** Chưa đạt PDF premium parity hoặc nghiệm thu visual toàn sản phẩm. Bằng chứng chỉ áp dụng trong phạm vi/revision đã chạy; không cộng các lượt browser khác thời điểm thành một full acceptance.
+
+## Gate hiện còn mở
+
+- **Equipment:** Theo lead, `pwsh-1214` equipment-crown-fix-r5 actual Chrome2/2 PASS 206.597,905 ms (74captures,errors/consoleErrors/unexpectedApi rỗng theo lead), đủ74 mẫu sau crown fix; lead xem crown mới thấy spire tiếp xúc ring. Review thủ công74 mẫu đã hoàn tất theo weapon-gallery-review/armor-gallery-review; không đồng nghĩa premium, occlusion chính xác hoặc mọi rig fit. R4/1134 là lịch sử trước crown.
+- **Fashion hiện tại:** [coverage complete r3](<C:/Users/phamc/.dsh/workai/life-level-v7/agents/fashion-observation-v7/coverage-complete-r3-summary.json>) ghi **121 ID duy nhất,369 views,242 mutation =121 cặp equip/unequip**, `COMPLETE_OBSERVATION_NOT_VISUAL_ACCEPTANCE`. Giữ20 mẫu criteria r2 +101 mẫu criteria r3,source `0dc0717bf174975356a1ac329c858ad83f4b30e0127476e2c6fefd6bb6125973` không đổi;exact semantic,Gold delta0,lỗi rỗng đạt. Toàn bộ item đã sở hữu qua API intercept,không purchases/live DB. Một anorak PNG608×591 so608×590 là **NON_COMPARABLE**,metric null,không crop/resize/nới tolerance và không pixel PASS. Strict1085 và1276 dimension-assertion FAIL giữ nguyên. Manual batch01–05 đã có;manual06 còn chờ,không nhầm với observation06 đã complete. Style gap,quan sát tay áo và khe scarf bên dưới chưa được sửa/nghiệm thu; chẩn đoán tay áo chỉ READONLY.
+- **Nội thất:** manual powered review đủ120 mẫu với legacy SHOWCASE568×401 (không raw canvas hash),không blank/clipped rõ ngoài terminal đã sửa;hidden views/style gap unknown. Furniture-behavior r2 `1286` actual Chrome16/16 PASS (~3 phút):4 same-mesh/material emissive toggles,4 arrival paths,8 blocked negatives;Gold/ledger unchanged,bed rest1 action. API fixture/in-memory,point lights unchanged,không whole-catalog acceptance.1283 fixture-invalid wall-concrete dừng trước mẫu9,7 not run;1286 test-only wall-basic fix/lint0 warnings. Đây là bounded interaction evidence,không premium/full catalog. Tương tác extension đầy đủ/live Neon/deploy/external AI/mobile vật lý còn mở.
+- **Nguồn và kiểm chứng:** theo lead,sửa ánh sáng hai tệp ConstructionWorld/architectural-materials đang thực hiện; tay áo chỉ chẩn đoán READONLY.1268 exit0 là full checkpoint gần nhất:global TypeScript/full ESLint PASS,3908/3908 Vitest PASS/82 tệp/270,12 giây,Next16.4.1 build PASS compile2,1/TS10,4 giây. Mốc này sau wearable rotation reset ba dòng/wall map-null hai dòng nhưng **trước code ánh sáng mới**; pending refresh kiểm thử/build/browser/visual sau thay đổi,không full visual acceptance,chưa deploy. Scoped lịch sử1262 type+40 tests PASS/4,35 giây;1263 fashion2/2 PASS/164.552,629 ms,bốn mutation,Gold delta0,lỗi rỗng;1266 wall1/1 PASS/8.722,652 ms,cùng UUID mesh/material/geometry,texture→null→texture hai lần,Gold10000 không đổi,lỗi rỗng. Transparent-paint/commit/reload chưa kiểm;1230/1223 trước năm dòng wearable/wall fix.
+
+## Kính: kết quả mới sau sửa hình học
+
+Theo lead, `pwsh-1131` global TypeScript + **74/74 CPU / 4 tệp PASS**, gồm 196 profile thực. Chỉ `src/construction/render-geometry.ts` và bài kiểm tra mới được sửa; source SHA-256 `465AD7DE64EA37F2FDD905FFF3534D7EEF3F8B0B57574D3DB16758C494013014`. Aperture rất nhỏ ≤ `32 * 2^-23` rad đóng seam; bounds thông thường giữ nguyên.
+
+`pwsh-1133` **6/6 Chrome PASS**, 67.488,558 ms, expected6 / skipped0 / unexpected0 / flaky0; lead đã giải mã JSON `agents/curve-material-v7/evidence/curve-material-frame-fix-r2/results.json`. Kiểm optical props, selected/ghost và reload trên WebGL thật/API fixture, không live DB hoặc full premium acceptance.
+
+Lead đã mở ảnh clear-normal/frosted-normal mới và ảnh lịch sử `agents/door-curve-visual-review/curve-02-clear-normal-actual-WebGL.png`: cùng góc nhìn, khung đáy/cạnh cũ có đốm, khung mới nhìn đồng đều; sàn truyền qua clear vẫn phân biệt với frosted đục. Đây là cải thiện quan sát có giới hạn, không chứng minh nguyên nhân GPU, mọi góc hoặc đạt premium. PNG mới ở root `agents/curve-material-v7/evidence/curve-material-frame-fix-r2/`; clear SHA-256 `42aba4bb3086dc1e9dfbcc52b37682f1ed60f684d99e8eacff6ea3cfa227571c`, frosted `78450fbc9e3f68f7fe497b328fe11cd5d28f6c83a121ee526cb8313d99e8e589`.
+
+## Checkpoint CPU/build lịch sử trước1268
+
+Theo lead, `pwsh-1076` full **76 tệp / 3.813 PASS**, 205,21 giây; +376 ca là partition, không thêm coverage. `pwsh-1082` global TypeScript/full ESLint/Next.js16.4.1 production build PASS, compile5,1 giây/TypeScript10,2 giây. Hai mốc này trước sửa VI editor/hình học kính mới. VI editor `pwsh-1102` scoped18PASS; chưa có deployment được xác nhận.
+
+Equipment `pwsh-1123` scoped lint và browser-free decoder/presence controls PASS (1ca/1,4 giây, tổng4,2 giây); `pwsh-1126` global TypeScript PASS. Không Chrome/GPU ở hai lượt này. Test SHA-256 `D9A45326C53E2794AE108663B75C4715ABBD3C83F229429B96A82AE0108EA86C`.
+
+## Fashion: review thủ công hiện tại — proven / observed / unknown
+
+**Đã có bằng chứng ghi nhận:** summary coverage xác nhận121 ID hoàn tất observation,không visual acceptance. Handoff batch01–05 đã được đọc để tổng hợp bên dưới; đây là kết quả người review ghi nhận trên ảnh gốc,không phải lượt mở ảnh hoặc runtime mới của lần cập nhật tài liệu. Criteria r2/r3 và hashes xem [TEST_REPORT](<TEST_REPORT.md>); trường `pendingItems:101` trong mô tả criteria cũ không làm101 mẫu continuation đã complete trở lại pending.
+
+| Handoff | View thực đọc được báo cáo,không gồm PDF06 | Quan sát có giới hạn |
+| --- | --- | --- |
+| [Batch01](<C:/Users/phamc/.dsh/workai/life-level-v7/agents/fashion-batch01-visual-review/handoff.json>) |20 body originals +3 head originals;ảnh610×790 có UI,không canvas crops | Không xác nhận clothing/skin intersection trong vùng đã xem;20 body có style gap. Giày nhỏ và nhãn che chân hạn chế đọc sole;không mọi head hoặc reload view |
+| [Batch02](<C:/Users/phamc/.dsh/workai/life-level-v7/agents/fashion-batch02-visual-review/handoff.json>) |20 body canvas608×590;0 head | Không thấy lỗi contact/clipping rõ ở phía trước;open-front,asymmetry,cropped/segmented garments là thiết kế chủ ý. Chi tiết rear-only chưa được kiểm |
+| [Batch03](<C:/Users/phamc/.dsh/workai/life-level-v7/agents/fashion-batch03-visual-review/handoff.json>) |20 body +14 head canvas (6 headwear,8 eyewear) | Không xác nhận contact defect trong vùng xem;open frames,brim spacing,glasses gaps không tự thành lỗi. Hidden temple/nose/underside/animation còn unknown |
+| [Batch04](<C:/Users/phamc/.dsh/workai/life-level-v7/agents/fashion-batch04-visual-review/handoff.json>) |20 body +5 rear canvas đúng5 backpack;không head/reload | runner-jacket có vùng màu da đi lên silhouette tay áo: **candidate**,chưa chứng minh clipping. Dây backpack đọc chưa liên tục;rear scalp patch/hair clumps là quan sát avatar chung,không lỗi do backpack đã chứng minh. Nhãn Runner bị cắt là framing,không garment clipping |
+| [Batch05](<C:/Users/phamc/.dsh/workai/life-level-v7/agents/fashion-batch05-visual-review/handoff.json>) |20 body +3 head canvas;không reloaded-equipped | Quan sát độc lập vùng da ở tay áo corporate-top,technician-top,signal-turtleneck,starter-rain-shell. starter-scarf có khe nối wrap/tail trong hình chiếu. Cuff starter-cyber-coat/starter-bomber chỉ uncertainty,không promote thành penetration |
+
+**Observed:**100 ID có handoff manual01–05,không phải100 mẫu accepted. Các báo cáo thấy khoảng cách lớn với PDF06 về silhouette,vải/vật liệu,tóc/mặt,chi tiết và ánh sáng. PDF06 là concept hướng phong cách,không specification topology hoặc baseline pixel theo từng item. Batch05 xác nhận vùng pixel được quan sát,không đo độ xuyên hình học; scarf chỉ projected connection gap,chưa chứng minh topology rời. Không blanket-apply nhận xét runner-jacket sang mọi áo.
+
+**Unknown / pending:** manual batch06 còn chờ (observation batch06 đã complete); không suy thêm manual coverage từ369 captured views. Chẩn đoán sleeves chỉ READONLY,không có sửa nguồn/ảnh sau sửa được ghi nhận. Hidden depth,side/back/underside ngoài5 rear đã đọc,animation,mọi body và phối nhiều slot,reload visual parity chưa được nghiệm thu. Fixture all-owned/API intercept không kiểm purchases. Một anorak NON_COMPARABLE và strict1085 FAIL không bị observation hoặc review đổi thành pixel PASS. Không VERIFIED hoặc premium parity.
+
+### Fashion lịch sử trước coverage121
+
+1238 hoàn tất10 mẫu rồi FAIL buckle-combat-boots mẫu11 do exact semantic mismatch/retained rotation;ba dòng reset đã sửa,1263 targeted split-runner→boots2/2 PASS/164.552,629 ms,bốn mutation,Gold delta0,lỗi rỗng,semantic khớp fresh persisted cũ. Queue-r2 batch02/1276 hoàn tất0/20 do PNG dimension assertion FAIL;1282 bounded anorak semantic/business đạt nhưng raster NON_COMPARABLE.101 mẫu continuation r3 sau đó đã hoàn tất,không xóa failure hoặc cộng10 ID lịch sử.1181 bounded wrap-skirt/split-flare2/2 PASS/147.169,863 ms,semantic sau reload khớp,bốn mutation,Gold không đổi,lỗi rỗng;split-flare vẫn lệch ba kênh/ba pixel delta1.
+
+`pwsh-1048` first-five optimized: **5 mẫu PASS**,77,775 giây, đủ10 mutation equip/unequip; manifest `agents/expanded-assets-gallery/evidence/paused-fashion-first5-r3-optimized/fashion-manifest.json`. Đã mở trực tiếp15 original body/head/equipped của wrap-skirt, fan-pleat-skirt, cargo-jogger, asymmetric-drape, tech-panel-skirt và ảnh PDF06. Handoff `agents/fashion-first5-visual-review/handoff.json`.
+
+Silhouette khác nhau có thật, không chỉ recolor. Khoảng cách với PDF06 còn lớn: váy giống tấm đệm cứng hơn vải rủ, đùi phồng/khớp gối phân đoạn, ít đường may/chuyển vật liệu, tóc/face/ánh sáng đơn giản. Không xác nhận clipping hoặc mất tiếp xúc chỉ từ che khuất ở góc trước. Head crop không cho coverage quần/váy; chưa side/back/animation/mọi body-presentation.
+
+Batch02 hoàn tất0/20, giữ5 mẫu trước đó: split-flare ổn định từng chuỗi PASS nhưng preview/equipped parity FAIL ở3 kênh delta1. `pwsh-1085` semantic diagnostic **FAIL toàn lượt**: wrap-skirt exact semantic parity120 mesh, unknowns rỗng, negative geometry/material/camera đạt; split-flare FAIL strict raster stability trước so semantic, tối đa3 kênh delta1, cùng canvas/bounds, chỉ2 mẫu exact cuối thay vì3. Không nới dung sai/tự retry; semantic equality không bằng pixel-perfect.
+
+## Equipment: ROI, không phải model defect đã chứng minh
+
+`pwsh-1071` FAIL toàn inspector bottom1000.375>viewport1000; canvas nhìn thấy. Test đổi native scroll center/nearest/instant +3 animation frame trước đo, giữ exact bounds. `pwsh-1090` sau đó vượt bounds, hoàn tất35 selected/35 captures, toàn weapon, cuối aether-glaive;1 reconcile/0 mutation,128,288 giây. FAIL neural-visor foreground0 không đạt>8. JSON/ảnh thật ở `agents/equipment-gallery-v7/evidence/equipment-gallery-v7-r3/` đã đọc: kính vẫn hiện trên bệ. Đỉnh AABB bệ cũ loại vùng model phẳng chồng bệ trong2D.
+
+Gate mới **observed-scene-plus-pixels** quan sát nhóm equipment/tên part, ancestor/material visible, tam giác chiếu không suy biến trong camera, ROI hình học thực + contrast/alpha + draw/ID. Bệ không thuộc nhóm model; pedestal-only bị từ chối dù disk pixels nằm trong ROI. Đây không phải định danh pixel thuần hoặc depth/occlusion test chính xác. Không mutate rendering sản phẩm; giữ ngưỡng presence, decoder29 assertion,3 cặp RGBA exact/12 capture/20 giây,bounds/economy. Sau controls/lint/type PASS, `pwsh-1134` r4 đạt **2 ca Chrome PASS**,240.801,938 ms. Lead đã giải mã `agents/equipment-gallery-v7/evidence/equipment-gallery-v7-r4/equipment-gallery-manifest.json`: expected74/selected74/captures74/unique74; errors/consoleErrors/unexpectedApi rỗng; mutations0, gồm73 shop+1 starter inventory. Kết quả r4 là lịch sử trước crown fix. Theo lead,1214 equipment-crown-fix-r5 actual Chrome2/2 PASS 206.597,905 ms (74captures,errors/consoleErrors/unexpectedApi rỗng theo lead),đủ74 mẫu; review thủ công74 đã có. PNG crown mới thấy spire tiếp xúc ring, SHA-256 `4dac0b57f970b1173a87b39ca100eb1573885edcaac7017605bd9af497080676`, trong `agents/equipment-gallery-v7/evidence/equipment-crown-fix-r5/artifacts/equipment-gallery-v7-all-7-7f97d-rter-inventory-no-purchases-actual-chrome-equipment-gallery/signal-crown-canvas.png`. Không tự tạo premium/occlusion proof hoặc mọi rig fit.
+
+## Browser scoped và review trước đó
+
+Root ngoài sản phẩm: `C:\Users\phamc\.dsh\workai\life-level-v7\`.
+
+| Artifact tương đối | Kết quả | Giới hạn |
+| --- | --- | --- |
+| `agents/door-gallery-v7/evidence/results.json` |1021:8/8 PASS,99,997 giây|Placement/debit/reload, transform mở/đóng; không mọi pathfinding|
+| `agents/curve-material-v7/evidence/curve-material-v7-r1/results.json` |1026:6/6 PASS,109,121 giây|Năm finish normal/selected/ghost, optical contract; trước geometry mới, xem1133|
+| `agents/construction-browser/evidence/construction-controls-r2/results.json` |6 PASS,43,054 giây|UI/domain thật, API mock; radius/angle/height/quote/commit/reload/hostile input|
+| `evidence/browser/furniture-interactions-qa/results.json` | **HISTORICAL** 5 PASS,43,691 giây | Bộ kiểm cũ: canvas click/arrival/blocked path; đèn chỉ chụp ảnh, không kiểm trạng thái ánh sáng. Kết quả hành vi có giới hạn mới là furniture-behavior r2 `1286`,16/16 PASS; không suy thành point-light toggle. |
+| `evidence/browser/released-strict-locks-qa/results.json` |8 PASS,100,902 giây|Scoped, thay6PASS2FAIL cũ|
+| `evidence/browser/released-visual-preinteraction-qa/results.json` |6 PASS,73,271 giây|Không mọi asset/extension|
+| `evidence/browser/released-mobile-equipment-jump-qa/results.json` |1 PASS,18,253 giây|Emulated mobile|
+| `evidence/browser/released-fps-hud-qa/results.json` |4 PASS,161,606 giây|HUD estimate, không benchmark phổ quát|
+
+Browser dùng WebGL/UI thật nhưng API fixture/in-memory, không live DB hoặc pixel baseline được duyệt. Review trước mở26 ảnh gốc (8 cặp cửa đóng/mở,5 cặp kính normal/ghost) và PDF12/14; `agents/door-curve-visual-review/handoff.json`. Không xác nhận lỗi hình học vật lý ở các góc đó; cửa nhạt/phẳng, kính không mờ còn đục so tham chiếu. Ghost opacity0,55 normal đúng thiết kế. Nhận xét đốm khung cũ đã có so sánh mới1133 ở trên, không tiếp tục ghi như lỗi hiện tại đã xác nhận.
+
+Nội thất r2 capture84 trước sửa/preview tắt là lịch sử, không nghiệm thu bản hiện tại. Powered r3 `pwsh-1177` legacy36 PASS/44,1 giây test và `pwsh-1180` expanded84 PASS/199.007,237 ms tổng tạo đủ120 capture bật preview sau sửa tiếp xúc; review theo nhóm đã tổng hợp, theo lead đã có original handoff `agents/powered-legacy-review-a/handoff.json` và `agents/powered-home-review/handoff.json` cùng recovery độc lập,đủ120 mẫu đọc thủ công theo từng view.36 ảnh legacy đánh số là SHOWCASE568×401,không phải hash raw canvas. Không thấy ảnh trống hoặc lỗi clipped/hình học rõ ràng ngoài terminal đã sửa;hidden views chưa biết,khoảng cách phong cách lớn còn tồn tại. Chỉ8 living/12 home được sửa theo CPU, không toàn21/13 nhận xét ban đầu. Không suy120 accepted hoặc premium từ gallery PASS.
+
+Tech terminal có đốm đã được phát hiện và sửa riêng; nguồn đóng băng,88 scoped tests/lintPASS theo lead. `pwsh-1211` actual Chrome một mẫu PASS10,6 giây test/13,3 giây tổng. Lead mở ảnh mới và thấy đốm cũ biến mất; chỉ là góc quan sát có giới hạn, không mọi góc/nhân quả GPU/premium. PNG `agents/expanded-assets-gallery/evidence/terminal-screen-fix-r1/artifacts/v7-expanded-assets-expande-45b7a-log-gallery-is-preview-only-actual-chrome-expanded-assets/furniture-001-v7-info-terminal-canvas.png`, SHA-256 `b6352226a8073a13664337718138ffad2ec94a58057cf6adf0bf548f971d2f8d`.
+
+## Lịch sử rút gọn
+
+- 871/876/879:74 tệp3376PASS209,58 giây,global lint/type PASS,Next16.4.1 build PASS8,0 giây compile/24,0 giây TS; trước sửa tiếp xúc.955 type+66/3 PASS; living22844(-12),home20664(+48),tổng103904(+36),cap48 parts/6000tri/model,legacy45000.899 preview active401/2 PASS; chưa post-fix render acceptance.
+- 958 FAIL4 timeout5000ms:3433/3437 ca,74/76 tệp,377,57 giây; longcoat/trench/parka/projection aggregate.982 partition581/2 PASS95,18 giây giữ assertions/rays/tolerance/timeout,paths<75%triangles,+376 ca không coverage.1076 full PASS thay chờ rerun,không xóa lỗi cũ.
+- Furniture r1 FAIL sau8 mẫu:1 kênhRGB delta1 tại1pixel/116596,draw/bounds không đổi; compositor là suy luận. R2 capture84 PASS không nâng VERIFIED.
+- Fashion r4 bounded3 PASS229,258 giây;960 FAIL~8,7 phút tech-panel-skirt BODY stable2<3/20 giây,sample3 delta1/2channels;4/121 captures không economy final PASS, thiếu sample timestamp không kết luận CPU. Lượt first-five khác outer375 giây timeout trước unequip mẫu4,4captures/3cleanup,không unequip POST,không app bug đã chứng minh.1048 thay bounded failure,không full fashion.
+- 991/48 tệp,546/548,505/build/browser10 là lịch sử revision,không visual acceptance hiện tại.
+
+## Tham chiếu, snapshot và hiệu năng
+
+PDF36 trang đã đọc text/ảnh qua A/B/C;SHA-256 `DD904F65E3C25A89A2513CA9339B5D0C7AC7BE9ABC03458B339DF3B33C945D93`. Creator PDF06/concept02,không PDF11; microtext không đọc được không suy đoán. Catalog: furniture120,fashion121(24free/97paid),shapes110,equipment36weapons/30armor/8accessories,doors8. SVGfashion là phép chiếu hình học110 model giảm tessellation,không z-buffer/premium proof.
+
+Snapshot11:00:51.3026786+07:00 furniture100/fashion86/shapes75→11:08:01.6593072+07:00 furniture120/fashion121/shapes110 ghi import/spread home/accessory; `agents/docs-current-refresh/source-snapshot.json`, `source-snapshot-final.json`, `evidence-snapshot.json`. Đọc tuần tự không commit nguyên tử/hash-bound runtime acceptance.
+
+FPS HUD theo `agents/audit-repo/evidence/released-fps-hud-summary.json`:Chrome156.0.8078.4,GTX1050Ti hardware ANGLE/D3D11,10 samples/cấu hình cách3250ms. Desktop balanced58,1avg/57min/60max,performance57avg/56min/60max;Pixel7 emulated57,6/57,5avg,cả hai56min/60max. Không physical mobile,production load hoặc bằng chứng mọi máy60FPS. Quan sát mới `pwsh-1207` actual Chrome6/6 PASS/165.505,021 ms: balanced/performance×1/6/12 clear panes trên sàn8×8,cùng GPU/DPR1/canvas1440×932. Sáu mẫu HUD/ca,cách3.282,6–3.382,4 ms,58–60FPS; mean balanced60/59,333/58,833,performance59,667/59,167/59. Calls222/297/387 so với192/247/313;triangles115890/154350/200502 so với106986/135606/169950. Đủ pane trong viewport,liveGL,camera/canvas ổn định,lỗi/consoleErrors/unexpectedApi rỗng,không mutation ngoài reconcile. `gl.info.autoReset=true` counters lần render gần nhất có thể thiếu multipass; không GPU time hoặc memory bytes. Không ngưỡng60FPS,không kết luận mode nào nhanh hơn có ý nghĩa/mọi máy. API fixture,không live DB; không bộ thu HMR riêng. Raw/summary tại `agents/curve-performance-v7/evidence/curve-performance-r1/results.json` và `summary.json`.

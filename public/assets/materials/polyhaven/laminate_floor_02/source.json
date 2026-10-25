@@ -1,0 +1,16 @@
+{
+  "name": "Laminate Floor 02",
+  "source": "https://polyhaven.com/a/laminate_floor_02",
+  "sourceApi": "https://api.polyhaven.com/files/laminate_floor_02",
+  "license": "CC0",
+  "licenseUrl": "https://polyhaven.com/license",
+  "authors": ["Dario Barresi (processing)", "Charlotte Baglioni (photography)"],
+  "downloadedOn": "2026-10-18",
+  "resolution": "2K JPEG",
+  "rights": "Modification and redistribution permitted under CC0",
+  "files": {
+    "diffuse.jpg": { "md5": "e106d121c9abb78f80e72cb5bd003295" },
+    "normal.jpg": { "md5": "ef2dc661cf7a24fa1c2577fd10754014" },
+    "roughness.jpg": { "md5": "06663cee617c49b117e0e9466fd1486d" }
+  }
+}

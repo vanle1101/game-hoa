@@ -1,0 +1,15 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+11 / 26
+C · RPG / KHO ĐỒ
+11   Kho đồ
+INVENTORY UI
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design a premium cyberpunk RPG inventory interface for LIFE//LEVEL. A spacious desktop game
+inventory screen with organized item grid, visually distinct rarity frames, item categories for weapons,
+armor, accessories, crafting materials, consumables and collectibles. Selected futuristic weapon shows a
+detailed tooltip with stats, rarity, item level and compare/equip actions. Balance visual hierarchy
+between inventory grid and item information. Dark brushed metal interface, subtle cyan navigation
+accents, purple legendary rarity details, crisp readable typography spaces, carefully aligned slots, item
+icons with consistent three-quarter game art style. High-end original RPG UI, widescreen 16:9, no clutter,
+no generic SaaS dashboard.

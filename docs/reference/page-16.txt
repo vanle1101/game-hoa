@@ -1,0 +1,15 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+10 / 26
+B · XÂY NHÀ THE SIMS-STYLE
+10   Bộ nội thất
+FURNITURE ASSET PACK
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Create a cohesive premium stylized 3D cyberpunk furniture asset collection for a life simulation game.
+Display individual modular items including futuristic bed, sofa, lounge chair, coffee table, ergonomic
+office chair, workstation desk, gaming computer, wardrobe, bookshelf, kitchen counter, refrigerator,
+dining table, lamp, potted plant, wall display, AI terminal, weapon showcase and crafting bench. Unified
+real-world-like dimensions, premium dark titanium, textured fabric, warm wooden accents, glass and
+subtle cyan emissive details. Clean three-quarter orthographic camera, evenly spaced individual assets
+on neutral background, high-quality original game models, clear silhouettes, optimized WebGL-friendly
+styling, 16:9.

@@ -1,0 +1,15 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+07 / 26
+B · XÂY NHÀ THE SIMS-STYLE
+07   Bộ block xây dựng
+MODULAR BUILDING KIT
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Create a professional modular 3D architectural asset kit for a premium stylized cyberpunk building
+simulation game. Show isolated reusable construction pieces organized in a clean grid: straight wall
+section, corner wall, half wall, glass wall, wall with doorway, wall with window opening, large panoramic
+window, sliding door, normal door, floor tiles, ceiling piece, roof panel, pillar, stairs and structural trims.
+Consistent 1-meter grid compatibility, 3-meter standard wall height, logically aligned pivots, matching
+thickness and scale, dark titanium and elegant futuristic materials with restrained cyan lighting. Each
+component clearly separated, three-quarter orthographic asset presentation on a neutral studio
+background. High-detail but optimized game-ready aesthetic, landscape 16:9.

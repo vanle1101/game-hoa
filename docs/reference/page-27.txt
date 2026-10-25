@@ -1,0 +1,14 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+21 / 26
+D · BOSS & NHIỆM VỤ
+21   Bản đồ chiến dịch
+CAMPAIGN MAP
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Create a premium cyberpunk RPG campaign progression map for LIFE//LEVEL. A beautiful visual journey
+through futuristic city districts representing life goals, with interconnected mission nodes, chapter
+gateways, milestone locations and dramatic boss icons. Some paths completed and illuminated in cyan,
+upcoming paths softly glowing, future regions locked in darkness. Selected campaign detail panel shows
+meaningful progress, rewards and requirements. A clear hierarchy of campaign, chapter, milestone and
+boss. Rich atmospheric cyberpunk world-map presentation combined with elegant legible game HUD,
+widescreen 16:9, no watermark.

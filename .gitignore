@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+.env*
+!.env.example
+*.tsbuildinfo
+npm-debug.log*
+.local-data/
+coverage/
+test-results/
+playwright-report/
+.tmp-chrome-v21*/
+
+.vercel

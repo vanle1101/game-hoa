@@ -1,0 +1,14 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+24 / 26
+E · CÁC MÀN HÌNH KHÁC
+24   AI quản gia
+AI BUTLER
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design an original premium cyberpunk AI Butler interface for LIFE//LEVEL. A sophisticated futuristic
+personal assistant terminal with an elegant small holographic assistant identity on one side, readable
+conversational interface in the center and structured planning proposals on the other side. AI can break
+down life goals, suggest tasks, organize schedules and identify overload. Include proposal preview
+cards, visual change comparisons, approve/reject actions and permission indicators. High-quality dark
+glass and brushed titanium surfaces, controlled cyan and violet lighting, luxurious yet calm. Usable
+application UI integrated into an immersive game universe, desktop 16:9, no clutter.

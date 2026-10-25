@@ -1,0 +1,14 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+17 / 26
+D · BOSS & NHIỆM VỤ
+17   Thiết kế Boss
+STATIC WRAITH BOSS
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Create an original stylized 3D cyberpunk RPG boss concept for LIFE//LEVEL named STATIC WRAITH. A
+towering humanoid machine corrupted by unstable violet energy, angular black titanium armor,
+exposed luminous circuits, intimidating asymmetrical shoulder plates, glowing cyan core and elegant
+mechanical detailing. Distinctive recognizable silhouette suitable for a browser-based 3D game, detailed
+but not excessively complex geometry. Full-body front, side, back and three-quarter views plus a
+close-up of the head. Consistent model proportions and material reference, neutral dark studio
+backdrop, premium game character art, no text, widescreen 16:9.

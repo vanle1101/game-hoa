@@ -1,0 +1,19 @@
+LIFE//LEVEL  /  WARDROBE & SHOP
+05  Mua quần áo bằng Gold
+Personal fashion progression must be visible on the character and in the apartment.
+FINAL EDITION  /  CYBERPUNK STYLE LOCK  /  CHARACTER & WARDROBE SYSTEM
+SUPPLEMENT 05/07
+FASHION STORE PROMPT  /  SELECTABLE TEXT
+WARDROBE & FASHION SHOP MASTER PROMPT (EN): Build a premium cyberpunk 3D clothing store and
+personal wardrobe with a large live full-body avatar preview, clothing categories, curated cyberpunk outfit
+collections, item rarity, ownership tags, Gold prices, 3D color variants, before/after appearance comparison,
+filters and purchase confirmation. New purchases unlock wearable items permanently and can be mixed
+with starter pieces. Display the exact equipped result on the player avatar in the home apartment, profile,
+creator, and other relevant game scenes.
+Catalog: hairstyles, techwear jackets, coats, hoodies, tops, trousers, shoes, gloves, masks, eyewear, hats,
+piercings, backpacks, cyberware cosmetics, jewelry and seasonal neon-themed collections. Offer complete
+outfits and individual slots; prevent invalid layer combinations and clipping. Both starter and earned items
+appear in one unified owned wardrobe.
+Purchasing: Preview item without charge → show price and current Gold → server validates ownership,
+unlock and funds → debit game Gold atomically → grant item once → persist ownership → offer “Equip now”
+→ immediately update the same 3D character.

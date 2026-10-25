@@ -1,0 +1,25 @@
+LIFE//LEVEL  /  GLOBAL RULES
+01  Khóa chặt style Cyberpunk
+Non-negotiable art direction across ALL 26 original references.
+FINAL EDITION  /  CYBERPUNK STYLE LOCK  /  CHARACTER & WARDROBE SYSTEM
+SUPPLEMENT 01/07
+NEON HAVEN  /  PREMIUM STYLIZED CYBERPUNK 3D
+#080D18
+#10192C
+#32E6F4
+#9067FF
+#EE5ACB
+#FFBC62
+#EDF4FF
+LOCKED ART DIRECTION  /  ENFORCE GLOBALLY
+GLOBAL STYLE LOCK — copy these constraints into every design and coding task:
+Premium stylized cyberpunk 3D, futuristic high-rise residences, dark titanium, premium techwear, matte
+charcoal, navy, layered glass, restrained cyan/violet/magenta emissive accents, believable furniture scale,
+cinematic warm/cool lighting. UI remains a coherent high-end science-fiction game HUD — including finance,
+tasks, building editor, character creator, inventory, shops, AI and onboarding.
+Forbidden style drift: generic SaaS dashboards; flat unstyled forms; realistic modern-day casual UI;
+Roblox/blocky character art; 2D pixel art; cartoon/anime mismatch; medieval fantasy costume; excessive
+rainbow glow; random asset palettes; plain default browser controls; different graphic styles per module.
+Safe customization: allow controlled cyberpunk color variants, hairstyles, faces, wearable items and interiors
+WITHOUT leaving the shared cyberpunk art universe. Finance can be calmer and more readable, but must
+still match the same tokens, typography, framing and navigation.

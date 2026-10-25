@@ -1,0 +1,30 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+CODEX — IMPLEMENTATION DIRECTIVE
+01
+Analyze all 26 references and prompts. Treat images as visual guidance, not finished
+implementation.
+02
+Use the existing LIFE//LEVEL repository and maintain all game systems and current user data.
+03
+Build a real interactive 3D apartment and The Sims-style house editor: walls, floors, doors, windows,
+rooms, grid and Buy Mode.
+04
+Implement each UI as responsive React components with valid navigation, state, APIs and visual
+consistency.
+05
+Use shared art direction, scales, materials, colors, iconography and character identity across
+screens.
+06
+If sub-agent delegation is available, distribute independent work to UI, World, Building, RPG/Assets,
+AI and QA agents.
+07
+Set file ownership, interface contracts and test gates; parallelize only genuinely independent work.
+08
+After each milestone run build, typecheck, tests, visual preview and performance checks; fix
+regressions before proceeding.
+09
+Do not fake production features with screenshots, decorative buttons or client-generated
+currency/loot.
+10
+Preview requests during development are not design approval. Continue the master plan until
+verified or transparently blocked.

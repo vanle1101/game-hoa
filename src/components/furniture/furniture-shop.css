@@ -1,0 +1,96 @@
+.furniture-shop { --f-line: var(--border-subtle, #9aaac329); --f-soft: var(--fg-secondary, #9aaac3); --f-cyan: var(--cyan, #32e6f4); --f-surface: var(--bg-surface-2, #10192c); color: var(--fg-primary, #edf4ff); min-width: 0; line-height: 1.6; }
+.furniture-shop * { box-sizing: border-box; }
+.furniture-shop button, .furniture-shop input { font: inherit; }
+.furniture-shop button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 44px; padding: 9px 12px; border: 1px solid var(--f-line); border-radius: 8px; background: var(--bg-surface-3, #16233b); color: #d5e5f7; font-size: 12px; line-height: 1.5; cursor: pointer; transition: border-color .16s, background .16s, color .16s; }
+.furniture-shop button:hover:not(:disabled) { border-color: var(--f-cyan); background: #1c3649; color: #fff; }
+.furniture-shop button:focus-visible, .furniture-shop input:focus-visible { outline: 2px solid var(--f-cyan); outline-offset: 3px; }
+.furniture-shop button:disabled { cursor: not-allowed; color: #94a4bb; border-color: #304056; background: #15202d; }
+.furniture-shop button[aria-pressed="true"] { border-color: var(--f-cyan); background: #153744; color: #c1fdff; }
+.furniture-shop-heading { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--f-line); }
+.furniture-kicker { display: block; color: var(--f-cyan); font-size: 10px; font-weight: 700; letter-spacing: .14em; line-height: 1.7; }
+.furniture-shop-heading h2 { margin: 8px 0; font-size: clamp(24px, 2.5vw, 34px); font-weight: 650; letter-spacing: -.035em; line-height: 1.35; text-wrap: balance; }
+.furniture-shop-heading p { margin: 0; color: var(--f-soft); font-size: 13px; }
+.furniture-shop-wallet { display: flex; align-items: center; gap: 10px; padding: 12px 18px; border: 1px solid #ffbc624d; border-radius: 10px; background: linear-gradient(120deg, #ffbc6214, #ffbc6205); color: var(--amber, #ffbc62); font-size: 23px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.furniture-shop-wallet small, .furniture-card-price small { font-size: 10px; letter-spacing: .1em; }
+.furniture-shop-layout { display: grid; grid-template-columns: 156px minmax(290px, .9fr) minmax(350px, 1.2fr); align-items: start; gap: 16px; }
+.furniture-shop-nav, .furniture-shop-content, .furniture-selected-details { overflow: hidden; border: 1px solid var(--f-line); border-radius: 14px; background: linear-gradient(145deg, #131f33, var(--bg-surface-1, #0c1424)); box-shadow: inset 0 1px 0 #edf4ff08; }
+.furniture-shop-nav { position: sticky; top: 18px; }
+.furniture-shop-nav-title { display: flex; align-items: center; gap: 8px; padding: 16px 12px; color: #b9cddd; font-size: 10px; font-weight: 600; letter-spacing: .12em; border-bottom: 1px solid var(--f-line); }
+.furniture-category-list { display: grid; gap: 4px; padding: 8px; }
+.furniture-category-list button { justify-content: flex-start; width: 100%; padding: 8px; border-color: transparent; background: transparent; text-align: left; }
+.furniture-category-list button > span { width: 18px; flex-shrink: 0; color: #9aaac3; font-size: 10px; font-variant-numeric: tabular-nums; }
+.furniture-category-list button > b { margin-left: auto; color: #a7bed1; font-size: 10px; font-weight: 400; font-variant-numeric: tabular-nums; }
+.furniture-category-list button[aria-selected="true"] { box-shadow: inset 2px 0 var(--f-cyan); }
+.furniture-category-list button[aria-selected="true"] > span { color: var(--f-cyan); }
+.furniture-shop-nav-note { display: flex; gap: 8px; align-items: flex-start; padding: 16px 12px; border-top: 1px solid var(--f-line); color: #a6b6cc; }
+.furniture-shop-nav-note svg { flex: 0 0 auto; color: #b4a9ee; }
+.furniture-shop-nav-note p { margin: 0; font-size: 11px; line-height: 1.7; }
+.furniture-selected-column { display: grid; gap: 16px; min-width: 0; position: sticky; top: 18px; }
+.furniture-showcase { position: relative; isolation: isolate; height: 400px; overflow: hidden; border: 1px solid var(--border-highlight, #32e6f461); border-radius: 14px; background: radial-gradient(ellipse at 50% 35%, #193d4a 0, #101f31 42%, #080d18 80%); box-shadow: inset 0 1px 0 #85d9ed19, 0 16px 50px #0003; }
+.furniture-showcase::after { content: ""; position: absolute; z-index: -1; width: 78%; height: 46px; bottom: 140px; left: 11%; border: 1px solid #32e6f44d; border-radius: 50%; box-shadow: 0 0 35px #32e6f41a, inset 0 0 25px #32e6f410; pointer-events: none; }
+.furniture-showcase-grid { position: absolute; inset: 27% 0 0; z-index: -1; opacity: .12; background-image: linear-gradient(#6c9dac 1px, transparent 1px), linear-gradient(90deg, #6c9dac 1px, transparent 1px); background-size: 40px 40px; mask-image: linear-gradient(transparent, #000); transform: perspective(260px) rotateX(35deg); transform-origin: bottom; pointer-events: none; }
+.furniture-showcase-top { position: absolute; z-index: 2; top: 12px; left: 12px; right: 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.furniture-showcase-top > span { display: flex; align-items: center; gap: 7px; color: #c4dae5; font-size: 10px; font-weight: 600; letter-spacing: .08em; }
+.furniture-showcase-top i { display: block; width: 6px; height: 6px; flex-shrink: 0; border-radius: 50%; background: var(--f-cyan); box-shadow: 0 0 9px #32e6f455; }
+.furniture-showcase-top button { padding: 8px 10px; background: #0e1b2be6; font-size: 11px; }
+.furniture-preview-canvas { position: absolute; inset: 60px 0 160px; }
+.furniture-camera-controls { position: absolute; bottom: 108px; left: 0; right: 0; display: flex; justify-content: center; gap: 8px; }
+.furniture-camera-controls button { width: 44px; padding: 8px; background: #0e1b2be6; }
+.furniture-metadata-note { display: block; color: #a8bfcc; font-size: 11px; line-height: 1.6; }
+.furniture-preview-canvas > div { width: 100%; height: 100%; }
+.furniture-preview-loading { display: grid; place-items: center; height: 100%; padding: 20px; color: #b9d3df; font-size: 12px; text-align: center; }
+.furniture-showcase-caption { position: absolute; right: 16px; bottom: 16px; left: 16px; display: grid; gap: 4px; text-align: center; pointer-events: none; }
+.furniture-showcase-caption > span { color: #a5c7d4; font-size: 10px; letter-spacing: .12em; font-variant-numeric: tabular-nums; }
+.furniture-showcase-caption strong { font-size: clamp(18px, 2vw, 23px); font-weight: 600; line-height: 1.4; overflow-wrap: anywhere; }
+.furniture-showcase-caption small { color: #a6b6cc; font-size: 11px; }
+.furniture-shop-content { min-width: 0; padding: 16px; }
+.furniture-collection-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.furniture-collection-heading h3 { margin: 4px 0 0; font-size: 21px; line-height: 1.4; font-weight: 600; }
+.furniture-collection-level { padding: 5px 9px; border: 1px solid #9067ff55; border-radius: 6px; color: #c9b8ff; background: #9067ff12; font-size: 10px; letter-spacing: .06em; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.furniture-toolbar { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; align-items: center; margin-bottom: 16px; }
+.furniture-search { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; min-width: 0; border: 1px solid #41546c; border-radius: 8px; background: var(--bg-input, #091220); color: #a7bed1; padding: 0 12px; }
+.furniture-search:focus-within { border-color: var(--f-cyan); }
+.furniture-search input { width: 100%; min-width: 0; min-height: 44px; border: 0; background: transparent; color: #edf4ff; font-size: 13px; }
+.furniture-search input::placeholder { color: #9aaac3; }
+.furniture-owned-toggle { display: flex; align-items: center; gap: 8px; min-height: 44px; color: #b6c9d5; font-size: 12px; cursor: pointer; }
+.furniture-owned-toggle input { accent-color: var(--f-cyan); width: 18px; height: 18px; }
+.furniture-result-count { color: #a7bed1; font-size: 11px; text-align: right; font-variant-numeric: tabular-nums; }
+.furniture-item-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.furniture-item-card { min-width: 0; display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--f-line); border-radius: 10px; background: var(--f-surface); }
+.furniture-item-card.is-selected { border-color: var(--f-cyan); box-shadow: 0 0 0 1px #32e6f426, 0 8px 24px #0003; }
+.furniture-shop .furniture-card-preview { position: relative; display: grid; width: 100%; min-height: 246px; flex: 1; padding: 12px; gap: 6px; align-content: start; justify-items: stretch; border: 0; border-radius: 0; background: radial-gradient(ellipse at 50% 40%, #203c4e, #111e30 72%); text-align: left; }
+.furniture-shop .furniture-card-preview:hover:not(:disabled) { background: radial-gradient(ellipse at 50% 40%, #285367, #111e30 72%); }
+.furniture-card-preview:focus-visible { outline-offset: -3px; }
+.furniture-card-index { padding-right: 18px; color: #a6c2d0; font-size: 10px; letter-spacing: .06em; line-height: 1.6; }
+.furniture-card-art { position: relative; display: grid; place-items: center; height: 130px; }
+.furniture-card-art::before { content: ""; position: absolute; bottom: 5px; width: 85%; height: 24px; border: 1px solid #78e4e726; border-radius: 50%; background: #32e6f406; }
+.furniture-projection { position: relative; display: block; width: 100%; height: 130px; overflow: visible; filter: drop-shadow(0 8px 7px #0005); }
+.furniture-card-name { color: #edf4ff; font-size: 14px; font-weight: 600; line-height: 1.5; overflow-wrap: anywhere; }
+.furniture-card-state { color: #b0c2d3; font-size: 11px; font-variant-numeric: tabular-nums; }
+.furniture-owned-mark { position: absolute; top: 12px; right: 10px; display: flex; align-items: center; justify-content: center; width: 18px; height: 18px; border: 1px solid #5ed5af66; border-radius: 50%; color: #84e2c4; background: #122f2d; }
+.furniture-selection-tag { justify-self: start; padding: 2px 6px; border-radius: 4px; color: #a5f8ff; background: #32e6f418; font-size: 10px; }
+.furniture-card-footer { display: grid; grid-template-columns: 1fr; gap: 8px; align-items: center; padding: 12px; border-top: 1px solid var(--f-line); background: #080d1833; }
+.furniture-card-price { color: var(--amber, #ffbc62); font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.furniture-neon-picker { display: inline-flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 32px; padding: 4px 7px; border: 1px solid #32e6f455; border-radius: 6px; color: #a5dce5; font-size: 9px; letter-spacing: .12em; }
+.furniture-neon-picker input { width: 28px; height: 24px; padding: 0; border: 0; border-radius: 4px; background: transparent; cursor: pointer; }
+.furniture-neon-picker-large { width: fit-content; min-height: 38px; }
+.furniture-shop .furniture-buy-button, .furniture-shop .furniture-place-button { min-height: 44px; padding: 8px; font-size: 12px; }
+.furniture-shop .furniture-place-button { color: #b9edf0; border-color: #427080; }
+.furniture-empty { display: grid; place-items: center; gap: 12px; min-height: 250px; padding: 24px; color: #a7bed1; text-align: center; }
+.furniture-empty strong { color: #edf4ff; font-size: 16px; }
+.furniture-empty span { font-size: 13px; }
+.furniture-selected-details { display: grid; gap: 16px; padding: 20px; min-width: 0; }
+.furniture-selected-details h3 { margin: 6px 0; font-size: 21px; line-height: 1.4; font-weight: 600; }
+.furniture-selected-details p { margin: 0; color: #afc0d4; font-size: 13px; line-height: 1.7; }
+.furniture-selected-details dl { display: grid; gap: 10px; margin: 0; }
+.furniture-selected-details dl > div { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--f-line); }
+.furniture-selected-details dt { color: #a5b5cb; font-size: 12px; }
+.furniture-selected-details dd { max-width: 60%; margin: 0; color: #e0edf7; font-size: 12px; text-align: right; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.furniture-selected-actions { display: grid; gap: 10px; color: #b4cbd5; font-size: 12px; font-variant-numeric: tabular-nums; }
+.furniture-selected-actions button { min-height: 44px; background: linear-gradient(115deg, #6ef2f8, #28bfd4); border-color: #7ef7ff; color: #06202b; font-weight: 700; }
+.furniture-selected-actions .furniture-secondary-action { background: #132033; border-color: #4a7b8d; color: #c3f5f5; }
+@media (min-width: 1121px) and (max-height: 900px) { .furniture-selected-column { position: static; } .furniture-selected-details { position: sticky; top: 18px; } }
+@media (max-width: 1120px) { .furniture-shop-layout { grid-template-columns: minmax(280px, .9fr) minmax(320px, 1.1fr); } .furniture-shop-nav { position: static; grid-column: 1 / -1; } .furniture-shop-nav-title, .furniture-shop-nav-note { display: none; } .furniture-category-list { display: flex; overflow-x: auto; gap: 6px; padding: 10px; scrollbar-width: thin; } .furniture-category-list button { width: auto; flex: 0 0 auto; gap: 8px; } .furniture-selected-column { position: static; } }
+@media (max-width: 760px) { .furniture-shop-heading { align-items: flex-start; flex-direction: column; gap: 16px; margin-bottom: 16px; padding-bottom: 16px; } .furniture-shop-wallet { font-size: 21px; } .furniture-shop-layout { grid-template-columns: minmax(0, 1fr); } .furniture-shop-nav, .furniture-selected-column { position: static; } .furniture-showcase { height: 420px; } .furniture-selected-details { padding: 16px; } .furniture-selected-actions button { width: 100%; } .furniture-search input { font-size: 16px; } .furniture-shop-content { padding: 12px; } .furniture-showcase-caption small { max-width: 280px; justify-self: center; } }
+@media (max-width: 450px) { .furniture-item-grid { grid-template-columns: 1fr; } .furniture-shop .furniture-card-preview { min-height: 270px; } .furniture-card-art, .furniture-projection { height: 156px; } .furniture-card-name { font-size: 16px; } .furniture-card-footer { grid-template-columns: 1fr auto; } .furniture-shop .furniture-buy-button { min-width: 110px; } .furniture-place-button { grid-column: 1 / -1; } .furniture-showcase-caption strong { font-size: 20px; } }
+@media (prefers-reduced-motion: reduce) { .furniture-shop button { transition: none; } }

@@ -1,0 +1,18 @@
+LIFE//LEVEL  /  CHARACTER DESIGN
+03  Tạo nhân vật chi tiết
+Hair · eyes · ears · nose · face · body · starting outfits.
+FINAL EDITION  /  CYBERPUNK STYLE LOCK  /  CHARACTER & WARDROBE SYSTEM
+SUPPLEMENT 03/07
+3D CUSTOMIZER PROMPT  /  SELECTABLE TEXT
+CHARACTER CREATOR MASTER PROMPT (EN): Build a truly editable 3D character creator, not a static
+picture. The player controls hair style/length/color; face preset and jaw; eye shape, iris color and eyebrow
+shape; nose bridge/tip shape; ear shape/size and earrings; lips/mouth; skin tone; optional facial hair,
+makeup and compatible body presets. The same customizable character must render across all game
+scenes. Design a cyberpunk avatar preview with switchable head close-up / full-body camera, orbit, zoom,
+reset, comparison and live updates.
+Minimum editable MVP content: 12 hairstyles, 12 hair colors, 6 eye shapes, 8 iris colors, 6 eyebrows, 6 nose
+shapes, 4 ear shapes, 6 mouth/lip types, 6 face/jaw presets, 12 skin tones, 3 body presets, plus optional
+beard, tattoos, piercings and cyberware where supported by the model pipeline.
+Behavior: Changing an appearance control must visibly update the 3D mesh, morph target, attached
+component or material. Do not implement fake sliders that only change numbers or captions. Provide
+curated presets where high-quality morph targets are unavailable.

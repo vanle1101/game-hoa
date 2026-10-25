@@ -1,0 +1,14 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+02 / 26
+A · NHÂN VẬT & THẾ GIỚI
+02   Tùy chỉnh nhân vật
+CHARACTER CREATOR
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design a premium cyberpunk 3D RPG character customization screen for LIFE//LEVEL. Large full-body
+stylized adult character preview in the center, modular hairstyle selection, face customization, skin
+tones, futuristic casual outfits, jackets, trousers, sneakers and accessories. Left side character
+customization categories, right side visual customization swatches, beautiful dark navy and titanium
+game UI with restrained cyan and violet highlights. Cohesive premium science-fiction interface, refined
+typography placeholders, clear hierarchy, game-ready visual reference, cinematic studio lighting,
+widescreen 16:9. Original design, not a SaaS dashboard.

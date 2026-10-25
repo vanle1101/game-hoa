@@ -1,0 +1,14 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+20 / 26
+D · BOSS & NHIỆM VỤ
+20   Cây kỹ năng
+SKILL TREE
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design a sophisticated RPG skill tree interface for LIFE//LEVEL with six major progression branches:
+Health, Knowledge, Career, Finance, Relationships and Creativity. Each branch has beautiful distinctive
+icons and connected skill nodes arranged as a balanced futuristic progression network. Clearly
+distinguish unlocked, unlockable and locked nodes using restrained cyan, violet, amber and muted gray
+treatments. Center focus on a selected skill with meaningful detail panel, requirements and progression
+information. Deep dark cyberpunk visual aesthetic, polished line connections, readable hierarchy and
+elegant motion-ready layers. Premium original game UI, widescreen 16:9.

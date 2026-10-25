@@ -1,0 +1,50 @@
+LIFE//LEVEL  /  FASHION SYSTEM
+06  Kết nối shop, tủ đồ và tiến trình
+No hardcoded item grants, no client-trusted balances, no outfit desynchronization.
+FINAL EDITION  /  CYBERPUNK STYLE LOCK  /  CHARACTER & WARDROBE SYSTEM
+SUPPLEMENT 06/07
+SERVER & AVATAR CONTRACT
+Ownership and unlocks
+Use a catalog of cosmetic definitions + per-user
+owned item instances/entitlements. Make starter
+item grants idempotent. Award optional cosmetic
+items from campaigns, bosses, achievements and
+game Gold shops. No real-money transactions.
+Store appearance history only if useful, and never
+grant purchases merely from UI state.
+Wearable compatibility
+Slots: Hair, Headwear, Face/Eyes, Earrings, Top,
+Outerwear, Bottoms, Shoes, Gloves, Back,
+Cyberware and optional Full Outfit. Define mesh
+compatibility and priority for clipping prevention.
+Full outfits may lock some slots; disclose this
+before equipping.
+Persistence
+Transactions: wallet ledger + cosmetic ownership
++ event log. Each equipped item must be owned,
+available and compatible. Protect
+purchase/equip/undo from two simultaneous tabs
+and network retries.
+ACCEPTANCE TESTS
+Must-pass QA cases
+01 Create avatar, customize eye/nose/ear/hair
+independently; visibly confirm changes.
+02 Pick a free starter outfit; no Gold is deducted.
+03 Reload and verify every face setting and outfit
+layer persist.
+04 Buy one jacket with game Gold; exact debit,
+one grant.
+05 Try duplicate purchase/retry and concurrent
+tabs; no duplicate debit or grants.
+06 Equip new jacket; verify in wardrobe, 3D home
+and character view.
+07 Remove jacket/re-equip original outfit; original
+owned inventory remains.
+08 Insufficient Gold or locked item does not
+unlock.
+09 Changing clothing does not alter finance
+balance or combat stats accidentally.
+10 Verify headwear/hair, face masks, shoes, arm
+joints and animations do not clip badly.
+11 Verify desktop, mobile, low-graphics and
+reloaded sessions.

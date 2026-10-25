@@ -1,0 +1,14 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+26 / 26
+E · CÁC MÀN HÌNH KHÁC
+26   Cửa hàng tổng hợp
+RPG STORE
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design a premium futuristic RPG marketplace screen for LIFE//LEVEL, cyberpunk life simulation game. A
+visually rich but clearly organized virtual store featuring weapons, armor, crafting materials, furniture,
+pets and cosmetics. Distinctive navigation categories, large featured item showcase, attractive item
+cards with rarity borders, fictional Gold prices, owned states and purchase actions. The selected item
+appears in a large high-quality 3D preview with detailed stats and description. Sophisticated
+titanium-black background, deep navy layered surfaces, restrained cyan, violet and amber accents.
+Looks like a polished game marketplace, not an ecommerce website. Widescreen 16:9.

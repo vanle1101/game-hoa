@@ -1,0 +1,35 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+HƯỚNG DẪN SỬ DỤNG VỚI CODEX
+Đây là bộ concept tham chiếu 26 màn hình/hạng mục; mỗi trang có 01 ảnh minh họa và 01 prompt tiếng Anh đầy đủ.
+Ảnh minh họa được dựng lại theo cùng brief (không phải file gốc của các thumbnail tìm kiếm ở tin nhắn trước).
+Ảnh concept không phải model 3D, không phải giao diện chạy được; Codex phải triển khai geometry, assets, React UI và logic thật.
+Không copy nguyên văn chữ sai trong ảnh AI. Các nhãn chức năng và dữ liệu phải lấy từ đặc tả/prompt, không dựa vào chữ trong hình.
+Ưu tiên đồng bộ art direction: dark navy, graphite, cyan có kiểm soát, violet/magenta có điểm nhấn, cyberpunk 3D stylized.
+Không được lấy ảnh làm background thay cho 3D. Build Mode phải có tường, ô sàn, cửa và cửa sổ thực sự có thể sửa và lưu.
+DANH MỤC 26 CONCEPT
+01  Nhân vật chính
+02  Tùy chỉnh nhân vật
+03  Thành phố NEON HAVEN
+04  Căn hộ khởi đầu
+05  Penthouse cấp cao
+06  Build Mode tổng thể
+07  Bộ block xây dựng
+08  Cửa, cửa sổ và vật liệu
+09  Buy Mode - Mua nội thất
+10  Bộ nội thất
+11  Kho đồ
+12  Trang bị nhân vật
+13  Bộ vũ khí RPG
+14  Bộ icon vật phẩm
+15  Chế tạo & nâng cấp
+16  Rơi đồ hiếm
+17  Thiết kế Boss
+18  Đấu trường Boss
+19  Nhật ký nhiệm vụ
+20  Cây kỹ năng
+21  Bản đồ chiến dịch
+22  Màn hình chính
+23  Tài chính cá nhân
+24  AI quản gia
+25  Thú cưng
+26  Cửa hàng tổng hợp

@@ -1,0 +1,14 @@
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+19 / 26
+D · BOSS & NHIỆM VỤ
+19   Nhật ký nhiệm vụ
+QUEST JOURNAL
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design a beautiful cyberpunk RPG quest journal for LIFE//LEVEL, where real-life productivity tasks appear
+as immersive RPG missions. Strong game-like interface with three high-priority quests, daily and weekly
+mission categories, task checklists, difficulty indicators, deadlines, XP/Gold rewards and boss damage
+previews. Selected mission opens a spacious detailed quest panel. Use premium dark navy surfaces,
+carefully balanced cyan and violet accents, high-quality iconography, subtle geometric textures and clear
+readable content hierarchy. No giant generic SaaS cards, no noisy holograms. Desktop 16:9, with space
+reserved for actual Vietnamese text overlays.
