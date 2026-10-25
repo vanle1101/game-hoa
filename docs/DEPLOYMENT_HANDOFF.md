@@ -7,7 +7,7 @@
 - **Node.js:** Node 22 LTS, minimum **22.12.0**; check with `node --version`. Use the npm bundled with that Node installation. Node 22 is the repository's Linux CI target. Do not use `next export`: this app needs the Node API server.
 - **Database:** PostgreSQL on the Grok Linux host, listening on loopback/Unix socket only. `DATABASE_URL` is server-side. Do not expose port 5432 to the Internet.
 - **Web:** one `next start` process bound to `127.0.0.1:3000`. A named outbound tunnel may connect to that loopback address only after approval. The Windows `.exe` loads the approved public HTTPS origin.
-- **Worker:** a separate `npm run worker` process uses the same PostgreSQL database. The queue and worker require an actual database and must be tested across process termination and restart.
+- **Worker:** a separate `npm run worker` process uses the same PostgreSQL database. It handles durable AI proposal jobs and accepted command intents. The queue and worker require an actual database and must be tested across process termination and restart.
 - **Supervisor:** `deploy/systemd/*.service` are templates, usable only if systemd is PID 1 and the environment permits long-lived services. Adjust the `node`/`npm` paths and service account to the actual host. These templates have not been installed or run.
 
 ## Before accepting a package
@@ -31,7 +31,7 @@ npm run typecheck
 npm run build
 ```
 
-`npm ci` installs the locked versions; `--include=dev` keeps the build tools. `npm run build` creates both the Next.js build and `dist-worker/index.cjs`. Do not use `npm install` to rewrite the lockfile on the server. Provide environment variables through a root-owned file outside the release tree (for example `/etc/life-level/life-level.env`, mode 0600) or another approved secret store. Do not copy Windows `.env.local` or place secrets in the deployment archive.
+`npm ci` installs the locked versions; `--include=dev` keeps the build tools. `npm run build` creates both the Next.js build and `dist-worker/index.cjs`. The worker build script uses `worker/server-only-shim.ts` as an esbuild alias for Next's `server-only` guard; it does not weaken the web application's client/server boundary. Check that `worker/index.ts` and this shim are present in the package. Do not use `npm install` to rewrite the lockfile on the server. Provide environment variables through a root-owned file outside the release tree (for example `/etc/life-level/life-level.env`, mode 0600) or another approved secret store. Do not copy Windows `.env.local` or place secrets in the deployment archive.
 
 The current `npm run worker` command resolves its runtime libraries from the release's `node_modules`. Do not prune dev dependencies until the worker and web runtime have been tested after pruning on the target Linux distribution.
 
@@ -62,7 +62,7 @@ npm run db:migrate
 
 `DATABASE_URL` must already be available in the migration process environment. `drizzle-kit` does not automatically load Next's `.env.local`. Never use `drizzle-kit push` against production.
 
-Migration `0001` adds accounts and hashed sessions; migration `0002` adds server-owned artifacts and durable jobs. Both must be reviewed and applied before enabling the new routes and worker. Secure cookies require the public HTTPS origin. The auth attempt brake inside the Next process is not distributed; configure a shared limit at the approved reverse proxy/tunnel edge before allowing open registration/login at scale.
+Migration `0001` adds accounts and hashed sessions; `0002` adds server-owned artifacts and durable jobs; `0003` adds accepted command intents for retry after a client disconnect. Review and apply all three in order before enabling the new routes and worker. Secure cookies require the public HTTPS origin. The auth attempt brake inside the Next process is not distributed; configure a shared limit at the approved reverse proxy/tunnel edge before allowing open registration/login at scale.
 
 Start locally for a controlled smoke test (separate terminals or systemd units):
 
@@ -81,7 +81,7 @@ curl -fsS http://127.0.0.1:3000/api/health/ready
 pg_isready -h 127.0.0.1 -p 5432
 ```
 
-`/live` checks web-process availability; `/ready` checks database availability without disclosing connection strings or user data. Also test an authenticated API request, two accounts' data isolation, two devices on one account, guest-save claim, idempotent retries, queue survival after the client closes, and worker recovery after a process kill. A 200 health response alone is not acceptance.
+`/live` checks web-process availability; `/ready` checks database availability without disclosing connection strings or user data. Also test an authenticated API request, two accounts' data isolation, two devices on one account, guest-save claim, idempotent game/finance retries, accepted command-intent recovery, AI queue survival after the client closes, and worker recovery after a process kill. A 200 health response alone is not acceptance.
 
 ## Public HTTPS connection
 
