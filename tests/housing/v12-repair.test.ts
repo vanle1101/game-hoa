@@ -41,8 +41,12 @@ function expectHome(state: GameState) {
   expect(state.building?.foundation).toEqual({ version: 9, mode: "fixed-apartment" });
   expect(state.building?.plan.floors).toHaveLength(120);
   expect(state.building?.paid).toEqual({});
-  expect(state.building?.plan.furniture.map(item => item.furnitureId).sort()).toEqual([...STARTER_FURNITURE_IDS].sort());
-  expect(new Set(state.building?.plan.furniture.map(item => item.id)).size).toBe(STARTER_FURNITURE_IDS.length);
+  const openingIds = state.residence?.layoutId === "one-bedroom"
+    ? ["glass_door_modern", "glass_door_modern", "wide_window_cyber", "wide_window_cyber"]
+    : ["glass_door_modern", "wide_window_cyber", "wide_window_cyber"];
+  const expectedIds = [...STARTER_FURNITURE_IDS.filter(id => id !== "glass_door_modern" && id !== "wide_window_cyber"), ...openingIds];
+  expect(state.building?.plan.furniture.map(item => item.furnitureId).sort()).toEqual(expectedIds.sort());
+  expect(new Set(state.building?.plan.furniture.map(item => item.id)).size).toBe(expectedIds.length);
   for (const id of STARTER_FURNITURE_IDS) expect(state.ownedFurniture[id]).toBeGreaterThanOrEqual(1);
   expect(buildingStateSchema.safeParse(state.building).success).toBe(true);
   expect(() => validateConstruction(state.building!, state.building!.plan, constructionContext(state))).not.toThrow();
@@ -110,7 +114,7 @@ describe("V12 starter housing repair", () => {
     const result = act(reload, { type: "reconcile" }, "after-storing-bed");
     expect(result.state).toBe(reload);
     expect(result.state.ownedFurniture).toEqual(first.state.ownedFurniture);
-    expect(result.state.building?.plan.furniture).toHaveLength(5);
+    expect(result.state.building?.plan.furniture).toHaveLength(8);
     expect(result.state.journal.filter(event => event.type === "housing.starter-repair")).toHaveLength(1);
     expect(result.state.ledger).toEqual(first.state.ledger);
   });

@@ -1,5 +1,6 @@
 node_modules/
 .next/
+.next-verify/
 out/
 .env*
 !.env.example
@@ -7,8 +8,21 @@ out/
 npm-debug.log*
 .local-data/
 coverage/
+dist-worker/
+desktop/dist/
 test-results/
 playwright-report/
 .tmp-chrome-v21*/
+
+# Local tools and generated visual QA captures (keep the source scripts and curated evidence).
+.tools/
+tmp/
+artifacts/
+.tmp-*.png
+.tmp-*.log
+cloudflared.exe
+public-probe.png
+__pycache__/
+*.py[cod]
 
 .vercel

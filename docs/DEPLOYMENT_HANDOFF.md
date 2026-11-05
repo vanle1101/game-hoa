@@ -2,6 +2,14 @@
 
 **Status:** preparation for a Linux deployment, not a record of one. The project was edited and tested on Windows. No Grok Linux shell, persistent database, tunnel, or service-policy approval has been verified by this handoff. Do not expose the application or run migrations against existing production data without the owner's explicit authorization and a verified backup.
 
+## Local implementation verification (Windows, 2026-10-26)
+
+- Git rollback baseline: local commit `286e53f` before implementation. No remote was used.
+- `npm run typecheck`: passed. `npm run build`: passed, including Next.js production routes and bundled worker. Scoped ESLint for changed server, API, client and worker files: 0 errors; nonblocking ConstructionEditor warnings remain.
+- Focused Vitest run covering account, guest claim, ownership, game/finance intents, construction, portraits, jobs, AI and backup: **295 passed / 0 failed** across 24 files. Electron security tests: **3 passed / 0 failed**.
+- Full `npm test`: **4,688 passed / 55 failed** across 135 files. Before implementation, the baseline run was **4,608 passed / 87 failed**. The current failures are concentrated in catalog, 3D geometry, visual and construction localization expectations; the baseline also failed broadly, but a one-to-one classification of every current failure was not completed. An all-green suite is not established.
+- The Windows worker bundle starts and exits fatally when `DATABASE_URL` is absent, as expected; this is not a PostgreSQL recovery test. Database migrations, session sharing on two devices, lease recovery after crash, backup restore and public HTTPS/Electron integration have **not** been tested on a live Grok Linux host.
+
 ## Runtime contract
 
 - **Node.js:** Node 22 LTS, minimum **22.12.0**; check with `node --version`. Use the npm bundled with that Node installation. Node 22 is the repository's Linux CI target. Do not use `next export`: this app needs the Node API server.
@@ -9,13 +17,14 @@
 - **Web:** one `next start` process bound to `127.0.0.1:3000`. A named outbound tunnel may connect to that loopback address only after approval. The Windows `.exe` loads the approved public HTTPS origin.
 - **Worker:** a separate `npm run worker` process uses the same PostgreSQL database. It handles durable AI proposal jobs and accepted command intents. The queue and worker require an actual database and must be tested across process termination and restart.
 - **Supervisor:** `deploy/systemd/*.service` are templates, usable only if systemd is PID 1 and the environment permits long-lived services. Adjust the `node`/`npm` paths and service account to the actual host. These templates have not been installed or run.
+- **Health scope:** `/api/health/live` checks the web process and `/api/health/ready` executes a database `select 1`. Neither endpoint checks whether the separate worker is alive or whether queued work is advancing.
 
 ## Before accepting a package
 
 1. Establish that Grok Bot's cloud computer permits public hosting and long-lived processes under the applicable service policy. Verify that the machine, storage and processes survive a closed app, idle period and restart. A marketing description of a persistent computer is not an uptime SLA.
 2. Confirm `cat /proc/1/comm`, `node --version`, `npm --version`, `psql --version`, `pg_isready`, `systemctl is-system-running`, outbound HTTPS and tunnel edge connectivity. Record outputs. Do not assume `sudo` proves service persistence.
 3. Receive the package by an owner-approved method. Compare the accompanying SHA-256 sidecar with `sha256sum -c life-level-server-*.tar.gz.sha256` in the same directory. List its contents with `tar -tzf PACKAGE.tar.gz`; the package must contain no `.env`, private key, local data or database dump.
-4. Keep the existing deployed release and a tested PostgreSQL backup. Migrations are additive but still need review against the actual database before execution.
+4. Keep the existing deployed release and a tested, full PostgreSQL backup. Migrations are additive but still need review against the actual database before execution. The in-app JSON export contains game state, finance state and AI proposals only; it excludes server-stored portraits, construction drafts, accounts, sessions and job/intent records. It cannot replace a PostgreSQL backup or restore test.
 
 The Windows source machine can create a package with `powershell -File deploy/package-server.ps1`. This selects source/runtime files explicitly, excludes `.env` and local data by construction, checks filenames and symlinks, and writes a `.tar.gz` plus `.sha256`. A successful archive is not a substitute for a human review of its contents. The script does not upload it.
 
@@ -64,6 +73,8 @@ npm run db:migrate
 
 Migration `0001` adds accounts and hashed sessions; `0002` adds server-owned artifacts and durable jobs; `0003` adds accepted command intents for retry after a client disconnect. Review and apply all three in order before enabling the new routes and worker. Secure cookies require the public HTTPS origin. The auth attempt brake inside the Next process is not distributed; configure a shared limit at the approved reverse proxy/tunnel edge before allowing open registration/login at scale.
 
+At the public edge, rate-limit guest creation, registration/login, portrait uploads and AI requests across source IPs and accounts. The application has a per-process password-hash concurrency cap, per-owner portrait quota and production AI proposals require an account; these do not replace a shared edge policy. Test the policy before exposing the tunnel. `command_intents`, game command receipts and finance idempotency receipts are retained for replay safety and currently have no archival schedule. Monitor their growth and define a tested retention policy before sustained 24/7 use; do not delete receipts casually because old client retries must remain safe.
+
 **Public exposure gate:** configure shared edge/IP limits for guest reads, registration, login, mutations, downloads, and AI requests before starting the tunnel. A guest `GET /api/game` can create a database row; rotating account emails can bypass per-email in-process limits and consume expensive password hashing work. Set a registration budget/invite policy and monitor database growth. Production AI requests require an authenticated account and a legitimate configured provider. Do not treat the in-process throttle as an Internet-facing abuse control.
 
 Start locally for a controlled smoke test (separate terminals or systemd units):
@@ -83,7 +94,23 @@ curl -fsS http://127.0.0.1:3000/api/health/ready
 pg_isready -h 127.0.0.1 -p 5432
 ```
 
-`/live` checks web-process availability; `/ready` checks database availability without disclosing connection strings or user data. Also test an authenticated API request, two accounts' data isolation, two devices on one account, guest-save claim, idempotent game/finance retries, accepted command-intent recovery, AI queue survival after the client closes, and worker recovery after a process kill. A 200 health response alone is not acceptance.
+`/live` checks web-process availability; `/ready` checks database availability without disclosing connection strings or user data. **A 200 response from `/ready` does not establish worker liveness or queue progress.** Where systemd is in use, check `systemctl is-active life-level-worker` and `systemctl status life-level-worker`, then inspect `journalctl -u life-level-worker --since "15 minutes ago" --no-pager` for starts, fatal exits and retries. Query `background_jobs` and `command_intents` for ready queued rows, expired running leases and the age of the oldest ready row. For example, in a `psql` session connected through approved local credentials:
+
+```sql
+SELECT 'background_jobs' AS source,
+       count(*) FILTER (WHERE status = 'queued' AND run_at <= now()) AS ready,
+       count(*) FILTER (WHERE status = 'running' AND lease_until <= now()) AS expired_lease,
+       max(now() - created_at) FILTER (WHERE status = 'queued' AND run_at <= now()) AS oldest_ready_age
+FROM background_jobs
+UNION ALL
+SELECT 'command_intents',
+       count(*) FILTER (WHERE status = 'queued' AND run_at <= now()),
+       count(*) FILTER (WHERE status = 'running' AND lease_until <= now()),
+       max(now() - created_at) FILTER (WHERE status = 'queued' AND run_at <= now())
+FROM command_intents;
+```
+
+An idle queue is expected when no work was submitted; acceptance requires submitting known test work, observing it advance, stopping and restarting the worker, and verifying lease recovery and a single result. Also test an authenticated API request, two accounts' data isolation, two devices on one account, guest-save claim, idempotent game/finance retries, accepted command-intent recovery, AI queue survival after the client closes, and worker recovery after a process kill.
 
 ## Public HTTPS connection
 
@@ -98,7 +125,7 @@ Because Grok Cloud is behind NAT, direct inbound traffic is unavailable. `deploy
 
 ## Windows client
 
-`desktop/README.md` documents the Electron 45 shell. Build the installer on Windows using `npm --prefix desktop ci`, set the approved public `LIFE_LEVEL_SERVER_URL`, and run `npm --prefix desktop run build:win`. Record its SHA-256. The installer contains a public server origin but no database credentials. Windows WebGL, cookie persistence, downloads and API access must be verified on a real packaged installer before distribution. No automatic update or code-signing infrastructure is configured yet.
+`desktop/README.md` documents the Electron 45 shell. Build the installer on Windows using `npm --prefix desktop ci`, set the approved public `LIFE_LEVEL_SERVER_URL`, and run `npm --prefix desktop run build:win`. Record its SHA-256. The installer contains a public server origin but no database credentials. Windows WebGL, cookie persistence, downloads and API access must be verified on a real packaged installer before distribution. The JSON download tested in Electron is only the partial application export described above. A full recovery requires a PostgreSQL backup of all application tables, stored outside the host through an owner-approved secure channel, and a successful isolated restore. No automatic update or code-signing infrastructure is configured yet.
 
 The local packaging smoke test used `https://life-level.invalid` as a deliberately unreachable placeholder. Its `.exe` proves the packaging pipeline only and is **not a release for users**. After Grok deployment and tunnel validation, rebuild with the real hostname, retest, and record a new checksum.
 

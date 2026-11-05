@@ -10,6 +10,13 @@ export const FOLLOW_PITCH_LIMIT = THREE.MathUtils.degToRad(85);
 /** Character forward is +Z in the live movement rig, so the camera starts behind it. */
 export const FOLLOW_DEFAULT_YAW = Math.PI;
 
+export function cameraPanAxes(codes: ReadonlySet<string>): { forward: number; right: number } {
+  return {
+    forward: Number(codes.has("KeyW")) - Number(codes.has("KeyS")),
+    right: Number(codes.has("KeyD")) - Number(codes.has("KeyA")),
+  };
+}
+
 export type CharacterCameraPreset = "rear" | "front" | "left" | "right" | "face";
 export type FollowOrbitState = {
   yaw: number;

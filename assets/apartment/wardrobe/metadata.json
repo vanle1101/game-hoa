@@ -1,0 +1,36 @@
+{
+  "id": "paneled-wardrobe",
+  "status": "ASSET PRODUCTION",
+  "description": "Four full-height inset walnut doors with champagne metal hardware",
+  "units": "metres",
+  "axes": "X right, Y up, Z front; feet at Y=0",
+  "dimensions": [
+    1.95,
+    2.36,
+    0.739
+  ],
+  "bounds": {
+    "min": [
+      -0.975,
+      0.0,
+      -0.315
+    ],
+    "max": [
+      0.975,
+      2.36,
+      0.424
+    ]
+  },
+  "meshCount": 28,
+  "triangles": 4992,
+  "features": [
+    "inset panels",
+    "recessed plinth",
+    "4 long brass pulls",
+    "cornice light",
+    "base light"
+  ],
+  "runtime": "/assets/apartment/wardrobe/paneled-wardrobe.glb",
+  "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+  "reference": "REF-D; authored approximation, requires in-game visual gate"
+}

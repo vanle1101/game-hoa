@@ -105,7 +105,7 @@ import { addCurveDraft, toolDraft, type EditorTool } from "./draft";
 import { getApartmentFootprint } from "@/components/apartment-v21/asset-registry";
 import { attachToSlot, nearestAvailableSlot, requiresSurfaceSlot, snapGroundedToWall, withLotObject } from "@/construction/lot-objects";
 import { PlacementFlags, hasPlacementFlag, placementTypeForFlags } from "@/furniture/placement-flags";
-import { snapWallInsertPoint, wallCutoutsForSegment, wallInsertPlacementValid } from "@/construction/wall-inserts";
+import { snapWallInsertPoint, wallCutoutsForSegment, wallInsertAtPoint, wallInsertPlacementValid, wallInsertYaw } from "@/construction/wall-inserts";
 import { subtractWallInsertCutouts, visibleInsertWallHeight, wallInsertClipPlane } from "./wall-insert-csg";
 import { ReferencePenthouseLayer } from "./reference-penthouse";
 import { ApartmentEffects, ApartmentEnvironment } from "./apartment-effects";
@@ -122,8 +122,6 @@ export type ConstructionWorldProps = {
   onGesture: (start: GridPoint, end: GridPoint, edge?: EdgeRef) => void;
   onDemolishEdges?: (edges: EdgeRef[]) => number;
   onSelect?: (hit: ConstructionHit) => void;
-  /** Move an already placed furniture instance to a snapped floor cell. */
-  onFurnitureMove?: (id: string, point: GridPoint) => void;
   /** Place the furniture currently attached to the cursor. */
   onFurniturePlace?: (point: GridPoint, placement?: { normal?: [number, number, number]; y?: number; ceilingY?: number; wallId?: string; wallU?: number }) => void;
   onFurnitureRotate?: (amount?: number) => void;
@@ -157,6 +155,8 @@ export type ConstructionWorldProps = {
   residenceFloor?: 8 | 16 | 24;
   /** Shared architectural finish; placed furniture always comes from plan. */
   showReferencePenthouse?: boolean;
+  /** Let the lobby skyline show behind the real apartment canvas. */
+  transparentBackground?: boolean;
   curveRotation?: number;
   movingCurve?: CurvedGlassSegment;
 };
@@ -652,7 +652,7 @@ const PanoramaCurtainFacade = memo(function PanoramaCurtainFacade({
   selectedId?: string;
   editing: boolean;
   wallDrawActive: boolean;
-  onSelectWall: (wall: WallSegment) => void;
+  onSelectWall: (wall: WallSegment, point: THREE.Vector3, drag?: { pointerId: number; x: number; y: number }) => void;
   onHoverWall?: (event: ThreeEvent<PointerEvent>, wall: WallSegment) => void;
 }) {
   const panoramaWalls = useMemo(
@@ -667,9 +667,9 @@ const PanoramaCurtainFacade = memo(function PanoramaCurtainFacade({
         <mesh key={edgeKey(wall)}
           position={[wall.x + (wall.orientation === "x" ? 0.5 : 0), assembly.northSpan.height / 2, wall.z + (wall.orientation === "z" ? 0.5 : 0)]}
           rotation={[0, wall.orientation === "z" ? Math.PI / 2 : 0, 0]}
-          onPointerDown={event => { event.stopPropagation(); onHoverWall?.(event, wall); }}
+          onPointerDown={event => { event.stopPropagation(); onHoverWall?.(event, wall); if (editing && event.button === 0) onSelectWall(wall, event.point, { pointerId: event.pointerId, x: event.nativeEvent.clientX, y: event.nativeEvent.clientY }); }}
           onPointerMove={onHoverWall ? event => { event.stopPropagation(); onHoverWall(event, wall); } : undefined}
-          onClick={event => { event.stopPropagation(); onSelectWall(wall); }}>
+          onClick={event => { event.stopPropagation(); if (!editing) onSelectWall(wall, event.point); }}>
           <boxGeometry args={[1, assembly.northSpan.height, editing ? 0.22 : 0.16]} />
           <meshBasicMaterial transparent opacity={0} depthWrite={false} />
         </mesh>
@@ -764,7 +764,7 @@ const StructuralWall = memo(function StructuralWall({
   wallTexture: THREE.DataTexture;
   activeLevel: number;
   suppressBalustrade?: boolean;
-  onSelectWall: (wall: WallSegment) => void;
+  onSelectWall: (wall: WallSegment, point: THREE.Vector3, drag?: { pointerId: number; x: number; y: number }) => void;
   onHoverWall?: (event: ThreeEvent<PointerEvent>, wall: WallSegment) => void;
   wallPlacementActive?: boolean;
   insertCutouts?: ReturnType<typeof wallCutoutsForSegment>;
@@ -914,11 +914,11 @@ const StructuralWall = memo(function StructuralWall({
     <group
       position={[center.x, wall.level * LEVEL_HEIGHT, center.z]}
       rotation={[0, wall.orientation === "z" ? Math.PI / 2 : 0, 0]}
-      onPointerDown={event => { event.stopPropagation(); onHoverWall?.(event, wall); }}
+      onPointerDown={event => { event.stopPropagation(); onHoverWall?.(event, wall); if (editing && event.button === 0) onSelectWall(wall, event.point, { pointerId: event.pointerId, x: event.nativeEvent.clientX, y: event.nativeEvent.clientY }); }}
       onPointerMove={onHoverWall ? event => { event.stopPropagation(); onHoverWall(event, wall); } : undefined}
       onClick={event => {
         event.stopPropagation();
-        onSelectWall(wall);
+        if (!editing) onSelectWall(wall, event.point);
         if (!editing && wall.opening?.kind === "door") setManualOpen(value => !value);
       }}
     >
@@ -1243,7 +1243,7 @@ const WallCollection = memo(function WallCollection({
   editing: boolean;
   wallDrawActive: boolean;
   suppressBalustrade?: boolean;
-  onSelectWall: (wall: WallSegment) => void;
+  onSelectWall: (wall: WallSegment, point: THREE.Vector3, drag?: { pointerId: number; x: number; y: number }) => void;
   onHoverWall?: (event: ThreeEvent<PointerEvent>, wall: WallSegment) => void;
   wallPlacementActive?: boolean;
   onWallFurnitureHover?: (event: ThreeEvent<PointerEvent>, wall: WallSegment) => void;
@@ -1393,6 +1393,7 @@ const LedStripMesh = memo(function LedStripMesh({ strip, selected, editing, onSe
 export function DynamicFurniture({
   item,
   onClick,
+  onPointerDown,
   onHover,
   onLeave,
   selected,
@@ -1402,6 +1403,7 @@ export function DynamicFurniture({
 }: {
   item: BuildingFurniture;
   onClick: () => void;
+  onPointerDown?: (event: ThreeEvent<PointerEvent>) => void;
   onHover?: () => void;
   onLeave?: () => void;
   selected: boolean;
@@ -1432,8 +1434,8 @@ export function DynamicFurniture({
   return (
     <group
       position={[(item.parent_id || isInsert) && item.transform ? item.transform.position.x : item.x + width / 2, renderY, (item.parent_id || isInsert) && item.transform ? item.transform.position.z : item.z + depth / 2]}
-      rotation={[placementType === "ceiling" ? Math.PI : 0, wallYaw + (item.rotation * Math.PI) / 180, 0]}
-      onPointerDown={event => event.stopPropagation()}
+      rotation={[placementType === "ceiling" ? Math.PI : 0, isInsert ? wallInsertYaw(item) : wallYaw + (item.rotation * Math.PI) / 180, 0]}
+      onPointerDown={event => { event.stopPropagation(); if (event.button === 0) onPointerDown?.(event); }}
       onPointerOver={onHover ? event => { event.stopPropagation(); onHover(); } : undefined}
       onPointerOut={onLeave ? event => { event.stopPropagation(); onLeave(); } : undefined}
       onClick={event => {
@@ -1441,6 +1443,10 @@ export function DynamicFurniture({
         onClick();
       }}
     >
+      {isInsert && <mesh position={[0, (definition?.height ?? 2) / 2, 0]}>
+        <boxGeometry args={[definition?.width ?? 1, definition?.height ?? 2, 1.1]} />
+        <meshBasicMaterial transparent opacity={0} depthWrite={false} colorWrite={false} />
+      </mesh>}
       <FurnitureLoadBoundary furnitureId={item.furnitureId} onLoadError={onLoadError}>
         <Suspense fallback={null}>
           <Furniture kind={item.furnitureId} active={active && (item.light_dimmer_value ?? 3) > 0} lightDimmer={item.light_dimmer_value ?? 3} neonColor={item.light_color ?? item.neonColor} />
@@ -1579,12 +1585,14 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
   const [refundFeedback, setRefundFeedback] = useState<{ point: GridPoint; amount: number }>();
   const [wallHover, setWallHover] = useState<{ point: THREE.Vector3; normal: [number, number, number]; wall: WallSegment }>();
   const [wallPointerValid, setWallPointerValid] = useState(false);
+  const furnitureDrop = useRef<{ point: GridPoint; placement?: { normal?: [number, number, number]; y?: number; ceilingY?: number; wallId?: string; wallU?: number } } | undefined>(undefined);
+  const carriedFurnitureId = useRef<string | undefined>(undefined);
   const [hoverEdge, setHoverEdge] = useState<EdgeRef>();
   const [drag, setDrag] = useState<{ start: GridPoint; end: GridPoint; edge: EdgeRef; demolish: boolean }>();
   const [pendingDemolishEdges, setPendingDemolishEdges] = useState<EdgeRef[]>([]);
   const [demolishDragPoint, setDemolishDragPoint] = useState<GridPoint>();
   const pendingDemolishRef = useRef<EdgeRef[]>([]);
-  const demolishAnchor = useRef<{ edge: EdgeRef; pointerId: number } | null>(null);
+  const demolishAnchor = useRef<{ edge: EdgeRef; pointerId: number; start: GridPoint } | null>(null);
   const demolishReleasePoint = useRef<GridPoint | undefined>(undefined);
   const orbitControlsRef = useRef<(THREE.EventDispatcher & { enabled?: boolean }) | null>(null);
   const lockedOrbitControl = useRef<{ control: THREE.EventDispatcher & { enabled?: boolean }; enabled: boolean } | null>(null);
@@ -1612,8 +1620,17 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
   const jumpPhase = useRef<"ground" | "jump" | "fall" | "land">("ground");
   const contextSignature = useRef("");
   const { camera } = useThree();
+  const activeFurniture = props.activeFurniture;
+  const onFurniturePlace = props.onFurniturePlace;
+  const onFurnitureNotice = props.onNotice;
   const orbitControls = useThree(state => state.controls) as (THREE.EventDispatcher & { enabled?: boolean }) | null;
   useEffect(() => { orbitControlsRef.current = orbitControls; }, [orbitControls]);
+  useEffect(() => {
+    if (carriedFurnitureId.current !== activeFurniture?.id) {
+      furnitureDrop.current = undefined;
+      carriedFurnitureId.current = activeFurniture?.id;
+    }
+  }, [activeFurniture?.id]);
   const cameraForward = useMemo(() => new THREE.Vector3(), []);
   const liveWorld = useMemo(() => createLiveMovementWorld(plan, level, plot), [plan, level, plot]);
   const navigationPlan = useMemo(() => createCorridorNavigationPlan(plan, plot), [plan, plot]);
@@ -1696,7 +1713,7 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
       if (document.hidden) freeze();
     };
     const keyDown = (event: KeyboardEvent) => {
-      if (liveDirectionForCode(event.code)) heldKeys.current.add(event.code);
+      if (!editing && liveDirectionForCode(event.code)) heldKeys.current.add(event.code);
       if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
         if (!liveControlsBlocked(document, gate()) && !isLiveTypingTarget(event.target)) liveInput.setRun(true);
       }
@@ -1854,7 +1871,7 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
       lockedOrbitControl.current = { control, enabled: control.enabled };
       control.enabled = false;
     }
-    demolishAnchor.current = { edge, pointerId };
+    demolishAnchor.current = { edge, pointerId, start: snapWallVertex(point, edge.level) };
     demolishReleasePoint.current = point;
     setDemolishDragPoint(point);
     const edges = plan.walls.some(wall => edgeKey(wall) === edgeKey({ ...edge, materialId: "" })) ? [edge] : [];
@@ -1863,15 +1880,18 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
   }, [plan.walls]);
   const commitPendingDemolish = useCallback((pointerId: number) => {
     if (demolishAnchor.current?.pointerId !== pointerId) return false;
+    const anchor = demolishAnchor.current;
     const edges = pendingDemolishRef.current;
     const release = demolishReleasePoint.current;
+    const end = release && snapWallVertex(release, anchor.start.level);
+    const zeroLengthWallClick = props.tool === "wall" && end?.x === anchor.start.x && end?.z === anchor.start.z;
     clearPendingDemolish();
-    if (edges.length) {
+    if (!zeroLengthWallClick && edges.length) {
       const amount = onDemolishEdges?.(edges) ?? 0;
       if (release) setRefundFeedback({ point: release, amount });
     }
     return true;
-  }, [clearPendingDemolish, onDemolishEdges]);
+  }, [clearPendingDemolish, onDemolishEdges, props.tool]);
 
   useEffect(() => {
     const cancel = () => {
@@ -2032,7 +2052,7 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
     const wallHeight = buildingItem(wall.materialId)?.height ?? 2.8;
     const height = definition?.cutoutSize?.[1] ?? definition?.height ?? 1;
     const snapped = snapWallInsertPoint(wall, hit.point, height, wallHeight, definition?.category === "doors" ? "doors" : "windows");
-    return withLotObject({ ...item, x: wall.x, z: wall.z, level: wall.level, placementType: "wall_insert", wall_id: edgeKey(wall), wall_u: snapped.u, wallNormal: hit.normal, wallY: snapped.bottom });
+    return withLotObject({ ...item, x: wall.x, z: wall.z, level: wall.level, rotation: 0, placementType: "wall_insert", wall_id: edgeKey(wall), wall_u: snapped.u, wallNormal: hit.normal, wallY: snapped.bottom });
   }, []);
   const wallSurface = useCallback((event: ThreeEvent<PointerEvent>, wall: WallSegment) => {
     // The transparent wall hitbox has narrow end caps. A ray that touches an
@@ -2045,9 +2065,20 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
   }, []);
   const onWallFurnitureHover = useCallback((event: ThreeEvent<PointerEvent>, wall: WallSegment) => {
     if (!wallPlacementActive) return;
-    setWallHover(wallSurface(event, wall));
+    const hit = wallSurface(event, wall);
+    setWallHover(hit);
     setWallPointerValid(true);
-  }, [wallPlacementActive, wallSurface]);
+    if (props.activeFurniture && activePlacementType === "wall_insert") {
+      const candidate = insertCandidate(props.activeFurniture, hit);
+      furnitureDrop.current = { point: { x: wall.x, z: wall.z, level: wall.level }, placement: { normal: hit.normal, y: candidate.wallY, wallId: candidate.wall_id, wallU: candidate.wall_u } };
+    } else if (props.activeFurniture) {
+      const definition = FURNITURE.find(entry => entry.id === props.activeFurniture?.furnitureId);
+      const width = Math.ceil(definition?.width ?? 1);
+      const depth = Math.ceil(definition?.depth ?? 1);
+      const wallHeight = buildingItem(wall.materialId)?.height ?? 2.7;
+      furnitureDrop.current = { point: { x: Math.floor(hit.point.x - width / 2), z: Math.floor(hit.point.z - depth / 2), level: wall.level }, placement: { normal: hit.normal, y: THREE.MathUtils.clamp(hit.point.y - wall.level * LEVEL_HEIGHT, 0, wallHeight - 0.05) } };
+    }
+  }, [wallPlacementActive, wallSurface, props.activeFurniture, activePlacementType, insertCandidate]);
   const onWallFurniturePlace = useCallback((event: ThreeEvent<PointerEvent>, wall: WallSegment) => {
     if (!wallPlacementActive || event.button !== 0) return;
     const hit = wallSurface(event, wall);
@@ -2066,15 +2097,18 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
     props.onFurniturePlace?.({ x: Math.floor(hit.point.x - width / 2), z: Math.floor(hit.point.z - depth / 2), level: wall.level }, { normal: hit.normal, y: THREE.MathUtils.clamp(hit.point.y - wall.level * LEVEL_HEIGHT, 0, wallHeight - 0.05) });
   }, [wallPlacementActive, activePlacementType, insertCandidate, plan, structuralInsertWalls, wallSurface, props]);
   const clickWall = useCallback(
-    (wall: WallSegment) => {
+    (wall: WallSegment, point: THREE.Vector3) => {
       if (!editing) return;
       if (props.activeFurniture && (activePlacementType === "floor" || activePlacementType === "wall_insert")) return;
       const edge: EdgeRef = { x: wall.x, z: wall.z, level: wall.level, orientation: wall.orientation };
       if (demolishMode) return;
-      else if (["select", "move", "copy"].includes(tool)) onSelect?.({ kind: "wall", id: edgeKey(wall) });
+      else if (["select", "move", "copy"].includes(tool)) {
+        const insert = tool !== "copy" ? wallInsertAtPoint(wall, plan, point) : undefined;
+        onSelect?.(insert ? { kind: "furniture", id: insert.id } : { kind: "wall", id: edgeKey(wall) });
+      }
       else onGesture(edge, edge, edge);
     },
-    [editing, tool, onSelect, onGesture, props, activePlacementType, demolishMode]
+    [editing, tool, onSelect, onGesture, props, activePlacementType, demolishMode, plan]
   );
 
   const dragQuote = useMemo(() => {
@@ -2122,7 +2156,7 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
     }
   }, [drag, plan, plot, tool, props.materialId, props.wallMaterialId, props.curveRotation]);
   const wallPreviewEdges = drag && (tool === "wall" || tool === "erase")
-    ? wallEdgesBetweenVertices(drag.start, drag.end, drag.edge)
+    ? wallEdgesBetweenVertices(drag.start, drag.end)
     : [];
   const demolishPreviewEdges = pendingDemolishEdges.length
     ? pendingDemolishEdges
@@ -2174,6 +2208,20 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
     : activePlacementType === "ceiling"
       ? ghostCells.every(cell => floorSet.has(cellKey(cell)) && !ceilingBlocked.has(cellKey(cell)))
       : ghostCells.every(cell => floorSet.has(cellKey(cell)) && !blocked.has(cellKey(cell)));
+  useEffect(() => {
+    if (!editing || !activeFurniture) return;
+    const confirmWithEnter = (event: KeyboardEvent) => {
+      if (event.code !== "Enter" || event.isComposing || event.ctrlKey || event.metaKey || event.altKey || event.repeat) return;
+      if (typeof HTMLElement !== "undefined" && event.target instanceof HTMLElement &&
+        (event.target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT", "BUTTON"].includes(event.target.tagName))) return;
+      event.preventDefault();
+      const destination = furnitureDrop.current;
+      if (ghostValid && destination) onFurniturePlace?.(destination.point, destination.placement);
+      else onFurnitureNotice?.("Rê vật phẩm tới vị trí hợp lệ trước khi đặt.");
+    };
+    window.addEventListener("keydown", confirmWithEnter);
+    return () => window.removeEventListener("keydown", confirmWithEnter);
+  }, [editing, activeFurniture, onFurniturePlace, onFurnitureNotice, ghostValid]);
   const low = props.quality === "performance";
   const lighting = useMemo(
     () => computeApartmentLightingRig(roomBounds, level, plan.furniture, props.quality, activeInstances),
@@ -2182,10 +2230,11 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
 
   return (
     <>
-      <color attach="background" args={[lighting.background]} />
-      <fog attach="fog" args={[lighting.fogColor, lighting.fogNear, lighting.fogFar]} />
+      {!props.transparentBackground && <color attach="background" args={[lighting.background]} />}
+      {!props.transparentBackground && <fog attach="fog" args={[lighting.fogColor, lighting.fogNear, lighting.fogFar]} />}
       <DesktopCamera
         mode={props.mode}
+        placingFurniture={editing && !!props.activeFurniture}
         reset={props.cameraReset}
         cameraMode={props.cameraMode}
         onCameraModeChange={props.onCameraModeChange}
@@ -2193,6 +2242,7 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
         avatar={avatar}
         enclosed={isFixedShell}
         referenceScene={showReferencePenthouse}
+        initialShowcaseFocus={props.transparentBackground ? "lobby" : undefined}
         level={level}
         plot={plot}
         roomBounds={roomBounds}
@@ -2233,11 +2283,11 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
           decay={light.decay}
         />
       ))}
-      <group
+      {!props.transparentBackground && <group
         position={[roomBounds.centerX, residenceCityOffset(props.residenceFloor), roomBounds.centerZ]}
       >
         <ApartmentCity quality={props.quality} />
-      </group>
+      </group>}
       <ArchitecturalSlab roomBounds={roomBounds} plot={plot} buildPlot={isFixedShell ? APARTMENT_TERRACE_PLOT : undefined} editing={editing} residenceFloor={props.residenceFloor} isFixedShell={isFixedShell} />
       <group ref={root}>
         <FloorTiles cells={visibleFloors} roomBounds={roomBounds} isFixedShell={isFixedShell} editing={editing} />
@@ -2273,7 +2323,7 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
           onHoverWall={demolishMode ? onDemolishWallHover : undefined}
           wallPlacementActive={wallPlacementActive}
           onWallFurnitureHover={onWallFurnitureHover}
-            onWallFurnitureLeave={() => setWallPointerValid(false)}
+            onWallFurnitureLeave={() => { setWallPointerValid(false); furnitureDrop.current = undefined; }}
           onWallFurniturePlace={onWallFurniturePlace}
         />
         {(plan.curves ?? [])
@@ -2304,12 +2354,9 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
               onHover={demolishMode ? () => setHoveredFurnitureId(item.id) : undefined}
               onLeave={demolishMode ? () => setHoveredFurnitureId(undefined) : undefined}
               active={activeInstances[item.id] ?? (item.light_dimmer_value ?? 3) > 0}
+              onPointerDown={editing ? () => props.onSelect?.({ kind: "furniture", id: item.id }) : undefined}
               onClick={() => {
-                // Build/Buy clicks select the existing instance. Gameplay
-                // interactions are reserved for the live scene so a click
-                // can never be mistaken for a new store placement.
-                if (editing) props.onSelect?.({ kind: "furniture", id: item.id });
-                else interactFurniture(item);
+                if (!editing) interactFurniture(item);
               }}
               onLoadError={furnitureId => props.onNotice?.(`Không tải được nội thất 3D: ${furnitureId}.`)}
             />
@@ -2360,6 +2407,11 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
           event.stopPropagation();
           const wallGesture = tool === "wall" || tool === "erase";
           const point = wallGesture ? snapWallVertex(event.point, level) : groundPoint(event);
+          if (props.activeFurniture) {
+            if (activePlacementType === "floor" || activePlacementType === "ceiling")
+              props.onFurniturePlace?.(point, activePlacementType === "ceiling" ? { ceilingY: ceilingHeight } : undefined);
+            return;
+          }
           if (tool === "led") {
             setLedDrag({ start: point, end: point });
             (event.target as unknown as Element).setPointerCapture?.(event.pointerId);
@@ -2377,6 +2429,11 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
           if (tool === "erase" || (tool === "wall" && (ctrlHeld || event.ctrlKey))) setDemolishPoint([event.point.x, level * LEVEL_HEIGHT + 0.07, event.point.z]);
           const wallGesture = tool === "wall" || tool === "erase";
           const point = wallGesture ? snapWallVertex(event.point, level) : groundPoint(event);
+          if (props.activeFurniture) {
+            furnitureDrop.current = activePlacementType === "floor" || activePlacementType === "ceiling"
+              ? { point, placement: activePlacementType === "ceiling" ? { ceilingY: ceilingHeight } : undefined }
+              : undefined;
+          }
           if (tool === "led" && ledDrag) {
             const horizontal = Math.abs(point.x - ledDrag.start.x) >= Math.abs(point.z - ledDrag.start.z);
             setLedDrag({ start: ledDrag.start, end: horizontal ? { ...point, z: ledDrag.start.z } : { ...point, x: ledDrag.start.x } });
@@ -2397,7 +2454,8 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
               : edge
           );
           setHover(previous => (previous?.x === point.x && previous?.z === point.z ? previous : point));
-          if (wallGesture) setHoverVertex(previous => previous?.x === point.x && previous?.z === point.z ? previous : point);
+          const vertex = snapWallVertex(event.point, level);
+          setHoverVertex(previous => previous?.x === vertex.x && previous?.z === vertex.z ? previous : vertex);
           if (pointer.current) setDrag({ start: pointer.current.start, end: wallGesture ? orthogonalWallEnd(pointer.current.start, point) : point, edge: pointer.current.edge, demolish: pointer.current.demolish });
         }}
         onPointerUp={event => {
@@ -2429,22 +2487,8 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
             }
             return;
           }
-          if (props.activeFurniture) {
-            if (activePlacementType === "floor" || activePlacementType === "ceiling") {
-              if (ghostValid) props.onFurniturePlace?.(end, activePlacementType === "ceiling" ? { ceilingY: ceilingHeight } : undefined);
-              else props.onNotice?.("Vị trí này bị chắn hoặc không có sàn đỡ.");
-            }
-            return;
-          }
-          const selectedFurniture = editing && props.selectedId
-            ? plan.furniture.find(item => item.id === props.selectedId)
-            : undefined;
-          // A placed item is edited in place. This branch must run before the
-          // generic gesture handler so a move never becomes a second purchase.
-          if (selectedFurniture && (props.mode === "buy" || props.tool === "select" || props.tool === "move")) {
-            props.onFurnitureMove?.(selectedFurniture.id, end);
-            return;
-          }
+          if (tool === "wall" && wallEdgesBetweenVertices(gesture.start, end).length === 0) return;
+          if (props.activeFurniture) return;
           if (props.tool === "select") {
             const cell = plan.floors.find(cell => cellKey(cell) === cellKey(end));
             if (cell) props.onSelect?.({ kind: "floor", id: cellKey(cell) });
@@ -2460,7 +2504,7 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
           event.stopPropagation();
           event.nativeEvent.preventDefault();
           if (demolishAnchor.current || suppressDemolishContextMenu.current) { clearPendingDemolish(); return; }
-          props.onFurnitureRotate?.(event.shiftKey ? -90 : 90);
+          if (props.activeFurniture) props.onFurnitureRotate?.(event.shiftKey ? -90 : 90);
         }}
       >
         <planeGeometry args={[interactionPlot.maxX - interactionPlot.minX, interactionPlot.maxZ - interactionPlot.minZ]} />
@@ -2478,16 +2522,6 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
           infiniteGrid={false}
         />
       )}
-      {editing && hover && tool !== "wall" && tool !== "erase" && !ghost && !curveGhost && (
-        <mesh
-          rotation={[-Math.PI / 2, 0, 0]}
-          position={[hover.x + 0.5, level * LEVEL_HEIGHT + 0.035, hover.z + 0.5]}
-          raycast={NOOP_RAYCAST}
-        >
-          <planeGeometry args={[0.97, 0.97]} />
-          <meshBasicMaterial color="#32e6f4" opacity={0.25} transparent depthWrite={false} />
-        </mesh>
-      )}
       {demolishMode && demolishPoint && (
         <group position={demolishPoint} raycast={NOOP_RAYCAST}>
           <mesh rotation={[-Math.PI / 2, 0, 0]} raycast={NOOP_RAYCAST}>
@@ -2500,7 +2534,7 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
           </mesh>
         </group>
       )}
-      {drag && tool !== "wall" && tool !== "erase" && !curveGhost && (
+      {drag && ["room", "floor", "ceiling", "roof", "paint"].includes(tool) && !curveGhost && (
         <mesh
           rotation={[-Math.PI / 2, 0, 0]}
           position={[(drag.start.x + drag.end.x + 1) / 2, level * LEVEL_HEIGHT + 0.04, (drag.start.z + drag.end.z + 1) / 2]}
@@ -2510,15 +2544,15 @@ export function WorldScene(props: ConstructionWorldProps & { liveInput?: LiveInp
           <meshBasicMaterial color="#9067ff" transparent opacity={0.28} depthWrite={false} />
         </mesh>
       )}
-      {editing && tool === "wall" && hoverVertex && !demolishMode && (
+      {editing && hoverVertex && !demolishMode && !ghost && !curveGhost && (
         <group position={[hoverVertex.x, level * LEVEL_HEIGHT, hoverVertex.z]}>
           <mesh position={[0, 0.27, 0]} raycast={NOOP_RAYCAST}>
             <cylinderGeometry args={[0.035, 0.035, 0.54, 8]} />
-            <meshBasicMaterial color="#42ffb8" depthWrite={false} />
+            <meshBasicMaterial color={tool === "wall" ? "#42ffb8" : "#32e6f4"} depthWrite={false} />
           </mesh>
           <mesh position={[0, 0.035, 0]} raycast={NOOP_RAYCAST}>
             <sphereGeometry args={[0.095, 12, 8]} />
-            <meshBasicMaterial color="#42ffb8" depthWrite={false} />
+            <meshBasicMaterial color={tool === "wall" ? "#42ffb8" : "#32e6f4"} depthWrite={false} />
           </mesh>
         </group>
       )}
@@ -2748,12 +2782,18 @@ export default function ConstructionWorld(props: ConstructionWorldProps) {
   const [actionContext, setActionContext] = useState<LiveActionContext>({ weaponDrawn: false, standing: true });
   return (
     <ConstructionBoundary onNotice={props.onNotice}>
-      <div className="construction-live-world">
+      <div className="construction-live-world" onContextMenuCapture={event => {
+        if (props.mode === "live" || !props.activeFurniture) return;
+        event.preventDefault();
+        event.stopPropagation();
+        props.onFurnitureRotate?.(event.shiftKey ? -90 : 90);
+      }}>
         <Canvas
-          onCreated={() => props.onReady?.()}
+          onCreated={({ gl }) => { if (props.transparentBackground) gl.setClearAlpha(0); props.onReady?.(); }}
           shadows={props.quality !== "performance"}
           dpr={props.quality === "performance" ? 1 : props.quality === "ultra" ? [1, 2] : [1, 1.5]}
           gl={{
+            alpha: props.transparentBackground ?? false,
             antialias: true,
             powerPreference: "high-performance",
             toneMapping: THREE.NoToneMapping,
@@ -2770,7 +2810,7 @@ export default function ConstructionWorld(props: ConstructionWorldProps) {
             <WebGLContextMonitor onLost={props.onContextLost} />
             <ApartmentEnvironment />
             <WorldScene key={`${props.mode}:${props.floorLevel}`} {...props} liveInput={liveInput} onActionContext={setActionContext} />
-            {props.quality !== "performance" && <ApartmentEffects quality={props.quality} />}
+            {props.quality !== "performance" && !props.transparentBackground && <ApartmentEffects quality={props.quality} />}
           </Suspense>
         </Canvas>
         <LiveActionBar controller={liveInput} enabled={props.mode === "live"} context={actionContext} />

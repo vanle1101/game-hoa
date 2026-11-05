@@ -1,0 +1,241 @@
+/* Shared mechanical HUD skin for the existing non-lobby modules. Layout and state stay in their owners. */
+.game-shell:not(.lobby-view),
+.construction-editor {
+  --hud-pink: #ff3eec;
+  --hud-cyan: #00efff;
+  --hud-purple: #9b5cff;
+  --hud-metal: #10101c;
+  --hud-cut: 12px;
+  --hud-core: linear-gradient(143deg, rgba(16, 16, 28, .35), rgba(5, 8, 22, .2) 52%, rgba(22, 13, 38, .31));
+  --hud-rim: linear-gradient(125deg, #31445c, #00efff 15%, #20324a 30%, #9b5cff 66%, #ff3eec 85%, #263142);
+  --hud-clip: polygon(var(--hud-cut) 0, calc(100% - var(--hud-cut)) 0, 100% var(--hud-cut), 100% calc(100% - var(--hud-cut)), calc(100% - var(--hud-cut)) 100%, var(--hud-cut) 100%, 0 calc(100% - var(--hud-cut)), 0 var(--hud-cut));
+}
+
+/* Full-size panels retain their original padding, dimensions, overflow and interaction surfaces. */
+.game-shell:not(.lobby-view) :is(.panel, .glass-panel, .ref-panel, .ref-extras, .career-current, .combat-stage, .cm-detail, .cm-milestone-section, .furniture-shop-nav, .furniture-shop-content, .furniture-selected-details, .studio-stage, .studio-navigation, .studio-controls, .studio-save-bar, .modal, .notification-panel, .toast) {
+  border: 2px solid transparent !important;
+  border-radius: 0 !important;
+  background: var(--hud-core) !important;
+  border-image: var(--hud-rim) 1 !important;
+  box-shadow: inset 0 0 22px rgba(0, 239, 255, .075), 0 12px 32px rgba(0, 0, 0, .25) !important;
+  backdrop-filter: blur(5px);
+}
+
+.game-shell:not(.lobby-view) :is(.panel, .ref-panel, .ref-extras, .career-current, .cm-detail, .cm-milestone-section, .furniture-shop-content, .furniture-selected-details, .studio-controls) {
+  position: relative;
+}
+
+.construction-editor :is(.construction-toolbar, .construction-confirm > div) {
+  position: relative;
+}
+
+/* The viewport surfaces need their own artwork; only replace their chassis edge. */
+.game-shell:not(.lobby-view) :is(.combat-stage, .studio-stage, .cm-stage, .furniture-showcase) {
+  --hud-cut: 14px;
+  border: 2px solid transparent !important;
+  border-radius: 0 !important;
+  clip-path: var(--hud-clip);
+  box-shadow: inset 0 0 0 1px rgba(0, 239, 255, .32), 0 18px 44px rgba(0, 0, 0, .36) !important;
+}
+
+/* Inset circuits are non-interactive; the 3D canvas and children remain above them. */
+.game-shell:not(.lobby-view) :is(.panel, .glass-panel, .ref-panel, .ref-extras, .career-current, .cm-detail, .cm-milestone-section, .furniture-shop-nav, .furniture-shop-content, .furniture-selected-details, .studio-navigation, .studio-controls, .studio-save-bar, .modal, .notification-panel, .toast)::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, var(--hud-cyan), transparent 34%) left 6px top / 44% 1px no-repeat,
+    linear-gradient(90deg, transparent 68%, var(--hud-pink)) right 6px bottom / 44% 1px no-repeat,
+    linear-gradient(180deg, var(--hud-purple), transparent 45%) left 6px top 7px / 1px 32% no-repeat,
+    linear-gradient(180deg, transparent 55%, var(--hud-pink)) right 6px bottom 7px / 1px 32% no-repeat,
+    radial-gradient(circle, var(--hud-cyan) 0 2px, transparent 3px) left 8px top 8px / 6px 6px no-repeat,
+    radial-gradient(circle, var(--hud-pink) 0 2px, transparent 3px) right 8px bottom 8px / 6px 6px no-repeat,
+    linear-gradient(135deg, transparent 43%, rgba(0, 239, 255, .8) 47% 53%, transparent 57%) left top / 12px 12px no-repeat,
+    linear-gradient(315deg, transparent 43%, rgba(155, 92, 255, .7) 47% 53%, transparent 57%) right top / 12px 12px no-repeat,
+    linear-gradient(225deg, transparent 43%, rgba(255, 62, 236, .75) 47% 53%, transparent 57%) right bottom / 12px 12px no-repeat,
+    linear-gradient(45deg, transparent 43%, rgba(155, 92, 255, .55) 47% 53%, transparent 57%) left bottom / 12px 12px no-repeat;
+  opacity: .8;
+  filter: drop-shadow(0 0 4px rgba(0, 239, 255, .45));
+}
+
+/* Compact objects use the same palette and chamfer at a smaller mechanical scale. */
+.game-shell:not(.lobby-view) :is(.card, .catalog-card, .calendar-day, .calendar-task, .ref-slot, .ref-extra-card, .career-card, .finance-stat, .finance-account, .finance-transaction, .finance-budget, .finance-goal, .finance-bill, .cm-milestone-list button, .combat-boss-tabs button, .cm-campaign-tabs button, .studio-wardrobe-grid article, .equipment-slot),
+.construction-editor :is(.material-list button, .buy-items article, .selection-details) {
+  --hud-cut: 7px;
+  border: 1px solid transparent !important;
+  border-radius: 0 !important;
+  background: linear-gradient(135deg, rgba(16, 16, 28, .76), rgba(11, 18, 34, .65)) !important;
+  border-image: linear-gradient(125deg, rgba(0, 239, 255, .6), rgba(55, 69, 91, .75) 36%, rgba(155, 92, 255, .55) 70%, rgba(255, 62, 236, .62)) 1 !important;
+  box-shadow: inset 0 0 14px rgba(155, 92, 255, .055) !important;
+}
+
+.game-shell:not(.lobby-view) :is(.catalog-card, .ref-slot, .career-card, .cm-milestone-list button, .combat-boss-tabs button, .cm-campaign-tabs button, .studio-wardrobe-grid article):is(:hover, :focus-within, .selected, [aria-pressed="true"], [aria-selected="true"], [data-selected="true"], .is-preview) {
+  background: linear-gradient(135deg, rgba(17, 36, 54, .86), rgba(26, 16, 49, .74)) !important;
+  border-image: linear-gradient(115deg, var(--hud-cyan), var(--hud-purple) 54%, var(--hud-pink)) 1 !important;
+  box-shadow: inset 0 0 18px rgba(0, 239, 255, .12), 0 0 16px rgba(155, 92, 255, .16) !important;
+}
+
+/* The quest manager owns its own card classes and status rails. Keep those semantic rails. */
+.game-shell:not(.lobby-view) :is(.quest-command-bar, .quest-card, .quest-stat-card, .quest-edit-modal, .quest-confirm-modal, .quest-empty) {
+  border: 2px solid transparent !important;
+  border-radius: 0 !important;
+  background: var(--hud-core) !important;
+  border-image: var(--hud-rim) 1 !important;
+  box-shadow: inset 0 0 17px rgba(0, 239, 255, .06), 0 12px 30px rgba(0, 0, 0, .24) !important;
+  backdrop-filter: blur(5px);
+}
+
+.game-shell:not(.lobby-view) .quest-card:is(:hover, :focus-within, .priority-high, .is-overdue) {
+  border-color: rgba(255, 62, 236, .45) !important;
+  box-shadow: inset 0 0 18px rgba(155, 92, 255, .13), 0 0 20px rgba(155, 92, 255, .15) !important;
+}
+
+.game-shell:not(.lobby-view) :is(.quest-create-btn, .quest-status-pill, .quest-boss-link) {
+  --hud-cut: 5px;
+  border-radius: 0 !important;
+  clip-path: var(--hud-clip);
+}
+
+/* Reference modules used opaque internal surfaces that hid the common city backdrop. */
+.game-shell:not(.lobby-view) .ref-panel {
+  backdrop-filter: blur(2px);
+}
+
+.game-shell:not(.lobby-view) .ref-header {
+  background: linear-gradient(100deg, rgba(6, 18, 34, .74), rgba(27, 13, 48, .56)) !important;
+  backdrop-filter: blur(5px);
+}
+
+.game-shell:not(.lobby-view) .ref-summary {
+  background: rgba(5, 11, 27, .66) !important;
+  backdrop-filter: blur(4px);
+}
+
+.game-shell:not(.lobby-view) .ref-collection {
+  background: rgba(7, 13, 29, .28) !important;
+}
+
+.game-shell:not(.lobby-view) .ref-skill-map {
+  background: radial-gradient(ellipse at 50% 50%, rgba(79, 49, 139, .16), transparent 65%), rgba(6, 10, 25, .18) !important;
+  backdrop-filter: blur(2px);
+}
+
+.game-shell:not(.lobby-view) :is(.ref-skill-detail, .ref-pet-detail) {
+  background: rgba(9, 11, 29, .64) !important;
+  backdrop-filter: blur(5px);
+}
+
+.game-shell:not(.lobby-view) .ref-showcase {
+  background: radial-gradient(ellipse at 50% 55%, color-mix(in srgb, var(--item-accent) 15%, transparent), transparent 66%), rgba(7, 12, 28, .42) !important;
+  backdrop-filter: blur(4px);
+}
+
+.game-shell:not(.lobby-view) .ref-loot-reveal {
+  background: radial-gradient(ellipse at 50% 36%, color-mix(in srgb, var(--item-accent) 18%, transparent), transparent 62%), rgba(9, 11, 29, .38) !important;
+  backdrop-filter: blur(4px);
+}
+
+.game-shell:not(.lobby-view) .ref-pet-stage {
+  background: radial-gradient(ellipse at 50% 35%, rgba(36, 91, 120, .22), transparent 66%), rgba(8, 13, 27, .22) !important;
+}
+
+.game-shell:not(.lobby-view) .nova-hologram {
+  background: radial-gradient(ellipse at 50% 60%, rgba(34, 111, 138, .25), transparent 68%), rgba(8, 19, 33, .42) !important;
+}
+
+.game-shell:not(.lobby-view) .studio-stage {
+  background: radial-gradient(ellipse at 48% 32%, rgba(41, 72, 93, .56), rgba(19, 37, 58, .47) 44%, rgba(8, 13, 24, .52) 82%) !important;
+}
+
+.game-shell:not(.lobby-view) .furniture-showcase {
+  background: radial-gradient(ellipse at 50% 35%, rgba(25, 61, 74, .52), rgba(16, 31, 49, .38) 44%, rgba(8, 13, 24, .5) 82%) !important;
+}
+
+/* Header navigation, tabs, filters, controls and inventory actions. */
+.game-shell:not(.lobby-view) :is(.btn, .tabs button, .ref-action, .ref-categories button, .ref-destinations button, .furniture-category-list button, .career-button, .cm-arena-button, .studio-save-actions button, .ref-recipe-list button, .ref-pet-choices button),
+.construction-editor :is(.mode-switch button, .construction-toolbar button, .buy-category-pills button, .commit-actions button, .construction-camera button) {
+  --hud-cut: 5px;
+  border-radius: 0 !important;
+  clip-path: var(--hud-clip);
+  transition: color .18s ease, background-color .18s ease, border-color .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+
+.game-shell:not(.lobby-view) :is(.tabs button, .ref-categories button, .ref-destinations button, .furniture-category-list button, .cm-campaign-tabs button, .combat-boss-tabs button):is(.active, .selected, [aria-selected="true"], [aria-pressed="true"]),
+.construction-editor :is(.mode-switch button, .construction-toolbar button, .buy-category-pills button):is(.active, .selected, [aria-pressed="true"]) {
+  color: #e9fbff !important;
+  border-color: rgba(0, 239, 255, .64) !important;
+  background: linear-gradient(120deg, rgba(0, 239, 255, .21), rgba(155, 92, 255, .19)) !important;
+  box-shadow: inset 0 -2px rgba(0, 239, 255, .8), 0 0 14px rgba(0, 239, 255, .16) !important;
+}
+
+.game-shell:not(.lobby-view) :is(.btn, .tabs button, .ref-action, .ref-categories button, .ref-destinations button, .furniture-category-list button, .career-button, .cm-arena-button):hover:not(:disabled),
+.construction-editor :is(.mode-switch button, .construction-toolbar button, .buy-category-pills button, .commit-actions button, .construction-camera button):hover:not(:disabled) {
+  filter: brightness(1.16);
+}
+
+.game-shell:not(.lobby-view) :is(.btn, .tabs button, .ref-action, .ref-categories button, .ref-destinations button, .furniture-category-list button, .career-button, .cm-arena-button):focus-visible,
+.construction-editor :is(.mode-switch button, .construction-toolbar button, .buy-category-pills button, .commit-actions button, .construction-camera button):focus-visible {
+  outline: 2px solid var(--hud-cyan);
+  outline-offset: 3px;
+  box-shadow: inset 0 0 0 2px var(--hud-cyan), 0 0 15px rgba(0, 239, 255, .4) !important;
+}
+
+/* Non-lobby forms, status readouts and date/search controls remain readable over the city. */
+.game-shell:not(.lobby-view) :is(.search, .field, .ref-filters label, .ref-filters select, .finance-tabs, .tabs, .calendar-grid, .stats-strip, .combat-boss-hud, .combat-player-hud, .cm-task-details > div, .ref-skill-detail, .ref-pet-detail),
+.construction-editor :is(.construction-hud-status .hud-badge, .catalog-search, .construction-notice) {
+  border-color: rgba(0, 239, 255, .22) !important;
+  background-color: rgba(8, 12, 28, .7) !important;
+  backdrop-filter: blur(5px);
+}
+
+.game-shell:not(.lobby-view) :is(.search, .ref-filters label, .tabs) {
+  border-radius: 0 !important;
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px), 0 8px);
+}
+
+/* Separate editor surface: it is an early return outside .game-shell. */
+.construction-editor {
+  --studio-panel: rgba(10, 14, 31, .68);
+  --studio-panel-subtle: rgba(13, 20, 38, .72);
+  --studio-cyan: var(--hud-cyan);
+  --studio-purple: var(--hud-purple);
+  --studio-pink: var(--hud-pink);
+}
+
+.construction-editor :is(.construction-top, .construction-palette, .construction-camera, .construction-toolbar, .construction-cost, .draft-controls, .construction-live-panel, .construction-confirm > div) {
+  --hud-cut: 10px;
+  border: 2px solid transparent !important;
+  border-radius: 0 !important;
+  background: var(--hud-core) !important;
+  border-image: var(--hud-rim) 1 !important;
+  box-shadow: inset 0 0 18px rgba(0, 239, 255, .07), 0 12px 30px rgba(0, 0, 0, .28) !important;
+  backdrop-filter: blur(6px);
+}
+
+.construction-editor :is(.construction-top, .construction-palette, .construction-camera, .construction-toolbar, .construction-cost, .draft-controls, .construction-live-panel, .construction-confirm > div)::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    linear-gradient(90deg, var(--hud-cyan), transparent) left 5px top / 36% 1px no-repeat,
+    linear-gradient(90deg, transparent, var(--hud-pink)) right 5px bottom / 36% 1px no-repeat,
+    radial-gradient(circle, var(--hud-cyan) 0 2px, transparent 3px) left 5px top 5px / 6px 6px no-repeat,
+    radial-gradient(circle, var(--hud-pink) 0 2px, transparent 3px) right 5px bottom 5px / 6px 6px no-repeat;
+  filter: drop-shadow(0 0 3px rgba(0, 239, 255, .5));
+}
+
+.construction-editor :is(.material-list button, .buy-items article):is(:hover, .selected, :focus-within) {
+  background: linear-gradient(120deg, rgba(0, 48, 63, .78), rgba(49, 22, 65, .72)) !important;
+  border-image: linear-gradient(120deg, var(--hud-cyan), var(--hud-pink)) 1 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-shell:not(.lobby-view) :is(.btn, .tabs button, .ref-action, .ref-categories button, .ref-destinations button, .furniture-category-list button, .career-button, .cm-arena-button),
+  .construction-editor :is(.mode-switch button, .construction-toolbar button, .buy-category-pills button, .commit-actions button, .construction-camera button) {
+    transition-duration: .01ms !important;
+  }
+}

@@ -1,0 +1,457 @@
+/* The skyline is one continuous layer behind the fixed sidebar, header and HUD.
+   The vector is local, resolution independent and intentionally sharp. */
+.game-shell.lobby-view {
+  --lobby-cyan: #48e9ff;
+  --lobby-pink: #ff4bd5;
+  background: #050816 url('/assets/lobby-reference/city-skyline.svg') center center / cover fixed no-repeat;
+}
+
+.game-shell.lobby-view .vref-lobby {
+  background: transparent;
+  isolation: isolate;
+}
+
+.game-shell.lobby-view .vref-lobby::before {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse at 49% 58%, #07102708 0%, #03081652 100%),
+    linear-gradient(180deg, #02061120 0%, #03081705 42%, #03081738 100%);
+  pointer-events: none;
+}
+
+.game-shell.lobby-view .sidebar {
+  background: transparent !important;
+  border-right: 1px solid #46dfff99;
+  box-shadow: 2px 0 0 #d933c97a, 8px 0 25px #0928a36b, inset -13px 0 21px #0b34702e;
+  backdrop-filter: none;
+}
+
+.game-shell.lobby-view .sidebar::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(90deg, #48e9ff, #fe4ed4 62%, transparent);
+  box-shadow: 0 0 17px #eb37cb;
+  pointer-events: none;
+}
+
+.game-shell.lobby-view .sidebar .brand {
+  color: #fff;
+  text-shadow: 0 0 11px #5965ff, 0 2px 2px #020719;
+}
+
+.game-shell.lobby-view .sidebar .brand > span {
+  color: #ff4bd5;
+  text-shadow: 0 0 11px #f830c1;
+}
+
+.game-shell.lobby-view .sidebar .brand small,
+.game-shell.lobby-view .sidebar .nav-group > span {
+  color: #b4cbec;
+  text-shadow: 0 1px 4px #010612;
+}
+
+.game-shell.lobby-view .sidebar .nav-group button {
+  color: #ebf5ff;
+  text-shadow: 0 1px 6px #030816;
+}
+
+.game-shell.lobby-view .sidebar .nav-group button:hover {
+  background: #133f7f73;
+  color: white;
+  box-shadow: inset 0 0 12px #2989ff45;
+}
+
+.game-shell.lobby-view .sidebar .nav-group button.active {
+  border: 1px solid #65e8ff !important;
+  color: #fff;
+  background: linear-gradient(92deg, #4b1c98ad 0%, #0a69aaa1 100%) !important;
+  box-shadow: 0 0 20px #08bfff91, inset 0 0 18px #ef2dc977, 2px 2px 0 #f540ca99;
+}
+
+.game-shell.lobby-view .sidebar .sidebar-footer {
+  border-top-color: #6ce6ff65;
+  color: #a4f3ff;
+  text-shadow: 0 0 10px #09bfff;
+}
+
+.game-shell.lobby-view .vref-header {
+  position: relative;
+  z-index: 15;
+  background: linear-gradient(180deg, #03081642, #06112d27);
+  border-bottom: 1px solid #49dfff88;
+  box-shadow: 0 6px 18px #050a244b;
+  backdrop-filter: none;
+}
+
+.game-shell.lobby-view .vref-date,
+.game-shell.lobby-view .vref-quote,
+.game-shell.lobby-view .vref-search-wrap,
+.game-shell.lobby-view .vref-header-bell,
+.game-shell.lobby-view .vref-header-profile {
+  background: linear-gradient(125deg, #05081659, #0b1a3950, #160d3454);
+  border: 1px solid #6ddcff92;
+  box-shadow: 0 0 12px #0cbaff48, inset 0 0 12px #5929bb24;
+  backdrop-filter: none;
+}
+
+.game-shell.lobby-view .vref-date,
+.game-shell.lobby-view .vref-header-profile {
+  border-color: #db5aff91;
+  box-shadow: 0 0 13px #bb2df76e, inset 0 0 12px #3a60da3b;
+}
+
+.game-shell.lobby-view .vref-quote {
+  color: #ecf5ff;
+  border-color: #b949f6a1;
+  text-shadow: 0 1px 7px #020816;
+}
+
+/* Cut corners and twin neon rails stay outside the content hit area. */
+.game-shell.lobby-view .vref-panel {
+  border: 1px solid #63e5ffb8;
+  background: linear-gradient(145deg, #05081655 0%, #0711244d 52%, #190c3150 100%);
+  box-shadow:
+    0 0 0 1px #6c2ac57c,
+    0 0 21px #00d5ff65,
+    0 0 28px #e02ecd35,
+    inset 0 0 17px #9827dd31;
+  clip-path: polygon(0 11px, 11px 0, calc(100% - 11px) 0, 100% 11px, 100% calc(100% - 11px), calc(100% - 11px) 100%, 11px 100%, 0 calc(100% - 11px));
+  backdrop-filter: none;
+}
+
+.game-shell.lobby-view .vref-panel::before {
+  z-index: 5;
+  inset: 0;
+  border: 0;
+  background:
+    linear-gradient(#64ecff, #64ecff) left 11px top / 30px 2px no-repeat,
+    linear-gradient(#64ecff, #64ecff) left top 11px / 2px 30px no-repeat,
+    linear-gradient(#fe57da, #fe57da) right 11px top / 30px 2px no-repeat,
+    linear-gradient(#fe57da, #fe57da) right top 11px / 2px 30px no-repeat,
+    linear-gradient(#fb55d9, #fb55d9) left 11px bottom / 30px 2px no-repeat,
+    linear-gradient(#fb55d9, #fb55d9) left bottom 11px / 2px 30px no-repeat,
+    linear-gradient(#58e8ff, #58e8ff) right 11px bottom / 30px 2px no-repeat,
+    linear-gradient(#58e8ff, #58e8ff) right bottom 11px / 2px 30px no-repeat;
+  filter: drop-shadow(0 0 7px #35dfff);
+  pointer-events: none;
+}
+
+.game-shell.lobby-view .vref-panel::after {
+  right: 12px;
+  width: min(26%, 90px);
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #ff58df);
+  box-shadow: 0 0 11px #f32cce;
+}
+
+.game-shell.lobby-view .vref-heading {
+  text-shadow: 0 1px 8px #010817;
+}
+
+@media (max-width: 1130px) {
+  .game-shell.lobby-view {
+    background-position: center center;
+  }
+  .game-shell.lobby-view .vref-panel {
+    box-shadow: 0 0 11px #0bb8f874, inset 0 0 12px #781fd62f;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-shell.lobby-view .vref-panel,
+  .game-shell.lobby-view .sidebar {
+    transition: none;
+  }
+}
+
+/* The lobby uses one uninterrupted city scene. All chrome sits over it. */
+.game-shell.lobby-view {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  background-color: #040817;
+  background-image:
+    radial-gradient(ellipse at 16% 14%, #d51db51b, transparent 35%),
+    radial-gradient(ellipse at 79% 58%, #0de3ff13, transparent 36%),
+    linear-gradient(180deg, #02071309 0%, transparent 48%, #02071422 100%),
+    url('/assets/lobby-reference/city-skyline.svg');
+  background-position: center 55%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.game-shell.lobby-view .main-shell {
+  background: transparent;
+}
+
+/* Keep the dashboard within the first viewport on desktop. */
+.game-shell.lobby-view .main-shell,
+.game-shell.lobby-view .content-main.screen-lobby,
+.game-shell.lobby-view .vref-lobby {
+  min-height: 100dvh;
+}
+
+.game-shell.lobby-view .vref-board {
+  height: calc(100dvh - clamp(78px, 5.4vw, 104px));
+  min-height: 0;
+  overflow: hidden;
+}
+
+.game-shell.lobby-view .content-main.screen-lobby,
+.game-shell.lobby-view .vref-lobby,
+.game-shell.lobby-view .vref-body,
+.game-shell.lobby-view .vref-board {
+  background: transparent;
+}
+
+.game-shell.lobby-view .vref-lobby::before {
+  background: linear-gradient(180deg, #03071617 0%, #03071605 45%, #03071628 100%);
+}
+
+/* The app sidebar and dashboard share the same glass treatment. */
+.game-shell.lobby-view .sidebar {
+  z-index: 70;
+  background: transparent !important;
+  border-right: 1px solid #64e9ffb3;
+  box-shadow: 2px 0 0 #cc4bdc72, 7px 0 24px #0719876c, inset -12px 0 25px #01cfff1b;
+  backdrop-filter: none;
+}
+
+.game-shell.lobby-view .sidebar .brand {
+  text-shadow: 0 0 15px #66d8ff83, 0 2px 5px #01040b;
+}
+
+.game-shell.lobby-view .sidebar .nav-group button {
+  border: 1px solid transparent;
+  border-radius: 5px;
+  transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.game-shell.lobby-view .sidebar .nav-group button.active {
+  border-color: #5be9ff !important;
+  background: linear-gradient(90deg, #0a6ca6b3 0%, #55249cac 100%) !important;
+  box-shadow: 0 0 20px #04d3ffaa, inset 0 0 16px #dc2eea7a, 2px 2px 0 #f04bcead;
+}
+
+.game-shell.lobby-view .sidebar .nav-group button.active::before {
+  width: 3px;
+  height: 70%;
+  background: #6cefff;
+  box-shadow: 0 0 12px #43eaff;
+}
+
+.game-shell.lobby-view .sidebar .lobby-sidebar-motto {
+  margin: auto 4px 14px;
+  padding: 14px 7px 0;
+  border-top: 1px solid #59dffb74;
+  color: #6ef2ff;
+  font-size: clamp(9px, .75vw, 12px);
+  font-weight: 800;
+  line-height: 1.65;
+  letter-spacing: .1em;
+  text-shadow: 0 0 6px #12d8ff, 0 0 17px #087cfa;
+}
+
+.game-shell.lobby-view .sidebar .lobby-sidebar-settings {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 12px;
+  color: #e7faff;
+  background: #07193372;
+  border: 1px solid #61dfff9e;
+  border-radius: 5px;
+  box-shadow: inset 0 0 10px #0bb6e536, 0 0 11px #0bb6e536;
+  text-align: left;
+}
+
+.game-shell.lobby-view .sidebar .lobby-sidebar-settings:hover,
+.game-shell.lobby-view .sidebar .lobby-sidebar-settings:focus-visible {
+  background: #0a427b94;
+  border-color: #a8faff;
+}
+
+.game-shell.lobby-view .sidebar .sidebar-footer {
+  min-height: 42px;
+  border-top-color: #6ce6ff65;
+  color: #bae5f4;
+}
+
+.game-shell.lobby-view .vref-header {
+  background: linear-gradient(90deg, #05081640, #07162b37 50%, #150b2e41);
+  border-bottom: 1px solid #66e2ffaa;
+  box-shadow: 0 3px 0 #a943db3c, 0 6px 19px #02071b61;
+  backdrop-filter: none;
+}
+
+.game-shell.lobby-view .vref-date,
+.game-shell.lobby-view .vref-quote,
+.game-shell.lobby-view .vref-search-wrap,
+.game-shell.lobby-view .vref-header-bell,
+.game-shell.lobby-view .vref-header-profile {
+  background: linear-gradient(120deg, #05081659, #09193642 62%, #1a0c3042);
+  border: 1px solid #6adfffb8;
+  box-shadow: 0 0 14px #00cfff43, inset 0 0 14px #8735cd26;
+  backdrop-filter: none;
+}
+
+.game-shell.lobby-view .vref-date,
+.game-shell.lobby-view .vref-quote {
+  border-color: #bd5af4b7;
+  box-shadow: 0 0 13px #b02af966, inset 0 0 13px #1cbaf72e;
+}
+
+/* A translucent panel and bright four-corner brackets remain readable over the skyline. */
+.game-shell.lobby-view .vref-panel {
+  background: linear-gradient(125deg, #05081655 0%, #0710244d 52%, #1b0d3152 100%);
+  border: 1px solid #65e8ffc4;
+  box-shadow: 0 0 0 1px #6e31b76c, 0 0 25px #00d5ff49, 0 0 30px #d926ca30, inset 0 0 15px #b829ff32;
+  backdrop-filter: none;
+}
+
+.game-shell.lobby-view .vref-panel::before {
+  inset: 0;
+  z-index: 5;
+  border: 0;
+  background:
+    linear-gradient(#72f0ff, #72f0ff) left 11px top / 34px 2px no-repeat,
+    linear-gradient(#72f0ff, #72f0ff) left top 11px / 2px 34px no-repeat,
+    linear-gradient(#ff60db, #ff60db) right 11px top / 34px 2px no-repeat,
+    linear-gradient(#ff60db, #ff60db) right top 11px / 2px 34px no-repeat,
+    linear-gradient(#ff60db, #ff60db) left 11px bottom / 34px 2px no-repeat,
+    linear-gradient(#ff60db, #ff60db) left bottom 11px / 2px 34px no-repeat,
+    linear-gradient(#72f0ff, #72f0ff) right 11px bottom / 34px 2px no-repeat,
+    linear-gradient(#72f0ff, #72f0ff) right bottom 11px / 2px 34px no-repeat;
+  filter: drop-shadow(0 0 7px #42dfff);
+  pointer-events: none;
+}
+
+.game-shell.lobby-view .vref-panel::after {
+  top: 0;
+  right: 11px;
+  width: min(25%, 100px);
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #fc57de);
+  box-shadow: 0 0 12px #f32cce;
+  pointer-events: none;
+}
+
+@media (max-width: 1100px) {
+  .game-shell.lobby-view .sidebar .lobby-sidebar-motto {
+    font-size: 9px;
+    letter-spacing: .06em;
+  }
+}
+
+@media (max-width: 900px) {
+  .game-shell.lobby-view .sidebar .lobby-sidebar-motto {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-shell.lobby-view .sidebar .nav-group button {
+    transition: none;
+  }
+}
+
+/* The lobby uses the same grouped navigation layout as every other screen. */
+.game-shell.lobby-view .sidebar nav {
+  margin-top: 22px;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.game-shell .sidebar nav.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #334155 transparent;
+}
+
+.game-shell .sidebar nav.scrollbar-thin::-webkit-scrollbar {
+  width: 5px;
+}
+
+.game-shell .sidebar nav.scrollbar-thin::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #334155;
+}
+
+.game-shell .sidebar nav.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Match the same navigation states on screens that show the full grouped list. */
+.game-shell.sidebar-expanded .sidebar .nav-group > span {
+  display: block;
+  margin: 24px 0 12px 8px;
+  color: #64748b;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.game-shell .sidebar .nav-group button {
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #cbd5e1;
+  background: transparent;
+  transition: all .2s ease;
+}
+
+.game-shell .sidebar .nav-group button svg {
+  color: inherit;
+}
+
+.game-shell.lobby-view .sidebar .nav-group button svg {
+  display: block;
+  flex: 0 0 17px;
+  width: 17px;
+  height: 17px;
+  opacity: 1;
+}
+
+.game-shell .sidebar .nav-group button:hover {
+  color: #fff;
+  background: #ffffff0d;
+}
+
+.game-shell.lobby-view .sidebar .nav-group button:not(.active):hover {
+  background: #ffffff1a;
+}
+
+.game-shell .sidebar .nav-group button.active {
+  border-color: #60a5fa80;
+  color: #fff;
+  background: linear-gradient(90deg, #1e3a8a99, #581c8799);
+  box-shadow: 0 0 15px #22d3ee40;
+}
+
+.game-shell .sidebar .nav-group button.active::before {
+  content: none;
+}
+
+.game-shell .sidebar .nav-group button.active i {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  margin-left: auto;
+  border-radius: 50%;
+  background: #22d3ee;
+  box-shadow: 0 0 8px #22d3ee;
+}
+
+@media (max-width: 1130px) {
+  .game-shell.lobby-view .vref-board {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+}

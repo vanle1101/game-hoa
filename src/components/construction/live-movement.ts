@@ -156,10 +156,10 @@ export function stepLiveMovement(state: LiveMovementState, input: LiveInput, cam
 
 export function liveDirectionForCode(code: string): LiveDirection | undefined {
   switch (code) {
-    case "KeyW": case "ArrowUp": return "forward";
-    case "KeyS": case "ArrowDown": return "backward";
-    case "KeyA": case "ArrowLeft": return "left";
-    case "KeyD": case "ArrowRight": return "right";
+    case "ArrowUp": return "forward";
+    case "ArrowDown": return "backward";
+    case "ArrowLeft": return "left";
+    case "ArrowRight": return "right";
     default: return undefined;
   }
 }

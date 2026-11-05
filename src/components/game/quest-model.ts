@@ -12,7 +12,7 @@ export function matchesQuest(task:Task,occurrences:TaskOccurrence[],filters:Ques
 /** Omit unchanged fields so editing a title cannot reset recurrence or checklist progress. */
 export function taskEditPatch(task:Task,values:TaskInput):Partial<TaskInput>{
   const patch:Partial<TaskInput>={};
-  for(const key of ["title","description","kind","difficulty","skill","duration","dueDate","timezone","committed","bossId","priority"] as const){const value=values[key];if(value!==undefined&&value!==task[key])Object.assign(patch,{[key]:value});}
+  for(const key of ["title","description","kind","difficulty","skill","targetSkillId","xpReward","duration","dueDate","timezone","committed","bossId","priority"] as const){const value=values[key],original=key==="targetSkillId"?(task.targetSkillId??null):key==="xpReward"?(task.xpReward??100):task[key];if(value!==undefined&&value!==original)Object.assign(patch,{[key]:value});}
   if(values.checklist!==undefined&&JSON.stringify(values.checklist)!==JSON.stringify(task.checklist.map(item=>item.title)))patch.checklist=values.checklist;
   return patch;
 }

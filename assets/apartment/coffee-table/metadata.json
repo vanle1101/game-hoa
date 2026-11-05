@@ -1,0 +1,37 @@
+{
+  "id": "coffee-table",
+  "status": "ASSET PRODUCTION",
+  "description": "Low Nero marble and antique brass coffee table with inset smoked shelf, tapered feet, books, ceramic bowl and dried branch arrangement.",
+  "units": "metres",
+  "axes": "X right, Y up, Z front; feet at Y=0",
+  "dimensions": [
+    1.46,
+    1.423,
+    0.82
+  ],
+  "bounds": {
+    "min": [
+      -0.73,
+      0.0,
+      -0.41
+    ],
+    "max": [
+      0.73,
+      1.423,
+      0.41
+    ]
+  },
+  "meshCount": 35,
+  "triangles": 31232,
+  "features": [
+    "Beveled marble slab",
+    "Brushed brass reveal and legs",
+    "Smoked glass shelf",
+    "Three books with page layers",
+    "Ceramic bowl",
+    "Dried branch and leaves"
+  ],
+  "runtime": "/assets/apartment/coffee-table/coffee-table.glb",
+  "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+  "reference": "REF-D; authored approximation, requires in-game visual gate"
+}

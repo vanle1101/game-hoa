@@ -1,2 +1,4 @@
 import GameApp from "@/components/game/GameApp";
-export default function Page(){return <GameApp/>;}
+import CyberPanelDecorator from "@/components/game/CyberPanelDecorator";
+
+export default function Page(){return <><GameApp/><CyberPanelDecorator/></>;}

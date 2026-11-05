@@ -1,10 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowDownLeft, ArrowLeftRight, ArrowUpRight, Check, Download, FileUp, Landmark, Plus, RefreshCw, ShieldCheck, Wallet } from "lucide-react";
 import { financeReport, type FinanceState, type FinanceCommand, type ImportRow } from "@/finance";
 
 import FinanceCharts from "./FinanceCharts";
+import { postFinanceCommand, readFinanceForOwner, readPendingFinanceCommand, type PendingFinanceCommand } from "./finance-command-client";
 import "./reference-ui.css";
 const currency = (value: number) => new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND", maximumFractionDigits: 0 }).format(value);
 const today = () => new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Ho_Chi_Minh", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
@@ -17,7 +18,9 @@ type Tab = "overview" | "transactions" | "budgets" | "savings" | "bills" | "impo
 type Form = "account" | "transaction" | "transfer" | "budget" | "goal" | "bill" | "reconcile" | null;
 type Preview = { line: number; row: ImportRow | null; duplicate: boolean; error: string };
 
-export function FinancePanel() {
+export function FinancePanel({ ownerId }: { ownerId: string }) {
+  const activeOwner = useRef(ownerId);
+  const busyRef = useRef(false);
   const [state, setState] = useState<FinanceState | null>(null);
   const [tab, setTab] = useState<Tab>("overview");
   const [form, setForm] = useState<Form>(null);
@@ -29,17 +32,54 @@ export function FinancePanel() {
   const [importAccount, setImportAccount] = useState("");
   const [preview, setPreview] = useState<Preview[]>([]);
   const [selected, setSelected] = useState<number[]>([]);
-  const [pending, setPending] = useState<{ signature: string; key: string } | null>(null);
-  const read = useCallback(async () => { const response = await fetch("/api/finance", { cache: "no-store" }); const data = await response.json(); if (!response.ok) throw new Error(data.error); return data as FinanceState; }, []);
-  const load = () => read().then(data => { setState(data); setError(""); }).catch((e: unknown) => setError(e instanceof Error ? e.message : "Không thể tải tài chính."));
-  useEffect(() => { let mounted = true; read().then(data => { if (mounted) { setState(data); setError(""); } }).catch((e: unknown) => { if (mounted) setError(e instanceof Error ? e.message : "Không thể tải tài chính."); }); return () => { mounted = false; }; }, [read]);
+  const [pending, setPending] = useState<PendingFinanceCommand | null>(null);
+  useEffect(() => { activeOwner.current = ownerId; return () => { activeOwner.current = ""; }; }, [ownerId]);
+  const load = useCallback(async () => {
+    try {
+      const [data, intent] = await Promise.all([readFinanceForOwner(ownerId), readPendingFinanceCommand(ownerId)]);
+      if (activeOwner.current !== ownerId) return;
+      setState(data); setPending(intent); setError("");
+    } catch (error) { if (activeOwner.current === ownerId) setError(error instanceof Error ? error.message : "Không thể tải tài chính."); }
+  }, [ownerId]);
+  useEffect(() => { queueMicrotask(() => { void load(); }); }, [load]);
   const mutate = async (command: FinanceCommand) => {
-    if (busy || !navigator.onLine) { if (!navigator.onLine) setError("Bạn đang ngoại tuyến. Tài chính chỉ được cập nhật khi có kết nối."); return; }
-    setBusy(true); setError(""); setMessage("");
-    const signature = JSON.stringify(command); const key = pending?.signature === signature ? pending.key : crypto.randomUUID(); setPending({ signature, key });
-    try { const response = await fetch("/api/finance", { method: "POST", headers: { "Content-Type": "application/json", "Idempotency-Key": key }, body: signature }); const data = await response.json(); if (!response.ok) throw new Error(data.error); setState(data); setPending(null); setForm(null); setPreview([]); setMessage("Đã lưu. Số liệu tài chính không ảnh hưởng XP hoặc vàng game."); }
-    catch (e) { setError(e instanceof Error ? e.message : "Không thể lưu. Thử lại an toàn với cùng thao tác."); }
-    finally { setBusy(false); }
+    if (busyRef.current || !navigator.onLine) { if (!navigator.onLine) setError("Bạn đang ngoại tuyến. Tài chính chỉ được cập nhật khi có kết nối."); return; }
+    busyRef.current = true; setBusy(true); setError(""); setMessage("");
+    let sent = false;
+    let keyUsed: string | null = null;
+    try {
+      const serverPending = await readPendingFinanceCommand(ownerId);
+      if (activeOwner.current !== ownerId) return;
+      if (serverPending && JSON.stringify(serverPending.command) !== JSON.stringify(command)) throw new Error("Một thao tác tài chính khác đang chờ xử lý. Hãy đồng bộ thao tác đó trước.");
+      const key = serverPending?.key ?? crypto.randomUUID();
+      keyUsed = key;
+      setPending(serverPending ?? { key, command, status: "sending" });
+      sent = true;
+      const result = await postFinanceCommand(ownerId, command, key);
+      if (activeOwner.current !== ownerId) return;
+      if (result.status === "pending") {
+        setPending({ key, command, status: "queued" });
+        setError("Máy chủ đã tiếp nhận thao tác. Hãy đồng bộ lại để nhận kết quả.");
+        return;
+      }
+      setState(result.state); setPending(null); setForm(null); setPreview([]);
+      setMessage("Đã lưu. Số liệu tài chính không ảnh hưởng XP hoặc vàng game.");
+    } catch (error) {
+      if (activeOwner.current !== ownerId) return;
+      if (sent) {
+        try {
+          const [intent, latest] = await Promise.all([readPendingFinanceCommand(ownerId), readFinanceForOwner(ownerId)]);
+          if (activeOwner.current !== ownerId) return;
+          setPending(intent); setState(latest);
+          if (!intent && keyUsed && latest.applied[keyUsed] === JSON.stringify(command)) {
+            setForm(null); setPreview([]); setError("");
+            setMessage("Đã xác nhận thao tác trên máy chủ. Số liệu tài chính không ảnh hưởng XP hoặc vàng game.");
+            return;
+          }
+        } catch { /* Keep the last visible receipt until server status can be checked. */ }
+      }
+      setError(error instanceof Error ? error.message : "Chưa xác nhận được thao tác tài chính. Hãy đồng bộ lại.");
+    } finally { busyRef.current = false; if (activeOwner.current === ownerId) setBusy(false); }
   };
   const report = useMemo(() => state ? financeReport(state, month) : null, [state, month]);
   const submit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -59,7 +99,7 @@ export function FinancePanel() {
   };
   const importPreview = async () => {
     setBusy(true); setError(""); setPreview([]);
-    try { const response = await fetch("/api/finance", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ type: "import.preview", csv, accountId: importAccount }) }); const data = await response.json(); if (!response.ok) throw new Error(data.error); setPreview(data.preview); setSelected(data.preview.filter((row: Preview) => row.row && !row.error && !row.duplicate).map((row: Preview) => row.line)); if (!data.preview.length) setMessage("Tệp CSV chưa có giao dịch."); }
+    try { const response = await fetch("/api/finance", { method: "POST", headers: { "Content-Type": "application/json", "X-Expected-Owner-Id": ownerId }, body: JSON.stringify({ type: "import.preview", csv, accountId: importAccount }) }); const data = await response.json(); if (!response.ok) throw new Error(data.error); if (activeOwner.current !== ownerId) return; setPreview(data.preview); setSelected(data.preview.filter((row: Preview) => row.row && !row.error && !row.duplicate).map((row: Preview) => row.line)); if (!data.preview.length) setMessage("Tệp CSV chưa có giao dịch."); }
     catch (e) { setError(e instanceof Error ? e.message : "Không thể đọc CSV."); }
     finally { setBusy(false); }
   };
@@ -100,6 +140,7 @@ export function FinancePanel() {
     `}</style>
     <header className="section-heading finance-header"><div><p className="eyebrow">TÀI CHÍNH CÁ NHÂN · VND</p><h2>Tự chủ tài chính</h2><p className="finance-privacy"><ShieldCheck size={14} aria-hidden="true"/> Sổ riêng tư, độc lập với kinh tế game và AI.</p></div><div className="finance-actions"><button className="btn" onClick={exportFinance}><Download size={15}/>Xuất dữ liệu</button><button className="btn primary" disabled={!state.accounts.length} onClick={() => setForm("transaction")}><Plus size={15}/>Giao dịch</button></div></header>
     <div className="tabs finance-tabs" role="tablist" aria-label="Mục tài chính">{tabs.map(([key, label]) => <button className={`btn ${tab === key ? "active" : ""}`} role="tab" aria-selected={tab === key} key={key} onClick={() => setTab(key)}>{label}</button>)}</div>
+    {pending && <div className="panel finance-feedback" role="status">Một thao tác tài chính đang chờ xác nhận trên máy chủ. <button className="btn" disabled={busy} onClick={() => void mutate(pending.command)}>Đồng bộ lại</button></div>}
     {error && <div className="panel finance-feedback is-error" role="alert">{error}</div>}{message && <div className="panel finance-feedback is-success" role="status">{message}</div>}
     <div className="finance-toolbar"><label className="field">Kỳ báo cáo<span className="finance-month-input"><span className="finance-month-label" aria-hidden="true">{monthLabel(month)}</span><input type="month" lang="vi-VN" value={month} aria-label={`Kỳ báo cáo: ${monthLabel(month)}`} onChange={event => setMonth(event.target.value)}/></span></label><button className="btn" onClick={load} aria-label="Tải lại tài chính"><RefreshCw size={15}/></button></div>
     {tab === "overview" && <>

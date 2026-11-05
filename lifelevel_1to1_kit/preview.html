@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>LIFE//LEVEL • extracted frames / LED preview</title>
+<style>
+*{box-sizing:border-box} html,body{margin:0;background:#090b18;color:white;font-family:Arial,Helvetica,sans-serif}h1{font-size:18px;margin:14px 20px}small{color:#b2aac8}.hint{font-size:13px;margin:0 20px 10px;color:#9eadc3}
+.stage{width:1801px;height:873px;position:relative;transform-origin:top left;overflow:hidden;background:radial-gradient(ellipse at 30% 45%,#29204c 0,transparent 45%),radial-gradient(ellipse at 83% 23%,#15355a 0,transparent 45%),linear-gradient(155deg,#070919,#1c103a 60%,#02091e)}
+.stage:before{content:"";position:absolute;inset:0;opacity:.45;background:repeating-linear-gradient(90deg,transparent 0 74px,#275798 75px 80px,transparent 82px 170px,#fa32ed 172px 174px,transparent 176px 230px);mask-image:linear-gradient(0deg,#000,transparent 94%)}
+.panel{position:absolute;z-index:1;padding:52px 52px 38px;color:white;background:rgba(2,6,19,.19)}
+.panel h2{margin:0 0 14px;font-size:21px}.panel p{font-size:14px;color:#d8cce7;line-height:1.5}.panel button{cursor:pointer;background:#121b34;color:#c5faff;border:1px solid #00deff;padding:12px 16px;margin:6px 8px 0 0;border-radius:4px}.panel button:hover{background:#173f52}
+.hud{position:absolute;pointer-events:none;inset:0;z-index:5}.hud img,.hud svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.hud svg{overflow:visible}
+.hud path{fill:none;stroke-linejoin:round;stroke-linecap:round;pathLength:1000}
+.track{stroke:#cc49ce;stroke-width:1.25;opacity:.1}
+.pulse,.pulsecore{stroke-dasharray:23 977;animation:travel var(--speed,8s) linear infinite}
+.pulse{stroke:#ff46ef;stroke-width:7;filter:drop-shadow(0 0 6px #ed34ff);opacity:.6}
+.pulsecore{stroke:#e2faff;stroke-width:2.2;filter:drop-shadow(0 0 3px cyan)}
+@keyframes travel{from{stroke-dashoffset:1000}to{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:reduce){.pulse,.pulsecore{animation:none}}
+#status{position:fixed;right:14px;bottom:14px;z-index:10;background:#080e20f0;padding:12px 14px;border:1px solid #08b7cb;color:#dcefff;border-radius:5px;font-size:12px}
+</style></head>
+<body><h1>LIFE//LEVEL — Preview khung ảnh gốc + LED chuyển động <small>(demo tài sản đồ họa, không phải game thật)</small></h1>
+<p class="hint">Các turbine/viền kim loại được cắt trực tiếp từ ảnh m cung cấp. Nền và nút bấm bên dưới là HTML thử nghiệm để kiểm tra độ trong suốt/tương tác.</p>
+<div class="stage" id="stage">
+<section class="panel" style="left:256px;top:122px;width:632px;height:321px"><h2>☀️ Hôm nay</h2><p>Tấm nền ở giữa trong suốt. Thử nhấn nút: layer khung không chặn click.</p><button onclick="update('Đã click Nhiệm vụ')">Nhiệm vụ</button><button onclick="update('Đã click Năng lượng')">Năng lượng</button></section>
+<section class="panel" style="left:894px;top:122px;width:471px;height:321px"><h2>⚔️ Boss chiến dịch</h2><p>Khung cơ khí giữ nguyên texture và đường neon tĩnh lấy từ ảnh.</p><button onclick="update('Đã click Chiến dịch')">Chiến dịch</button></section>
+<section class="panel" style="left:1358px;top:122px;width:424px;height:324px"><h2>✦ AI Quản gia</h2><p>Đường LED nhỏ sáng chạy theo chu vi. Cần trace tiếp để khớp chính xác đường trên ảnh.</p><button onclick="update('Đã click AI')">Mở AI</button></section>
+<section class="panel" style="left:260px;top:437px;width:638px;height:428px"><h2>♧ Cây kỹ năng</h2><p>Panel hiển thị bằng HTML và có thể thay đổi nội dung động.</p><button onclick="update('Đã click Kỹ năng')">Kỹ năng</button></section>
+<section class="panel" style="left:892px;top:436px;width:475px;height:276px"><h2>♙ Nhân vật</h2><p>Level 1 — 0/100 XP</p></section>
+<section class="panel" style="left:892px;top:681px;width:475px;height:182px"><h2>🏆 Thành tựu</h2></section>
+<section class="panel" style="left:1361px;top:435px;width:421px;height:428px"><h2>🎁 Phần thưởng</h2></section>
+<section class="panel" style="left:0;top:81px;width:264px;height:783px;padding:125px 34px 25px"><h2 style="font-size:15px">THẾ GIỚI</h2><p>▣ Sảnh chờ</p><p>⌂ Cuộc sống</p><p>⬡ Căn hộ</p><p>◆ Xây dựng</p></section>
+<section class="panel" style="left:286px;top:6px;width:1494px;height:99px;padding:34px 108px"><b>Thứ Tư, 28 tháng 10, 2026</b> <span style="margin-left:90px;color:#c7cbdf">Cuộc sống tốt hơn đến từ những hành động nhỏ mỗi ngày.</span></section>
+</div><div id="status">Đang trình diễn overlay tách từ ảnh mẫu</div>
+<script>
+const geometry={
+ header:[286,6,1494,99,11], sidebar:[0,81,264,783,13], today:[256,122,632,321,8], boss:[894,122,471,321,7], ai:[1358,122,424,324,7], skills:[260,437,638,428,10], character:[892,436,475,276,7], achievements:[892,681,475,182,6], rewards:[1361,435,421,428,9]
+};
+const stage=document.getElementById('stage');
+function trackPath(name,w,h){if(name==='header')return `M 92 23 L ${w*.21} 23 L ${w*.245} 41 L ${w*.43} 41 L ${w*.46} 22 L ${w-35} 22 L ${w-14} 44 L ${w-14} ${h-25} L 78 ${h-25} Z`;
+if(name==='sidebar')return `M 43 57 L ${w-47} 57 L ${w-20} 86 L ${w-20} ${h-40} L ${w-45} ${h-19} L 27 ${h-19} L 17 ${h-50} L 17 105 Z`;
+return `M 68 18 L ${w*.36} 18 L ${w*.4} 30 L ${w*.53} 30 L ${w*.56} 18 L ${w-45} 18 L ${w-18} 47 L ${w-18} ${h-47} L ${w-46} ${h-18} L ${w*.61} ${h-18} L ${w*.57} ${h-31} L ${w*.39} ${h-31} L ${w*.35} ${h-18} L 46 ${h-18} L 19 ${h-46} L 19 50 Z`}
+for(const [name,[x,y,w,h,speed]] of Object.entries(geometry)){
+ const div=document.createElement('div');div.className='hud';div.style.cssText=`left:${x}px;top:${y}px;width:${w}px;height:${h}px;right:auto;bottom:auto;--speed:${speed}s;`;
+ const img=document.createElement('img');img.src=`assets/${name}.png`;img.alt='';div.appendChild(img);
+ const d=trackPath(name,w,h),svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox',`0 0 ${w} ${h}`);svg.setAttribute('preserveAspectRatio','none');
+ for(const cls of ['track','pulse','pulsecore']){const p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('d',d);p.setAttribute('class',cls);p.setAttribute('pathLength','1000');svg.appendChild(p)}
+ div.appendChild(svg);stage.appendChild(div)
+}
+function update(s){document.getElementById('status').textContent=s+' — vùng HTML vẫn tương tác được'}
+function resize(){const s=Math.min((innerWidth-20)/1801,1);stage.style.transform=`scale(${s})`;stage.parentElement.style.minHeight=(873*s+110)+'px'}
+addEventListener('resize',resize);resize();
+</script></body></html>

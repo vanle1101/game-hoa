@@ -1,0 +1,46 @@
+/* The chassis and turbine pixels are extracted from the supplied reference. */
+.game-shell.lobby-view .mech-vector-frame {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 24px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.game-shell.lobby-view .mech-vector-frame::before,
+.game-shell.lobby-view .mech-vector-frame::after { content: none !important; }
+
+.game-shell.lobby-view .mech-vector-frame > :not(.fluid-mechanical-frame) {
+  position: relative;
+  z-index: 1;
+}
+
+/* The full reference crop supplies these pixels at its calibration size. */
+@media (min-width: 1760px) and (max-width: 1840px) and (min-height: 850px) and (max-height: 920px) {
+  .game-shell.lobby-view.sidebar-expanded .mech-vector-frame > .fluid-mechanical-frame { display: none; }
+}
+
+/* Keep the extracted corner reactors at their reference offsets while the
+   center rails stretch across a wider desktop viewport. */
+@media (min-width: 1841px) and (max-width: 2100px) and (min-height: 850px) and (max-height: 1000px) {
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .vref-header-led {
+    inset: 6px 20px 20px 26px;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-sidebar-led {
+    inset: 80px 0 9px;
+  }
+}
+
+.game-shell.lobby-view .vref-header > .vref-header-led { z-index: 0; opacity: .78; }
+.game-shell.lobby-view .vref-header > :not(.vref-header-led) { position: relative; z-index: 1; }
+
+@media (max-width: 1300px), (max-height: 800px) {
+  .game-shell.lobby-view .mech-vector-frame { padding: 14px !important; }
+}

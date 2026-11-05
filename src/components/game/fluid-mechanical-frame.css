@@ -1,0 +1,105 @@
+.fluid-mechanical-frame {
+  --fluid-primary: #00efff;
+  --fluid-secondary: #ff3eec;
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  pointer-events: none !important;
+  user-select: none;
+}
+
+.fluid-mechanical-frame[data-accent="magenta"] {
+  --fluid-primary: #ff3eec;
+  --fluid-secondary: #00efff;
+}
+
+.fluid-mechanical-frame__chassis {
+  position: absolute;
+  inset: 0;
+  display: block;
+  box-sizing: border-box;
+  border-style: solid;
+  border-width: var(--fluid-top) var(--fluid-right) var(--fluid-bottom) var(--fluid-left);
+  border-image-source: var(--fluid-image);
+  border-image-slice: var(--fluid-slice);
+  border-image-width: 1;
+  border-image-repeat: stretch;
+  pointer-events: none;
+}
+
+/* Each desktop chassis retains its source-scale corners and repeats only a
+   measured straight channel. The raster pieces keep their original pixels. */
+.fluid-mechanical-frame__tiled-chassis {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: var(--fluid-tile-left) minmax(0, 1fr) var(--fluid-tile-right);
+  grid-template-rows: var(--fluid-tile-top) minmax(0, 1fr) var(--fluid-tile-bottom);
+  pointer-events: none;
+}
+
+.fluid-mechanical-frame__tiled-piece {
+  display: block;
+  min-width: 0;
+  min-height: 0;
+  background-position: top left;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.fluid-mechanical-frame__tiled-piece[data-part="top-middle"],
+.fluid-mechanical-frame__tiled-piece[data-part="bottom-middle"] { background-repeat: repeat-x; }
+.fluid-mechanical-frame__tiled-piece[data-part="middle-left"],
+.fluid-mechanical-frame__tiled-piece[data-part="middle-right"] { background-repeat: repeat-y; }
+.fluid-mechanical-frame__tiled-piece[data-part="middle-middle"] { background-repeat: repeat; }
+
+.fluid-mechanical-frame__reactor {
+  position: absolute;
+  z-index: 1;
+  display: block;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.fluid-mechanical-frame__led {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fluid-mechanical-frame__pulse {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: fluid-mechanical-lap var(--fluid-lap) linear infinite;
+}
+
+.fluid-mechanical-frame__pulse--secondary { animation-delay: calc(var(--fluid-lap) / -2); }
+.fluid-mechanical-frame[data-glow="soft"] .fluid-mechanical-frame__pulse { opacity: .58; }
+.fluid-mechanical-frame[data-glow="strong"] .fluid-mechanical-frame__pulse,
+.fluid-mechanical-frame[data-active="true"] .fluid-mechanical-frame__pulse { opacity: 1; stroke-width: 4; }
+.fluid-mechanical-frame[data-variant="minimal"] .fluid-mechanical-frame__chassis { opacity: .68; }
+.fluid-mechanical-frame[data-hoverable="true"]:is(:hover, :focus-within) .fluid-mechanical-frame__pulse,
+*:hover > .fluid-mechanical-frame[data-hoverable="true"] .fluid-mechanical-frame__pulse,
+*:focus-within > .fluid-mechanical-frame[data-hoverable="true"] .fluid-mechanical-frame__pulse { opacity: 1; }
+.fluid-mechanical-frame[data-visible="false"] .fluid-mechanical-frame__pulse { animation-play-state: paused; }
+
+@keyframes fluid-mechanical-lap {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -1000; }
+}
+
+.fluid-mechanical-frame[data-motion="off"] .fluid-mechanical-frame__pulse,
+.game-shell.reduce-motion .fluid-mechanical-frame__pulse { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fluid-mechanical-frame__pulse { display: none; }
+}

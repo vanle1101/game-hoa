@@ -1,0 +1,412 @@
+/* The data-backed widget layouts sit above the shared city/glass treatment. */
+.game-shell.lobby-view.sidebar-expanded{--desktop-sidebar-width:220px}
+.game-shell.lobby-view .main-shell{min-width:0;width:calc(100% - var(--desktop-sidebar-width));margin-left:var(--desktop-sidebar-width)!important}
+.game-shell.lobby-view .content-main.screen-lobby{min-width:0;overflow-x:hidden}
+.game-shell.lobby-view .vref-lobby,.game-shell.lobby-view .vref-board{min-width:0;width:100%}
+.game-shell.lobby-view .sidebar .sidebar-footer{height:auto;min-height:122px;flex-direction:column;align-items:stretch;justify-content:flex-end;gap:5px;padding:8px 0 10px}
+.game-shell.lobby-view .sidebar .lobby-sidebar-motto{margin:0 2px 5px;padding:0;border:0;font-size:10px;line-height:1.3}
+.game-shell.lobby-view .sidebar .lobby-sidebar-status{display:flex;align-items:center;gap:6px;min-height:14px;font-size:7px;letter-spacing:.08em}
+.game-shell.lobby-view.sidebar-compact .sidebar .sidebar-footer{min-height:50px}
+.game-shell.lobby-view.sidebar-compact .sidebar .lobby-sidebar-motto,.game-shell.lobby-view.sidebar-compact .sidebar .lobby-sidebar-settings span,.game-shell.lobby-view.sidebar-compact .sidebar .lobby-sidebar-status{display:none}
+.vref-header{grid-template-columns:minmax(270px,300px) minmax(250px,380px) minmax(430px,1fr);min-width:0}
+.vref-header>.vref-date{grid-column:1}
+.vref-header>.vref-quote{grid-column:2;min-width:0}
+.vref-header>.vref-header-right{grid-column:3;min-width:0;width:100%;overflow:visible}
+.vref-header>*{min-width:0}
+.vref-header .vref-date,.vref-header .vref-quote,.vref-header .vref-search-wrap,.vref-header .vref-header-bell,.vref-header .vref-header-profile{background:#050d26a3}
+.game-shell.lobby-view .vref-board{grid-template-rows:minmax(260px,39fr) minmax(360px,61fr);gap:9px;padding:3px 9px 9px}
+.vref-panel{background:linear-gradient(135deg,#05081663,#07142a50 62%,#1507275c)}
+.vref-today,.vref-boss,.vref-butler{padding:12px}
+.vref-today-top .vref-heading>svg{color:#ffca45;filter:drop-shadow(0 0 8px #ffc632)}
+.vref-today-content{min-height:0}
+.vref-tasks,.vref-hero-summary,.vref-boss-main,.vref-boss-stats,.vref-butler,.vref-mid-bottom,.vref-character-body,.vref-character-data,.vref-rewards{min-height:0}
+.vref-today-content{grid-template-columns:56% minmax(0,44%);gap:8px}
+.vref-hero-summary{grid-template-columns:47% 53%}
+.vref-today-character{background-position:center 24%;background-color:#0710268a}
+.vref-vitals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:minmax(0,1fr) auto;align-items:stretch;gap:5px;padding:0 0 0 6px}
+.vref-vitals>div:not(.vref-gold){display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:0;padding:5px 2px;background:#0816348a;border:1px solid #2879b999;text-align:center}
+.vref-vitals>div:not(.vref-gold) svg{flex:none;width:18px;height:18px}
+.vref-vitals>div:not(.vref-gold) span{font-size:clamp(7px,.54vw,10px);line-height:1.1;white-space:normal}
+.vref-vitals>div:not(.vref-gold) strong{font-size:clamp(9px,.7vw,13px)}
+.vref-vitals>div:not(.vref-gold) .vref-meter{width:82%;height:5px}
+.vref-vitals .vref-gold{grid-column:1/-1;min-height:42px;background:#102342a8!important}
+.vref-vitals .vref-gold span{font-size:clamp(8px,.6vw,11px)}
+.vref-vitals .vref-gold strong{font-size:clamp(13px,.9vw,18px)}
+.vref-task{background:linear-gradient(90deg,#0a2048b5,#10264cbd)!important}
+.vref-task .vref-task-check{display:grid;place-items:center;width:21px;height:21px;min-height:0;padding:0;border:2px solid #7bcaff!important;border-radius:50%;background:transparent!important;color:#051932;box-shadow:0 0 8px #52c9fd66}
+.vref-task .vref-task-check svg{opacity:0}
+.vref-task .vref-task-check:hover,.vref-task .vref-task-check:focus-visible{background:#4cf6cf!important;border-color:#4cf6cf!important}
+.vref-task .vref-task-check:hover svg,.vref-task .vref-task-check:focus-visible svg{opacity:1}
+.vref-task .vref-task-open{display:grid;place-items:center;min-height:24px;padding:0;border:0!important;background:transparent!important;color:#9cdbff}
+.vref-task>span{min-width:0}
+.vref-task>span strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vref-boss-main{grid-template-columns:50% minmax(0,50%)}
+.vref-boss-art{position:relative;background-position:center center}
+.vref-boss-loot{position:absolute;bottom:5px;left:5px;right:5px;display:flex;justify-content:center;gap:5px;pointer-events:none}
+.vref-boss-loot span{display:grid;place-items:center;width:27%;height:31px;border:1px solid #ae6dff;background:#160d34bb;color:#d6c2ff;box-shadow:inset 0 0 12px #644bd786,0 0 8px #e947d68a}
+.vref-boss-loot span:first-child{color:#ffcd62}.vref-boss-loot span:nth-child(2){color:#6be9ff}
+.vref-boss-stats{background:#070c2291}
+.vref-boss-stats>p{display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.vref-boss-checklist{background:#0a1a3da0}
+.vref-boss-checklist button{display:flex;align-items:center;gap:4px;min-width:0;padding:2px 0;border:0!important;background:transparent!important;color:#d8eafa;text-align:left;font-size:clamp(8px,.53vw,10px)}
+.vref-boss-checklist button>span:nth-child(2){flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vref-boss-checklist button em{flex:none;color:#ff709d;font-size:clamp(7px,.5vw,10px);font-style:normal}
+.vref-boss-checkbox{flex:none;width:11px;height:11px;border:1px solid #83e8d7;border-radius:2px;box-shadow:0 0 6px #31eac699}
+.vref-boss-checklist button:hover .vref-boss-checkbox{background:#70f5d1}
+.vref-butler-art{height:clamp(90px,7.5vw,144px)}
+.vref-butler-art:before{opacity:.28}
+.vref-butler-message{background:#0b2856a3!important}
+.vref-butler-list button{justify-content:flex-start;background:#092449ab!important}
+.vref-butler-list button>span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vref-butler-list button:last-child{display:flex!important}
+.vref-apartment{background:#050f2555!important}
+.vref-apartment-live{background:transparent!important}
+.vref-apartment-live:before,.vref-apartment-live:after{display:none!important}
+.vref-apartment-live>.construction-live-world{background:transparent!important}
+.vref-apartment-live>.construction-live-world canvas{background:transparent!important}
+.vref-apartment-header{right:25%;padding:12px 14px;background:linear-gradient(180deg,#050a20b8,#07112766 70%,transparent)}
+.vref-apartment-header .vref-heading{gap:7px}
+.vref-apartment-header p{font-size:clamp(9px,.66vw,12px)!important}
+.vref-room-tabs{gap:4px}
+.vref-room-tabs button{padding:5px 7px;background:#06132dc4!important}
+.vref-room-status{display:inline-block;max-width:95%;margin-top:4px;padding:3px 6px;background:#07152dac;border:1px solid #2d77a866;color:#c3e8f8;font-size:clamp(8px,.5vw,10px)}
+.vref-apartment-actions{right:26%;bottom:9px;left:12px}
+.vref-apartment-actions button{background:#0a3565c0!important}
+.vref-featured{right:0;width:25%;display:flex;flex-direction:column;gap:5px;padding:10px 7px;background:#06152bba;border-left:1px solid #4cdcffba}
+.vref-featured h3{margin:0 0 2px;font-size:clamp(10px,.73vw,14px)!important}
+.vref-featured .vref-featured-item{display:grid;grid-template-columns:minmax(30px,36%) minmax(0,1fr);gap:5px;flex:1;min-height:0;padding:3px;border:1px solid #4592cd8c;background:#0a2141a0}
+.vref-featured .vref-featured-image{position:relative;display:block;width:100%;height:100%;min-height:0;margin:0;padding:0;border:0!important;background:#102952!important;overflow:hidden}
+.vref-featured-image img{object-fit:cover}
+.vref-featured-item>div{display:flex;flex-direction:column;justify-content:center;min-width:0;gap:2px}
+.vref-featured-item strong{display:-webkit-box;overflow:hidden;-webkit-line-clamp:2;-webkit-box-orient:vertical;font-size:clamp(8px,.54vw,11px);line-height:1.16}
+.vref-featured-item small{color:#ffc954;font-size:clamp(8px,.5vw,10px)}
+.vref-featured .vref-featured-item>div>button{display:flex;justify-content:center;align-items:center;gap:2px;width:fit-content;min-height:0;margin:0;padding:2px 5px;border:1px solid #44ccfa!important;background:#0b4483a9!important;font-size:clamp(8px,.48vw,10px)}
+.vref-featured .vref-featured-item>div>button:disabled{opacity:.48;cursor:not-allowed}
+.vref-featured .vref-featured-shop{display:flex;justify-content:center;gap:4px;flex:none;width:100%;min-height:25px;margin:0;padding:4px;border:1px solid #5acaff!important;background:#082b58cc!important;font-size:clamp(8px,.54vw,11px)}
+.vref-character,.vref-finance{background:#06102463}
+.vref-character-body{grid-template-columns:26% minmax(0,43%) minmax(0,31%)}
+.vref-character-art{background-color:#061c2b84}
+.vref-character-data{gap:3px}
+.vref-character-tabs{display:flex;gap:3px;margin-top:2px}
+.vref-character-tabs button{flex:1;padding:3px 2px;border:1px solid #3064a6!important;background:#0d2040aa!important;color:#c4ddeb;font-size:clamp(8px,.5vw,10px)}
+.vref-character-tabs button.active{border-color:#5ad9ff!important;background:#0c63a1ab!important;color:#fff;box-shadow:0 0 8px #2cbef866}
+.vref-character-statbars{display:grid;gap:3px;margin-top:2px;overflow:auto;min-height:0}
+.vref-character-statbars>div>span{display:flex;justify-content:space-between;gap:4px;color:#d5e5f7;font-size:clamp(8px,.5vw,10px)}
+.vref-character-statbars b{color:#b4f0fc;white-space:nowrap}
+.vref-character-statbars .vref-meter{height:4px;margin:1px 0 0}
+.vref-meter.purple i{background:linear-gradient(90deg,#7653df,#e67aff);box-shadow:0 0 10px #bf62ee}
+.vref-character-equipped-list{display:grid;gap:2px;overflow:auto;color:#c9e7f8;font-size:clamp(8px,.5vw,10px)}
+.vref-character-gear{gap:5px}
+.vref-gear-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:4px;flex:1;min-height:0}
+.vref-character-gear .vref-gear-grid>span{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;min-height:0;padding:2px;border:1px solid #9c65cf;background:#17153fa8;text-align:center}
+.vref-gear-grid svg{flex:none;color:#93d8ff}
+.vref-gear-grid b{display:-webkit-box;overflow:hidden;-webkit-line-clamp:2;-webkit-box-orient:vertical;font-size:clamp(7px,.45vw,9px);font-weight:500}
+.vref-character-gear>button{flex:none;min-height:21px}
+.vref-rewards .vref-reward-grid button>span{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px}
+.vref-rewards .vref-reward-grid button>span strong{grid-column:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vref-rewards .vref-reward-grid button>span small{grid-column:1;color:#ffdc86;font-size:clamp(8px,.5vw,10px)}
+.vref-rewards .vref-reward-grid button>span svg{grid-column:2;grid-row:1/3}
+.vref-rewards .vref-reward-grid button:disabled{opacity:.65;cursor:not-allowed}
+.vref-rewards .vref-reward-grid button:disabled:after{background:linear-gradient(transparent,#080821e8)}
+.vref-rewards>.vref-small-link{position:absolute;bottom:4px;right:8px;font-size:clamp(8px,.5vw,10px)}
+@media(max-width:1450px){.vref-header{grid-template-columns:minmax(220px,270px) minmax(210px,320px) minmax(390px,1fr)}.vref-butler-list button:last-child{display:flex!important}}
+@media(max-width:1130px){.game-shell.lobby-view .vref-board{height:auto;grid-template-rows:320px 320px 500px 320px}.vref-header{grid-template-columns:180px minmax(350px,1fr)}.vref-header .vref-quote{display:none}.vref-rewards>.vref-small-link{bottom:2px}}
+@media(prefers-reduced-motion:reduce){.vref-lobby *{scroll-behavior:auto}}
+
+/* The robot artwork follows the supplied HUD reference; the suggestions below remain live data. */
+.game-shell.lobby-view .vref-butler-art::before{display:block!important;background-position:8% center!important;background-size:auto 100%!important;filter:saturate(1.35) drop-shadow(0 0 12px #40eaff)!important;opacity:.95!important}
+
+/* The header and dashboard share one viewport; only widget content scrolls. */
+.game-shell.lobby-view{height:100dvh;min-height:0;min-width:0;overflow:hidden;display:flex}
+.game-shell.lobby-view .main-shell{height:100%;min-height:0;min-width:0;display:flex;flex-direction:column;flex:1 1 auto}
+.game-shell.lobby-view .content-main.screen-lobby{height:100%;min-height:0;display:flex;flex:1;flex-direction:column;overflow:hidden}
+.game-shell.lobby-view .vref-lobby{height:100%;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.game-shell.lobby-view .vref-header{flex:none}
+.game-shell.lobby-view .vref-body{height:auto;min-height:0;display:flex;flex:1;overflow:hidden}
+.game-shell.lobby-view .vref-board{height:100%;min-height:0;flex:1;grid-template-rows:minmax(0,39fr) minmax(0,61fr);overflow:hidden}
+.game-shell.lobby-view .vref-mid-bottom{grid-template-rows:repeat(2,minmax(0,1fr))}
+.game-shell.lobby-view .vref-today,.game-shell.lobby-view .vref-boss,.game-shell.lobby-view .vref-butler,.game-shell.lobby-view .vref-character,.game-shell.lobby-view .vref-rewards{display:flex;flex-direction:column}
+.game-shell.lobby-view .vref-today-content,.game-shell.lobby-view .vref-boss-main,.game-shell.lobby-view .vref-character-body{height:auto;min-height:0;flex:1}
+.game-shell.lobby-view .vref-boss-main{overflow:hidden}
+.game-shell.lobby-view .vref-boss .vref-action{flex:none}
+.game-shell.lobby-view .vref-butler-art{flex:none;max-height:30%}
+.game-shell.lobby-view .vref-butler-message{flex:none}
+.game-shell.lobby-view .vref-reward-grid{height:auto;min-height:0;flex:1;grid-auto-rows:minmax(96px,1fr);align-content:start}
+.game-shell.lobby-view .vref-rewards>.vref-small-link{position:static;align-self:flex-end;flex:none;margin-top:4px}
+.game-shell.lobby-view .vref-featured{overflow-y:auto}
+.game-shell.lobby-view .vref-featured .vref-featured-item{flex:none;min-height:58px}
+.game-shell.lobby-view .vref-tasks,.game-shell.lobby-view .vref-boss-stats,.game-shell.lobby-view .vref-butler-list,.game-shell.lobby-view .vref-character-body,.game-shell.lobby-view .vref-reward-grid,.game-shell.lobby-view .vref-featured{overflow-y:auto;scrollbar-width:thin;scrollbar-color:#334155 transparent}
+.game-shell.lobby-view .vref-tasks::-webkit-scrollbar,.game-shell.lobby-view .vref-boss-stats::-webkit-scrollbar,.game-shell.lobby-view .vref-butler-list::-webkit-scrollbar,.game-shell.lobby-view .vref-character-body::-webkit-scrollbar,.game-shell.lobby-view .vref-reward-grid::-webkit-scrollbar,.game-shell.lobby-view .vref-featured::-webkit-scrollbar{width:5px}
+.game-shell.lobby-view .vref-tasks::-webkit-scrollbar-thumb,.game-shell.lobby-view .vref-boss-stats::-webkit-scrollbar-thumb,.game-shell.lobby-view .vref-butler-list::-webkit-scrollbar-thumb,.game-shell.lobby-view .vref-character-body::-webkit-scrollbar-thumb,.game-shell.lobby-view .vref-reward-grid::-webkit-scrollbar-thumb,.game-shell.lobby-view .vref-featured::-webkit-scrollbar-thumb{background:#334155;border-radius:5px}
+.game-shell.lobby-view .vref-butler-list{min-height:0;flex:1;align-content:start}
+.game-shell.lobby-view .vref-finance .lfin-widget{min-height:0}
+@media(max-width:1130px){
+  .game-shell.lobby-view .vref-board{height:100%;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,.81fr);grid-template-rows:minmax(0,39fr) minmax(0,61fr);overflow:hidden}
+  .game-shell.lobby-view .vref-today{grid-column:1;grid-row:1}
+  .game-shell.lobby-view .vref-boss{grid-column:2;grid-row:1}
+  .game-shell.lobby-view .vref-butler{grid-column:3;grid-row:1}
+  .game-shell.lobby-view .vref-apartment{grid-column:1;grid-row:2}
+  .game-shell.lobby-view .vref-mid-bottom{grid-column:2;grid-row:2}
+  .game-shell.lobby-view .vref-rewards{grid-column:3;grid-row:2;min-height:0}
+  .game-shell.lobby-view .vref-reward-grid{height:auto;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none}
+}
+
+/* City wallpaper is shared by the sidebar, header and all seven glass widgets. */
+.game-shell.lobby-view{
+  background-color:transparent;
+  background-image:url('/assets/cyberpunk-bg.png'),url('/assets/lobby-reference/city-skyline.svg');
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+}
+.game-shell.lobby-view .lobby-city-overlay{z-index:0;background:rgba(0,0,0,.2)}
+.game-shell.lobby-view .main-shell,.game-shell.lobby-view .sidebar{position:relative;z-index:1}
+.game-shell.lobby-view .vref-lobby::before{display:none}
+.game-shell.lobby-view .sidebar{position:fixed;z-index:70;background:transparent!important;border-color:#06b6d466;box-shadow:0 0 15px #00f0ff26,inset 0 0 13px #9020d426;backdrop-filter:none}
+.game-shell.lobby-view .vref-panel{background:transparent!important;border:1px solid #06b6d466;box-shadow:0 0 15px #00f0ff26,inset 0 0 15px #a72aff21;backdrop-filter:none}
+.game-shell.lobby-view .vref-header{background:rgba(5,8,22,.15);backdrop-filter:blur(2px)}
+.game-shell.lobby-view .vref-date,.game-shell.lobby-view .vref-quote,.game-shell.lobby-view .vref-search-wrap,.game-shell.lobby-view .vref-header-bell,.game-shell.lobby-view .vref-header-profile{background:rgba(5,8,22,.3)}
+.game-shell.lobby-view .vref-task,.game-shell.lobby-view .vref-boss-stats,.game-shell.lobby-view .vref-boss-checklist,.game-shell.lobby-view .vref-butler-message,.game-shell.lobby-view .vref-butler-list button,.game-shell.lobby-view .vref-featured,.game-shell.lobby-view .vref-featured .vref-featured-item,.game-shell.lobby-view .vref-character-data,.game-shell.lobby-view .vref-character-gear,.game-shell.lobby-view .lfin-stat{background:rgba(5,8,22,.3)!important}
+.game-shell.lobby-view .vref-vitals>div:not(.vref-gold),.game-shell.lobby-view .vref-vitals .vref-gold,.game-shell.lobby-view .vref-level{background:rgba(5,8,22,.3)!important}
+.game-shell.lobby-view .vref-skill-link{display:flex;align-items:center;justify-content:space-between;gap:3px;min-width:0;margin-top:auto;padding:2px 0;color:#7de8ff;font-size:clamp(8px,.52vw,10px);text-align:left}
+.game-shell.lobby-view .vref-achievements{display:flex;flex-direction:column;gap:6px}
+.game-shell.lobby-view .vref-achievements .vref-heading>svg{color:#ffd15a}
+.game-shell.lobby-view .vref-achievement-count{margin-left:auto;color:#ffe49a;font-size:clamp(9px,.6vw,12px)}
+.game-shell.lobby-view .vref-achievement-summary{display:flex;justify-content:space-between;gap:5px;color:#e9f9ff;font-size:clamp(8px,.58vw,11px)}
+.game-shell.lobby-view .vref-achievement-summary>span{color:#9ce8f4;white-space:nowrap}
+.game-shell.lobby-view .vref-achievement-list{display:grid;align-content:start;gap:5px;min-height:0;flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#334155 transparent}
+.game-shell.lobby-view .vref-achievement-row{display:flex;align-items:flex-start;gap:6px;min-width:0;padding:5px;border:1px solid #06b6d466;background:#0508164d}
+.game-shell.lobby-view .vref-achievement-row>svg{flex:none;color:#f8ce67}
+.game-shell.lobby-view .vref-achievement-row span{min-width:0}
+.game-shell.lobby-view .vref-achievement-row strong,.game-shell.lobby-view .vref-achievement-row small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:clamp(8px,.54vw,10px)}
+.game-shell.lobby-view .vref-achievement-row small{color:#afd1e4}
+.game-shell.lobby-view .vref-achievement-link{display:flex;align-items:center;justify-content:space-between;gap:5px;flex:none;padding:3px 0;color:#8eeaff;border-top:1px solid #06b6d466;font-size:clamp(8px,.54vw,10px)}
+
+/* Skill preview uses the same XP thresholds and unlocked nodes as the full tree. */
+.game-shell.lobby-view .vref-skill-preview{grid-column:1;grid-row:2;display:flex;flex-direction:column;gap:clamp(5px,.55vw,9px);min-width:0;padding:clamp(10px,.8vw,15px);background:rgba(5,8,22,.3)!important}
+.game-shell.lobby-view .vref-skill-header{display:flex;align-items:center;justify-content:space-between;gap:8px;flex:none}
+.game-shell.lobby-view .vref-skill-header .vref-heading>svg{color:#53edff}
+.game-shell.lobby-view .vref-skill-level{padding:3px 9px;border:1px solid #69caff9c;background:#0a2f5366;color:#d9f9ff;font-size:clamp(9px,.6vw,12px);white-space:nowrap}
+.game-shell.lobby-view .vref-skill-intro{flex:none;color:#c9eaff;font-size:clamp(9px,.65vw,12px)!important;line-height:1.3!important}
+.game-shell.lobby-view .vref-skill-totals{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;flex:none}
+.game-shell.lobby-view .vref-skill-totals>span{display:flex;align-items:center;gap:8px;min-width:0;padding:6px 9px;border:1px solid #52dfff85;background:#06193177;color:#d7efff;font-size:clamp(8px,.59vw,11px)}
+.game-shell.lobby-view .vref-skill-totals>span:last-child{border-color:#d96aff8c}
+.game-shell.lobby-view .vref-skill-totals strong{color:#7bf1ff;font-size:clamp(18px,1.35vw,27px);line-height:1}
+.game-shell.lobby-view .vref-skill-totals>span:last-child strong{color:#f28aff}
+.game-shell.lobby-view .vref-skill-totals strong small{font-size:.55em;color:#a6bcd4}
+.game-shell.lobby-view .vref-skill-content{display:grid;grid-template-columns:minmax(0,43%) minmax(0,57%);gap:10px;flex:1;min-height:0}
+.game-shell.lobby-view .vref-skill-map{position:relative;min-height:115px;border:1px solid #4bb8ea70;background:radial-gradient(circle at center,#1766aa48 0,#0c1d3752 38%,#05081635 72%);overflow:hidden}
+.game-shell.lobby-view .vref-skill-line{position:absolute;z-index:0;background:#4fdcffa8;box-shadow:0 0 9px #42dcff}
+.game-shell.lobby-view .vref-skill-line.horizontal{top:50%;left:19%;right:19%;height:1px}
+.game-shell.lobby-view .vref-skill-line.vertical{left:50%;top:15%;bottom:15%;width:1px}
+.game-shell.lobby-view .vref-skill-core{position:absolute;z-index:2;top:50%;left:50%;display:grid;place-items:center;width:clamp(46px,4vw,68px);height:clamp(46px,4vw,68px);transform:translate(-50%,-50%);border:2px solid #79edff;border-radius:50%;background:#0a2656c9;color:#d3faff;box-shadow:0 0 20px #25d9ff88,inset 0 0 16px #25d9ff44}
+.game-shell.lobby-view .vref-skill-core small{font-size:9px}
+.game-shell.lobby-view .vref-skill-node{position:absolute;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:clamp(49px,4.5vw,75px);min-height:clamp(40px,3.5vw,60px);padding:3px;border:1px solid #64dfff!important;border-radius:7px;background:#091838b8!important;color:#dffaff;font-size:clamp(7px,.48vw,10px);text-align:center;box-shadow:0 0 11px #29cfff5c}
+.game-shell.lobby-view .vref-skill-node.node-0{top:3%;left:50%;transform:translateX(-50%)}
+.game-shell.lobby-view .vref-skill-node.node-1{top:50%;right:4%;transform:translateY(-50%)}
+.game-shell.lobby-view .vref-skill-node.node-2{bottom:3%;left:50%;transform:translateX(-50%)}
+.game-shell.lobby-view .vref-skill-node.node-3{top:50%;left:4%;transform:translateY(-50%)}
+.game-shell.lobby-view .vref-skill-node.pink{border-color:#ff79d8!important;color:#ffb3e6;box-shadow:0 0 11px #ff48ca60}
+.game-shell.lobby-view .vref-skill-node.violet{border-color:#bb82ff!important;color:#e1bdff;box-shadow:0 0 11px #b34fff60}
+.game-shell.lobby-view .vref-skill-node.amber{border-color:#ffca70!important;color:#ffe2aa;box-shadow:0 0 11px #ffaa4360}
+.game-shell.lobby-view .vref-skill-branches{min-height:0;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#334155 transparent}
+.game-shell.lobby-view .vref-skill-branches h3{margin:0 0 5px;font-size:clamp(10px,.72vw,14px)!important;color:#eafaff}
+.game-shell.lobby-view .vref-skill-branch{margin-bottom:6px}
+.game-shell.lobby-view .vref-skill-branch>div{display:flex;justify-content:space-between;gap:4px;color:#d9eeff;font-size:clamp(8px,.58vw,11px)}
+.game-shell.lobby-view .vref-skill-branch>div span{color:#9defff}
+.game-shell.lobby-view .vref-skill-branch-row{display:flex;align-items:center;gap:5px;width:100%;min-width:0}
+.game-shell.lobby-view .vref-skill-branch-meter{display:block;flex:1;min-width:12px;height:10px;overflow:hidden;border:0;border-radius:9999px;background:#09162e;box-shadow:inset 0 0 0 1px #316aa4}
+.game-shell.lobby-view .vref-skill-branch-meter>span{display:block;height:100%;border-radius:9999px;background:linear-gradient(90deg,#3a8dff,#5cf0ff);box-shadow:0 0 8px #4ceaff}
+.game-shell.lobby-view .vref-skill-branch.pink .vref-skill-branch-meter>span{background:linear-gradient(90deg,#ec4899,#ff67c8)}
+.game-shell.lobby-view .vref-skill-branch.violet .vref-skill-branch-meter>span{background:linear-gradient(90deg,#8b5cf6,#bd82ff)}
+.game-shell.lobby-view .vref-skill-branch.amber .vref-skill-branch-meter>span{background:linear-gradient(90deg,#f59e0b,#ffc46a)}
+.game-shell.lobby-view .vref-skill-branch small{color:#a8c5dd;font-size:clamp(7px,.5vw,10px)}
+.game-shell.lobby-view .vref-skill-recent{display:flex;align-items:center;gap:9px;flex:none;min-width:0;padding:7px 9px;border:1px solid #b362ed7a;background:#1a103c6b;color:#d9eaff;font-size:clamp(8px,.57vw,11px)}
+.game-shell.lobby-view .vref-skill-recent>span{display:flex;align-items:center;gap:5px;flex:none;color:#dfa9ff}
+.game-shell.lobby-view .vref-skill-recent>div{display:flex;gap:6px;min-width:0;overflow:hidden}
+.game-shell.lobby-view .vref-skill-recent>div>span{display:flex;align-items:center;gap:3px;min-width:0;white-space:nowrap;color:#9ef8e6}
+.game-shell.lobby-view .vref-skill-recent>div>small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#a9c9de;font-size:inherit}
+.game-shell.lobby-view .vref-skill-open{display:flex;align-items:center;justify-content:center;gap:7px;flex:none;min-height:29px;padding:5px 9px;border:1px solid #62dfff!important;background:linear-gradient(90deg,#0d4c9199,#521e9b88)!important;color:#f2fdff;font-size:clamp(9px,.61vw,12px);box-shadow:0 0 12px #1ecfff65}
+@media(max-width:1130px){.game-shell.lobby-view .vref-skill-preview{grid-column:1;grid-row:2}.game-shell.lobby-view .vref-skill-content{gap:5px}.game-shell.lobby-view .vref-skill-node{width:44px;min-height:35px}}
+
+/* Clear HUD glass: keep the city visible through every dashboard panel. */
+.game-shell.lobby-view .lobby-city-overlay{background:rgba(0,0,0,.08)}
+.game-shell.lobby-view .sidebar{background:transparent!important;border:1px solid rgba(6,182,212,.3)!important;backdrop-filter:none!important}
+.game-shell.lobby-view .vref-panel{background:transparent!important;border:1px solid rgba(103,232,249,.5)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.game-shell.lobby-view .sidebar{box-shadow:2px 0 14px #00d5ff29,inset -1px 0 #d959e45e}
+.game-shell.lobby-view .vref-panel{box-shadow:0 0 15px #00f0ff26,inset 0 0 12px #a72aff18}
+.game-shell.lobby-view .vref-header{background:rgba(5,8,22,.15);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+.game-shell.lobby-view .vref-date,.game-shell.lobby-view .vref-quote,.game-shell.lobby-view .vref-search-wrap,.game-shell.lobby-view .vref-header-bell,.game-shell.lobby-view .vref-header-profile{background:rgba(5,8,22,.18)}
+.game-shell.lobby-view .vref-task,.game-shell.lobby-view .vref-boss-stats,.game-shell.lobby-view .vref-boss-checklist,.game-shell.lobby-view .vref-butler-message,.game-shell.lobby-view .vref-butler-list button,.game-shell.lobby-view .vref-character-data,.game-shell.lobby-view .vref-character-gear,.game-shell.lobby-view .vref-vitals>div:not(.vref-gold),.game-shell.lobby-view .vref-vitals .vref-gold,.game-shell.lobby-view .vref-level,.game-shell.lobby-view .vref-skill-totals>span,.game-shell.lobby-view .vref-skill-recent,.game-shell.lobby-view .vref-achievement-row{background:rgba(5,8,22,.17)!important}
+.game-shell.lobby-view .vref-skill-node{background:rgba(5,8,22,.27)!important}
+.game-shell.lobby-view .vref-skill-core{background:rgba(8,30,68,.42)}
+.game-shell.lobby-view .sidebar .sidebar-footer{background:transparent}
+
+/* Headings are the compact, keyboard-accessible routes into each module. */
+.game-shell.lobby-view .vref-heading h2{min-width:0}
+.game-shell.lobby-view .vref-heading-link{display:inline-flex;align-items:center;gap:9px;max-width:100%;min-width:0;padding:0;border:0!important;background:transparent!important;color:#f4fbff;font:inherit;font-weight:inherit;text-align:left;cursor:pointer;transition:color .18s ease,text-shadow .18s ease}
+.game-shell.lobby-view .vref-heading-link svg{flex:none;color:#68eaff;filter:drop-shadow(0 0 5px #32dfff)}
+.game-shell.lobby-view .vref-today .vref-heading-link svg{color:#ffca45;filter:drop-shadow(0 0 8px #ffc632)}
+.game-shell.lobby-view .vref-boss .vref-heading-link svg{color:#ff617c;filter:drop-shadow(0 0 7px #ff306c)}
+.game-shell.lobby-view .vref-achievements .vref-heading-link svg,.game-shell.lobby-view .vref-rewards .vref-heading-link svg{color:#ffd15a;filter:drop-shadow(0 0 6px #ffc049)}
+.game-shell.lobby-view .vref-heading-link:hover,.game-shell.lobby-view .vref-heading-link:focus-visible{color:#67ebff;text-shadow:0 0 9px #25dfff}
+.game-shell.lobby-view .vref-heading-link:focus-visible,.game-shell.lobby-view .vref-boss-art:focus-visible{outline:2px solid #9af4ff;outline-offset:2px}
+
+/* The boss image opens the campaign; the full-width checklist uses the freed footer area. */
+.game-shell.lobby-view .vref-boss{gap:5px}
+.game-shell.lobby-view .vref-boss-main{display:grid;grid-template-columns:minmax(0,46%) minmax(0,54%);flex:1;min-height:0;height:auto;margin-top:0;overflow:hidden}
+.game-shell.lobby-view .vref-boss-art{display:block;position:relative;width:100%;height:100%;min-height:0;padding:0;border:0!important;background-image:url('/assets/lobby-reference/boss-art.jpg')!important;background-position:center;background-size:cover;cursor:pointer;transform-origin:center;transition:transform .2s ease,filter .2s ease}
+.game-shell.lobby-view .vref-boss-art:hover{transform:scale(1.03);filter:brightness(1.22)}
+.game-shell.lobby-view .vref-boss-loot{gap:5px;left:4px;right:4px;bottom:4px}
+.game-shell.lobby-view .vref-boss-loot span{flex:1;width:auto;height:30px;background:rgba(18,9,46,.22)}
+.game-shell.lobby-view .vref-boss-stats{gap:4px;padding:4px 3px 3px 8px;overflow-y:auto}
+.game-shell.lobby-view .vref-boss-stats>strong{font-size:clamp(11px,.8vw,15px)}
+.game-shell.lobby-view .vref-boss-checklist{display:flex;flex-direction:column;gap:3px;flex:none;width:100%;min-height:77px;max-height:43%;padding:5px 7px;overflow-y:auto;font-size:clamp(10px,.72vw,13px)}
+.game-shell.lobby-view .vref-boss-checklist b{font-size:clamp(10px,.76vw,14px)}
+.game-shell.lobby-view .vref-boss-checklist button{width:100%;min-height:19px;padding:1px 0;font-size:clamp(10px,.69vw,13px)}
+.game-shell.lobby-view .vref-boss-checklist button em{font-size:clamp(9px,.61vw,11px)}
+.game-shell.lobby-view .vref-boss-checklist span:nth-of-type(n+3){display:initial}
+@media(max-width:1130px){.game-shell.lobby-view .vref-boss-checklist{max-height:45%;min-height:72px}.game-shell.lobby-view .vref-boss-main{grid-template-columns:minmax(0,43%) minmax(0,57%)}}
+
+/* Boss: a full-height portrait beside compact encounter details. */
+.game-shell.lobby-view .vref-boss{gap:4px}
+.game-shell.lobby-view .vref-boss-main{grid-template-columns:minmax(0,45%) minmax(0,55%);gap:5px;flex:1;min-height:0;overflow:visible}
+.game-shell.lobby-view .vref-boss-art{overflow:hidden;border:1px solid #6586e077!important;border-radius:4px;box-shadow:inset 0 0 19px #2c0e6599,0 0 10px #884be94a}
+.game-shell.lobby-view .vref-boss-art::after{content:"";position:absolute;inset:auto 7% 19px;height:13px;border:1px solid #b965ff99;border-radius:50%;background:radial-gradient(ellipse,#ee76ff9c,#7819c944 60%,transparent 75%);box-shadow:0 0 14px #f44dff;pointer-events:none}
+.game-shell.lobby-view .vref-boss-loot{z-index:2;justify-content:center;gap:4px;bottom:3px;left:3px;right:3px}
+.game-shell.lobby-view .vref-boss-loot span{flex:0 1 30px;width:clamp(22px,2.3vw,30px);height:clamp(22px,2.3vw,30px);border:1px solid #3b82f680;background:#0a112899;box-shadow:0 0 7px #497dff66,inset 0 0 8px #6a37d949}
+.game-shell.lobby-view .vref-boss-info{display:flex;flex-direction:column;gap:4px;min-width:0;min-height:0}
+.game-shell.lobby-view .vref-boss-stats{flex:none;gap:3px;padding:0 1px;background:transparent!important;overflow:visible}
+.game-shell.lobby-view .vref-boss-identity{display:flex;align-items:center;justify-content:space-between;gap:3px;min-width:0}
+.game-shell.lobby-view .vref-boss-identity strong{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#fff;font-size:clamp(10px,.72vw,13px);line-height:1.15}
+.game-shell.lobby-view .vref-boss-identity span{flex:none;padding:2px 4px;border:1px solid #ff5f9999;border-radius:3px;background:#a3133b3d;color:#ffb7ce;font-size:9px;line-height:1}
+.game-shell.lobby-view .vref-boss-stats>.vref-meter{min-height:6px;height:6px}
+.game-shell.lobby-view .vref-boss-stats>small{font-size:9px;line-height:1;color:#e1ebff}
+.game-shell.lobby-view .vref-boss-stats>p{display:-webkit-box!important;-webkit-line-clamp:2;min-height:0;margin:0;color:#bdc5d7;font-size:clamp(8px,.52vw,10px);line-height:1.25}
+.game-shell.lobby-view .vref-boss-checklist{flex:1;min-height:0;max-height:none;width:100%;gap:1px;padding:4px 5px;border:1px solid #31538a80;border-radius:6px;overflow-y:auto;background:#0508162b!important}
+.game-shell.lobby-view .vref-boss-checklist b{flex:none;font-size:clamp(9px,.64vw,11px);line-height:1.15}
+.game-shell.lobby-view .vref-boss-checklist button{flex:none;min-height:17px;gap:4px;padding:1px 0;font-size:clamp(9px,.6vw,11px);line-height:1.1}
+.game-shell.lobby-view .vref-boss-checklist button>span:nth-child(2){display:-webkit-box;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2;white-space:normal;line-height:1.1}
+.game-shell.lobby-view .vref-boss-checklist button em{font-size:clamp(8px,.53vw,10px);white-space:nowrap}
+.game-shell.lobby-view .vref-boss-checkbox{width:10px;height:10px}
+.game-shell.lobby-view .vref-boss-detail{display:flex;align-items:center;justify-content:center;gap:4px;flex:none;min-height:22px;width:100%;padding:2px 4px;border:1px solid #7a80f4a6!important;border-radius:4px;background:linear-gradient(90deg,#173b8a80,#68269280)!important;color:#f4eaff;font-size:clamp(8px,.56vw,10px);white-space:nowrap;box-shadow:0 0 8px #9948ee45}
+.game-shell.lobby-view .vref-boss-detail:hover,.game-shell.lobby-view .vref-boss-detail:focus-visible{border-color:#a8eaff!important;box-shadow:0 0 12px #6dcbff8c}
+
+/* Character: portrait left, saved stats or equipment on the right. */
+.game-shell.lobby-view .vref-character{gap:3px}
+.game-shell.lobby-view .vref-character-header,.game-shell.lobby-view .vref-character-heading{display:flex;align-items:center;min-width:0;gap:3px}
+.game-shell.lobby-view .vref-character-header{justify-content:space-between;flex:none;min-height:21px}
+.game-shell.lobby-view .vref-character-heading .vref-heading-link{gap:5px}
+.game-shell.lobby-view .vref-character-heading .vref-heading-link svg{width:16px;height:16px}
+.game-shell.lobby-view .vref-character-heading .vref-heading h2{font-size:clamp(13px,.88vw,17px)!important}
+.game-shell.lobby-view .vref-character-menu{position:relative;z-index:12}
+.game-shell.lobby-view .vref-character-menu summary{display:grid;place-items:center;width:16px;height:16px;border:1px solid #5c91d277;border-radius:3px;color:#a5e8ff;cursor:pointer;list-style:none}
+.game-shell.lobby-view .vref-character-menu summary::-webkit-details-marker{display:none}
+.game-shell.lobby-view .vref-character-menu[open] summary{color:#fff;background:#154775a8}
+.game-shell.lobby-view .vref-character-menu>div{position:absolute;top:20px;left:-55px;display:grid;gap:2px;width:115px;padding:4px;border:1px solid #57c7ef;background:#0a1430f2;box-shadow:0 7px 18px #020714d9}
+.game-shell.lobby-view .vref-character-menu>div button{padding:4px 5px;color:#e3f6ff;font-size:10px;text-align:left}
+.game-shell.lobby-view .vref-character-menu>div button:hover{background:#12649088}
+.game-shell.lobby-view .vref-character-detail{display:flex;align-items:center;gap:2px;flex:none;min-height:20px;padding:2px 5px;border:1px solid #4abde28c!important;border-radius:3px;background:#061c3638!important;color:#b9f1ff;font-size:clamp(8px,.55vw,10px);white-space:nowrap}
+.game-shell.lobby-view .vref-character-body{display:grid;grid-template-columns:minmax(0,27%) minmax(0,73%);gap:5px;flex:1;height:auto;min-height:0;margin:0;overflow:hidden}
+.game-shell.lobby-view .vref-character-art{height:100%;min-height:0;border:1px solid #45dffe80}
+.game-shell.lobby-view .vref-character-art canvas{z-index:1}
+.game-shell.lobby-view .vref-character-ring{position:absolute;z-index:2;bottom:3px;left:7%;width:86%;height:15px;border:2px solid #5ef6ff;border-radius:50%;background:#37ceff36;box-shadow:0 0 11px #45eeff,inset 0 0 7px #3bdcff;pointer-events:none}
+.game-shell.lobby-view .vref-character-data{display:flex;flex-direction:column;gap:2px;min-width:0;min-height:0;padding:0 0 0 2px}
+.game-shell.lobby-view .vref-character-identity{display:flex;align-items:center;justify-content:space-between;gap:3px;min-width:0}
+.game-shell.lobby-view .vref-character-identity strong{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#f5fbff;font-size:clamp(10px,.69vw,13px)}
+.game-shell.lobby-view .vref-character-identity span{flex:none;color:#a5ecff;font-size:clamp(8px,.53vw,10px);white-space:nowrap}
+.game-shell.lobby-view .vref-character-data>.vref-meter{width:100%;height:5px;margin:0}
+.game-shell.lobby-view .vref-character-xp{align-self:flex-end;color:#a7c9e4;font-size:8px;line-height:1}
+.game-shell.lobby-view .vref-character-tabs{display:flex;gap:3px;flex:none;margin-top:1px}
+.game-shell.lobby-view .vref-character-tabs button{min-width:0;min-height:19px;padding:2px 3px;border-color:#4f7db78c!important;background:#071a3366!important;font-size:clamp(8px,.5vw,10px);white-space:nowrap}
+.game-shell.lobby-view .vref-character-tabs button.active{background:#116dae88!important}
+.game-shell.lobby-view .vref-character-statbars{display:flex;flex-direction:column;gap:2px;flex:1;min-height:0;margin:0;overflow-y:auto}
+.game-shell.lobby-view .vref-character-stat{display:flex;align-items:center;gap:5px;min-height:18px;color:#c7d8ec;font-size:clamp(8px,.5vw,10px);line-height:1}
+.game-shell.lobby-view .vref-character-stat svg{color:#8cdfff}
+.game-shell.lobby-view .vref-character-stat:first-child svg{color:#ff77c1}
+.game-shell.lobby-view .vref-character-stat span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.game-shell.lobby-view .vref-character-stat .vref-meter{flex:1;min-width:12px;height:10px;margin:0;border-radius:9999px}
+.game-shell.lobby-view .vref-character-stat .vref-meter i{height:100%;border-radius:9999px}
+.game-shell.lobby-view .vref-character-stat-label{display:flex;align-items:center;gap:4px;flex:0 0 clamp(69px,6vw,91px);min-width:0}
+.game-shell.lobby-view .vref-character-stat-label svg{flex:none}
+.game-shell.lobby-view .vref-character-stat b{color:#e9faff;font-size:clamp(8px,.5vw,10px);font-weight:600;white-space:nowrap}
+.game-shell.lobby-view .vref-character-equipment{display:flex;flex-direction:column;gap:3px;flex:1;min-height:0;overflow-y:auto}
+.game-shell.lobby-view .vref-character-equipment .vref-gear-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(28px,1fr));gap:3px;flex:1;min-height:58px}
+.game-shell.lobby-view .vref-character-equipment .vref-gear-grid span{display:flex;align-items:center;gap:4px;min-width:0;min-height:28px;padding:2px 3px;border:1px solid #5b80b577;border-radius:3px;background:#05081640;color:#bce9ff}
+.game-shell.lobby-view .vref-character-equipment .vref-gear-grid small{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#c9ddef;font-size:8px}
+.game-shell.lobby-view .vref-character-equipment>button{display:flex;align-items:center;justify-content:center;gap:3px;flex:none;min-height:18px;padding:2px 4px;border:1px solid #aa71e48c!important;border-radius:3px;background:#38176666!important;color:#e9d7ff;font-size:9px}
+@media(max-width:1130px){.game-shell.lobby-view .vref-boss-main{grid-template-columns:minmax(0,45%) minmax(0,55%);gap:4px}.game-shell.lobby-view .vref-boss-checklist{max-height:none;min-height:0}.game-shell.lobby-view .vref-character-stat{gap:3px}.game-shell.lobby-view .vref-character-stat-label{flex-basis:66px}}
+
+/* Open up NOVA's glass and make the dashboard's content affordances visible. */
+.game-shell.lobby-view .vref-butler{background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.game-shell.lobby-view .vref-butler-art{display:block;width:calc(100% + 22px);padding:0;background:rgba(5,8,22,.08)!important;border:1px solid #54dfff66!important;text-align:left;cursor:pointer}
+.game-shell.lobby-view .vref-butler-art::before{opacity:.7!important;mix-blend-mode:screen}
+.game-shell.lobby-view .vref-butler-art::after{background:rgba(5,8,22,.25)}
+.game-shell.lobby-view .vref-butler-message{display:block;width:100%;background:rgba(5,8,22,.16)!important;border-color:#4dbde477!important;color:#ecfaff;text-align:left;cursor:pointer}
+.game-shell.lobby-view .vref-butler-list button{background:rgba(5,8,22,.12)!important;border-color:#4086bb70!important;transition:border-color .18s ease,box-shadow .18s ease,background .18s ease}
+.game-shell.lobby-view .vref-butler-message:hover,.game-shell.lobby-view .vref-butler-message:focus-visible,.game-shell.lobby-view .vref-butler-list button:hover,.game-shell.lobby-view .vref-butler-list button:focus-visible{border-color:#69efff!important;background:rgba(5,25,43,.27)!important;box-shadow:0 0 11px #24cfff8c,inset 0 0 9px #29bfff35}
+.game-shell.lobby-view .vref-heading-link{transform-origin:left center;transition:color .18s ease,text-shadow .18s ease,transform .18s ease}
+.game-shell.lobby-view .vref-heading-link:hover,.game-shell.lobby-view .vref-heading-link:focus-visible{transform:scale(1.05)}
+.game-shell.lobby-view .vref-content-link,.game-shell.lobby-view .vref-vital-link,.game-shell.lobby-view .vref-achievement-row,.game-shell.lobby-view .vref-achievement-summary,.game-shell.lobby-view .vref-skill-totals>button,.game-shell.lobby-view .vref-skill-branch,.game-shell.lobby-view .vref-skill-recent{cursor:pointer;transition:border-color .18s ease,box-shadow .18s ease,filter .18s ease}
+.game-shell.lobby-view .vref-content-link:hover,.game-shell.lobby-view .vref-content-link:focus-visible,.game-shell.lobby-view .vref-vital-link:hover,.game-shell.lobby-view .vref-vital-link:focus-visible,.game-shell.lobby-view .vref-achievement-row:hover,.game-shell.lobby-view .vref-achievement-row:focus-visible,.game-shell.lobby-view .vref-skill-totals>button:hover,.game-shell.lobby-view .vref-skill-branch:hover,.game-shell.lobby-view .vref-skill-recent:hover{border-color:#70eaff!important;box-shadow:0 0 12px #26cfff77;filter:brightness(1.15)}
+.game-shell.lobby-view .vref-vitals>.vref-vital-link{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:0;padding:5px 2px;border:1px solid #2879b999;background:rgba(5,8,22,.17)!important;color:#e8f5ff;text-align:center}
+.game-shell.lobby-view .vref-vitals>.vref-vital-link svg{flex:none;width:18px;height:18px}
+.game-shell.lobby-view .vref-vitals>.vref-vital-link span{font-size:clamp(7px,.54vw,10px);line-height:1.1;white-space:normal}
+.game-shell.lobby-view .vref-vitals>.vref-vital-link strong{font-size:clamp(9px,.7vw,13px)}
+.game-shell.lobby-view .vref-vitals>.vref-vital-link .vref-meter{width:82%;height:5px}
+.game-shell.lobby-view .vref-level{width:100%;text-align:left}
+.game-shell.lobby-view .vref-task-summary{display:flex;flex-direction:column;align-items:flex-start;flex:1;min-width:0;padding:0;background:transparent!important;color:#e9f8ff;text-align:left}
+.game-shell.lobby-view .vref-task-summary strong,.game-shell.lobby-view .vref-task-summary small{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.game-shell.lobby-view .vref-task-summary:hover strong{color:#74edff}
+.game-shell.lobby-view .vref-boss-checklist-title{width:100%;padding:0;border:0!important;background:transparent!important;color:#ebf9ff;font-size:clamp(9px,.64vw,11px);font-weight:700;text-align:left}
+.game-shell.lobby-view .vref-boss-checklist-title:hover{color:#76eaff}
+.game-shell.lobby-view .vref-boss-story{display:-webkit-box;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2;min-height:0;color:#bdc5d7;font-size:clamp(8px,.52vw,10px);line-height:1.25;text-align:left}
+.game-shell.lobby-view .vref-art-hitbox{position:absolute;z-index:6;inset:0;width:100%;height:100%;padding:0;border:0!important;background:transparent!important;cursor:pointer}
+.game-shell.lobby-view .vref-art-hitbox:hover,.game-shell.lobby-view .vref-art-hitbox:focus-visible{box-shadow:inset 0 0 18px #37e7ff8c}
+.game-shell.lobby-view .vref-character-art{padding:0}
+.game-shell.lobby-view .vref-character-identity{width:100%;padding:0;background:transparent!important;text-align:left}
+.game-shell.lobby-view .vref-character-progress{display:flex;flex-direction:column;gap:2px;width:100%;padding:0;border:0!important;background:transparent!important;text-align:left}
+.game-shell.lobby-view .vref-character-progress .vref-meter{width:100%;height:10px;margin:0;border-radius:9999px}
+.game-shell.lobby-view .vref-character-progress .vref-meter i{height:100%;border-radius:9999px}
+.game-shell.lobby-view .vref-character-progress .vref-character-xp{align-self:flex-end}
+.game-shell.lobby-view .vref-character-stat{width:100%;padding:0;border:0!important;background:transparent!important;text-align:left}
+.game-shell.lobby-view .vref-character-equipment .vref-gear-grid button{display:flex;align-items:center;gap:4px;min-width:0;min-height:28px;padding:2px 3px;border:1px solid #5b80b577!important;border-radius:3px;background:#05081640!important;color:#bce9ff}
+.game-shell.lobby-view .vref-character-equipment .vref-gear-grid button:hover{border-color:#73eaff!important;box-shadow:0 0 8px #2fd5ff80}
+.game-shell.lobby-view .vref-achievement-summary{width:100%;padding:0;background:transparent!important;text-align:left}
+.game-shell.lobby-view .vref-achievement-meter{display:block;width:100%;padding:0;border:0!important;background:transparent!important;cursor:pointer}
+.game-shell.lobby-view .vref-achievement-meter:hover .vref-meter{box-shadow:0 0 9px #36d8ff}
+.game-shell.lobby-view .vref-achievement-row{width:100%;color:#e9f9ff;text-align:left}
+.game-shell.lobby-view .vref-skill-intro{width:100%;padding:0;border:0!important;background:transparent!important;text-align:left;cursor:pointer}
+.game-shell.lobby-view .vref-skill-intro:hover{color:#75eaff}
+.game-shell.lobby-view .vref-skill-totals>button{display:flex;align-items:center;gap:8px;min-width:0;padding:6px 9px;border:1px solid #52dfff85;background:#06193177;color:#d7efff;font-size:clamp(8px,.59vw,11px);text-align:left}
+.game-shell.lobby-view .vref-skill-totals>button:last-child{border-color:#d96aff8c}
+.game-shell.lobby-view .vref-skill-totals>button:last-child strong{color:#f28aff}
+.game-shell.lobby-view .vref-skill-branch{display:block;width:100%;padding:0;border:0!important;background:transparent!important;text-align:left}
+.game-shell.lobby-view .vref-skill-branch-label{display:flex;align-items:center;gap:4px;flex:0 0 clamp(64px,5.1vw,79px);min-width:0;color:#d9eeff;font-size:clamp(8px,.58vw,11px)}
+.game-shell.lobby-view .vref-skill-branch-label svg{flex:none;color:#9defff}
+.game-shell.lobby-view .vref-skill-branch-label strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.game-shell.lobby-view .vref-skill-branch-percent{flex:none;min-width:27px;color:#9defff;font-size:clamp(8px,.58vw,11px);text-align:right}
+.game-shell.lobby-view .vref-skill-recent{width:100%;text-align:left}
+.game-shell.lobby-view .vref-skill-recent-items{display:flex;gap:6px;min-width:0;overflow:hidden}
+.game-shell.lobby-view .vref-skill-recent-items>span{display:flex;align-items:center;gap:3px;min-width:0;white-space:nowrap;color:#9ef8e6}
+.game-shell.lobby-view .vref-skill-recent-items>small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#a9c9de;font-size:inherit}
+.game-shell.lobby-view .vref-reward-gold{padding:0;border:0!important;background:transparent!important;cursor:pointer}
+.game-shell.lobby-view .vref-reward-grid button{transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.game-shell.lobby-view .vref-reward-grid button:hover,.game-shell.lobby-view .vref-reward-grid button:focus-visible{transform:scale(1.025);border-color:#6ceaff!important;box-shadow:0 0 14px #25d5ff8c}
+.vref-reward-modal-backdrop{position:fixed;z-index:300;inset:0;display:grid;place-items:center;padding:20px;background:#020611b8;backdrop-filter:blur(4px)}
+.vref-reward-modal{position:relative;display:grid;grid-template-columns:minmax(150px,38%) minmax(0,62%);gap:14px;width:min(560px,96vw);min-height:250px;padding:15px;border:1px solid #5cdbff;border-radius:8px;background:linear-gradient(135deg,#08132ef2,#160d35f0);box-shadow:0 0 24px #24cfff80;color:#e8f7ff}
+.vref-reward-modal-close{position:absolute;z-index:2;top:6px;right:8px;width:26px;height:26px;border:1px solid #8fdfff;border-radius:4px;background:#091b3e;color:#fff;font-size:20px;line-height:1}
+.vref-reward-modal-image{position:relative;min-height:215px;overflow:hidden;border:1px solid #a35deb;border-radius:5px}
+.vref-reward-modal-image img{object-fit:cover}
+.vref-reward-modal-copy{display:flex;flex-direction:column;gap:7px;min-width:0;padding:7px 16px 0 0}
+.vref-reward-modal-copy>small{color:#75edff;font-size:10px;letter-spacing:.14em}
+.vref-reward-modal-copy h3{margin:0;color:#fff;font-size:20px;line-height:1.2}
+.vref-reward-modal-copy p{margin:0;color:#c7d7e8;font-size:12px;line-height:1.5}
+.vref-reward-modal-copy>strong{display:flex;align-items:center;gap:5px;margin-top:auto;color:#ffd679;font-size:17px}
+.vref-reward-modal-copy>span{color:#a9bfda;font-size:11px}
+.vref-reward-modal-actions{display:flex;gap:7px;margin-top:3px}
+.vref-reward-modal-actions button{flex:1;min-height:31px;padding:4px 6px;border:1px solid #62d5ff;border-radius:4px;background:#0a315f;color:#eaf9ff;font-size:11px;cursor:pointer}
+.vref-reward-modal-actions button:last-child{border-color:#d47bff;background:#542079}
+.vref-reward-modal-actions button:disabled{opacity:.45;cursor:not-allowed}
+@media(max-width:550px){.vref-reward-modal{grid-template-columns:1fr}.vref-reward-modal-image{min-height:150px}.vref-reward-modal-copy{padding:0 16px 0 0}}

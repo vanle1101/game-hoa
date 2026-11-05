@@ -1,0 +1,5 @@
+Use case: stylized-concept
+Asset type: 16:9 sci-fi web interface wallpaper
+Primary request: A breathtaking panoramic view of a futuristic Cyberpunk metropolis at night, seen from a high penthouse vantage point. Towering mega-skyscrapers made of dark glass and metal, illuminated by vibrant glowing neon lights in shades of magenta, deep violet, cyan, and warm electric yellow. Dense futuristic architecture, subtle holographic billboards, and tiny flying cars leaving light trails in the distance. The streets far below are shrouded in a cinematic, glowing volumetric fog. High contrast, cinematic lighting, ray-tracing reflections, masterpiece, highly detailed, Unreal Engine 5 render style.
+Composition: Wide panoramic 16:9 frame. Balanced, expansive skyline with useful visual breathing room through the center for transparent dashboard panels. Rich city detail across the sides and distant background.
+Constraints: No giant central text, no legible words, no logos, no watermark, no pre-drawn UI elements.

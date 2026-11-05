@@ -1,0 +1,39 @@
+{
+  "id": "ceramic-bathroom-suite",
+  "status": "ASSET PRODUCTION",
+  "description": "Vessel basin vanity and sculpted ceramic toilet suite",
+  "units": "metres",
+  "axes": "X right, Y up, Z front; feet at Y=0",
+  "dimensions": [
+    1.816,
+    1.87,
+    0.866
+  ],
+  "bounds": {
+    "min": [
+      -1.055,
+      0.02,
+      -0.423
+    ],
+    "max": [
+      0.761,
+      1.89,
+      0.444
+    ]
+  },
+  "meshCount": 18,
+  "triangles": 8620,
+  "features": [
+    "closed basin bowl",
+    "sculpted toilet pedestal",
+    "open seat ring",
+    "cistern",
+    "walnut vanity",
+    "silvered mirror",
+    "brass faucet",
+    "soap pump"
+  ],
+  "runtime": "/assets/apartment/bathroom/ceramic-bathroom-suite.glb",
+  "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+  "reference": "REF-D; authored approximation, requires in-game visual gate"
+}

@@ -33,6 +33,30 @@ export function isWallInsert(item: BuildingFurniture): boolean {
   return (item.placementType ?? FURNITURE.find(def => def.id === item.furnitureId)?.placementType) === "wall_insert";
 }
 
+export function wallInsertYaw(item: BuildingFurniture): number {
+  const normal = item.wallNormal;
+  const wallYaw = normal ? Math.atan2(normal[0], normal[2]) : 0;
+  // Old saves may contain an illegal quarter turn. Display them flush with
+  // the wall while placement validation still rejects that stored rotation.
+  return wallYaw + (item.rotation % 180 === 0 ? item.rotation * Math.PI / 180 : 0);
+}
+
+/** An insert's local X axis must follow its supporting wall; only a 180° face flip is valid. */
+export function wallInsertOrientationValid(wall: WallSegment, item: BuildingFurniture): boolean {
+  const normal = item.wallNormal;
+  if (!normal || (item.rotation !== 0 && item.rotation !== 180)) return false;
+  const epsilon = 1e-4;
+  const aligned = wall.orientation === "x"
+    ? Math.abs(normal[0]) < epsilon && Math.abs(normal[1]) < epsilon && Math.abs(Math.abs(normal[2]) - 1) < epsilon
+    : Math.abs(normal[2]) < epsilon && Math.abs(normal[1]) < epsilon && Math.abs(Math.abs(normal[0]) - 1) < epsilon;
+  if (!aligned) return false;
+  if (item.transform && (Math.abs(item.transform.rotation.x) >= epsilon || Math.abs(item.transform.rotation.z) >= epsilon)) return false;
+  const yaw = item.transform?.rotation.y;
+  if (yaw === undefined) return true;
+  const expected = Math.atan2(normal[0], normal[2]) + item.rotation * Math.PI / 180;
+  return Number.isFinite(yaw) && Math.abs(Math.atan2(Math.sin(yaw - expected), Math.cos(yaw - expected))) < epsilon;
+}
+
 export function wallInsertCenter(item: BuildingFurniture, walls: readonly WallSegment[]): { x: number; z: number } | undefined {
   const anchor = walls.find(wall => edgeKey(wall) === item.wall_id);
   if (!anchor) return undefined;
@@ -65,6 +89,23 @@ export function wallCutoutsForSegment(wall: WallSegment, plan: BuildingPlan): Wa
   });
 }
 
+/** Prefer the editable insert when a pointer hits the transparent wall surface over its opening. */
+export function wallInsertAtPoint(
+  wall: WallSegment,
+  plan: BuildingPlan,
+  point: { x: number; y: number; z: number },
+): BuildingFurniture | undefined {
+  const axis = wall.orientation === "x" ? point.x : point.z;
+  const segmentStart = wall.orientation === "x" ? wall.x : wall.z;
+  const height = point.y - wall.level * LEVEL_HEIGHT;
+  const cut = wallCutoutsForSegment(wall, plan).find(opening => {
+    const center = segmentStart + 0.5 + (wall.orientation === "x" ? opening.center : -opening.center);
+    return Math.abs(axis - center) <= opening.width / 2 + 0.08 &&
+      height >= opening.bottom - 0.08 && height <= opening.bottom + opening.height + 0.08;
+  });
+  return cut ? plan.furniture.find(item => item.id === cut.id) : undefined;
+}
+
 /** Remaining wall intervals at avatar height, in segment-local 0..1 coordinates. */
 export function solidWallSpans(wall: WallSegment, plan: BuildingPlan): [number, number][] {
   const legacyOpening = wall.opening?.kind === "door" ? buildingItem(wall.opening.catalogId) : undefined;
@@ -95,8 +136,7 @@ export function wallInsertPlacementValid(plan: BuildingPlan, item: BuildingFurni
   if (def?.placementType !== "wall_insert" || !def.cutoutSize || !item.wall_id || !Number.isFinite(item.wall_u)) return false;
   const anchor = plan.walls.find(wall => edgeKey(wall) === item.wall_id);
   if (!anchor || anchor.level !== item.level || (item.wall_u ?? -1) < 0 || (item.wall_u ?? 2) > 1) return false;
-  if (item.x !== anchor.x || item.z !== anchor.z || !item.wallNormal ||
-    (anchor.orientation === "x" ? Math.abs(item.wallNormal[2]) < 0.9 : Math.abs(item.wallNormal[0]) < 0.9)) return false;
+  if (item.x !== anchor.x || item.z !== anchor.z || !wallInsertOrientationValid(anchor, item)) return false;
   const wallHeight = def.category === "doors" ? 0 : item.wallY ?? NaN;
   if (!Number.isFinite(wallHeight) || wallHeight < 0) return false;
   const [width, height] = def.cutoutSize;

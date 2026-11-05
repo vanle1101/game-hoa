@@ -33,7 +33,7 @@ describe("V20 character inspection and persistent orbit", () => {
     expect(followViewDirection(rig.yaw, rig.pitch).distanceTo(startDirection)).toBeLessThan(1e-12);
   });
 
-  it("keeps WASD camera-relative for both front and rear while preserving rig yaw", () => {
+  it("keeps arrow-key avatar movement camera-relative while preserving rig yaw", () => {
     for (const preset of ["front", "rear", "left", "right"] as const) {
       const rig = characterCameraPreset(preset, .5);
       const yaw = rig.yaw;

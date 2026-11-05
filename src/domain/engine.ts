@@ -9,6 +9,8 @@ import { COSMETICS, STARTER_COSMETICS, STARTER_OUTFITS } from "../character/cata
 import { equipCosmetic, grantStarterCosmetics, mergeAppearance, STARTER_COSMETICS_VERSION } from "../character/ownership";
 import { reconcileStarterHousing, settleHousing, STARTER_HOME_REPAIR_VERSION } from "../housing/engine";
 import { migrateFoundation } from "../construction/migration";
+import { withStarterRewards } from "./starter-rewards";
+import { STARTER_TASKS_VERSION, isStarterTaskId, starterTasksForEmptySave } from "./starter-tasks";
 import { withoutFurnitureTree } from "../construction/lot-objects";
 
 export class DomainError extends Error { constructor(public code: string, message: string) { super(message); this.name = "DomainError"; } }
@@ -84,7 +86,7 @@ export function applyAction(input: GameState, unvalidatedAction: Action, context
     if (data.campaignId) ensure(state.campaigns.some((c) => c.id === data.campaignId && !c.completedAt) || data.campaignId === `${context.eventId}:campaign`, "Campaign not found.");
     const id = `${context.eventId}:task:${state.tasks.length}`;
     if (data.bossId) ensure(state.bosses.some((b) => b.id === data.bossId && !b.defeatedAt), "Choose an active boss.");
-    const task = { id, title: text(data.title), description: data.description ?? "", kind, difficulty, skill, duration: integer(data.duration ?? 25, 1, BALANCE.maxDuration), priority: data.priority ?? "normal" as const, dueDate, timezone, committed: data.committed ?? false, campaignId: data.campaignId, bossId: data.bossId, checklist: (data.checklist ?? []).map((title, i) => ({ id: `${id}:check:${i}`, title: text(title), done: false })), archived: false, createdAt: context.now, exceptions: [] };
+    const task = { id, title: text(data.title), description: data.description ?? "", kind, difficulty, skill, targetSkillId: data.targetSkillId ?? null, xpReward: integer(data.xpReward ?? 100, 1, 1000000), duration: integer(data.duration ?? 25, 1, BALANCE.maxDuration), priority: data.priority ?? "normal" as const, dueDate, timezone, committed: data.committed ?? false, campaignId: data.campaignId, bossId: data.bossId, checklist: (data.checklist ?? []).map((title, i) => ({ id: `${id}:check:${i}`, title: text(title), done: false })), archived: false, createdAt: context.now, exceptions: [] };
     state.tasks.push(task); state.occurrences.push({ id: `${id}@${dueDate}`, taskId: id, date: dueDate, status: "open" }); return task;
   };
   const damageBoss = (encounter: BossEncounter, base: number) => {
@@ -213,6 +215,7 @@ export function applyAction(input: GameState, unvalidatedAction: Action, context
       event(action.type, `${task.kind === "negative-habit" ? "Avoided" : "Completed"}: ${task.title}`, { taskId: task.id, occurrenceId: occurrence.id, xp, gold: coins });
       if (eligible) { state.materials.alloy = (state.materials.alloy ?? 0) + (task.kind === "farming" ? 3 : 1); if (task.kind === "farming") { state.materials["energy-core"] = (state.materials["energy-core"] ?? 0) + 1; state.materials["upgrade-component"] = (state.materials["upgrade-component"] ?? 0) + 1; } if (task.difficulty === "hard" || task.difficulty === "epic") state.materials["quantum-crystal"] = (state.materials["quantum-crystal"] ?? 0) + 1; }
       if (task.kind === "recovery") state.character.hp = Math.min(100, state.character.hp + 15);
+      else if (isStarterTaskId(task.id)) state.character.hp = Math.min(100, state.character.hp + 5);
       const boss = state.bosses.find((b) => b.id === (task.bossId ?? state.activeBossId));
       if (boss && !boss.defeatedAt && (eligible || boss.campaignId === task.campaignId && Boolean(task.campaignId)) && (!boss.campaignId || boss.campaignId === task.campaignId)) damageBoss(boss, reward.damage);
       applyBossTaskCompletion(state, task.id, occurrence.id, occurrence.date, context);
@@ -240,6 +243,20 @@ export function applyAction(input: GameState, unvalidatedAction: Action, context
       if (foundationChanged) { Object.assign(state, foundation); event("housing.foundation", "Đã giữ nguyên căn hộ hiện có", { version: 9 }); }
       const startersChanged = grantStarterCosmetics(state);
       if (startersChanged) event("cosmetic.starter-grant", "Đã cập nhật bộ sưu tập khởi đầu", { version: STARTER_COSMETICS_VERSION });
+      const starterRewards = withStarterRewards(state.realLifeRewards);
+      const starterRewardsChanged = starterRewards !== state.realLifeRewards;
+      if (starterRewardsChanged) {
+        state.realLifeRewards = starterRewards;
+        event("reward.starter-grant", "Đã thêm gợi ý phần thưởng cá nhân", { count: 6 });
+      }
+      const starterTasks = context.seedStarterTasks === false ? null : starterTasksForEmptySave(state, context.now, today);
+      const starterTasksChanged = Boolean(starterTasks);
+      if (starterTasks) {
+        state.tasks.push(...starterTasks.tasks);
+        state.occurrences.push(...starterTasks.occurrences);
+        state.starterTasksVersion = STARTER_TASKS_VERSION;
+        event("task.starter-grant", "Đã thêm ba nhiệm vụ khởi đầu", { count: starterTasks.tasks.length, version: STARTER_TASKS_VERSION });
+      }
       const oldBosses = JSON.stringify(state.meaningfulBosses ?? []);
       if (state.meaningfulBosses) state.meaningfulBosses = state.meaningfulBosses.map((boss) => boss.status === "active" ? refreshBoss(boss, context.now) : boss);
       let missed = 0;
@@ -255,7 +272,7 @@ export function applyAction(input: GameState, unvalidatedAction: Action, context
           }
         }
       }
-      if (!housingChanged && !foundationChanged && !startersChanged && missed === 0 && state.occurrences.length === input.occurrences.length && oldBosses === JSON.stringify(state.meaningfulBosses ?? [])) return { state: input, events: [], message: "Calendar is up to date." };
+      if (!housingChanged && !foundationChanged && !startersChanged && !starterRewardsChanged && !starterTasksChanged && missed === 0 && state.occurrences.length === input.occurrences.length && oldBosses === JSON.stringify(state.meaningfulBosses ?? [])) return { state: input, events: [], message: "Calendar is up to date." };
       event(action.type, `Calendar reconciled · ${missed} missed occurrences`); undoable = missed > 0 && !housingChanged; message = "Calendar is up to date."; break;
     }
     case "undo": {

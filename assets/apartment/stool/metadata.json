@@ -1,0 +1,36 @@
+{
+  "id": "leather-bar-stool",
+  "status": "ASSET PRODUCTION",
+  "description": "Padded leather stool on slender brass splayed frame",
+  "units": "metres",
+  "axes": "X right, Y up, Z front; feet at Y=0",
+  "dimensions": [
+    0.486,
+    1.115,
+    0.486
+  ],
+  "bounds": {
+    "min": [
+      -0.243,
+      0.023,
+      -0.243
+    ],
+    "max": [
+      0.243,
+      1.138,
+      0.243
+    ]
+  },
+  "meshCount": 10,
+  "triangles": 15072,
+  "features": [
+    "upholstered seat",
+    "padded back",
+    "stitched perimeter",
+    "continuous footrest",
+    "splayed tubular legs"
+  ],
+  "runtime": "/assets/apartment/stool/leather-bar-stool.glb",
+  "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+  "reference": "REF-D; authored approximation, requires in-game visual gate"
+}

@@ -1,0 +1,17 @@
+{
+  "url": "https://life-level-theta.vercel.app/",
+  "checkedAt": "2026-10-21T01:42:23.930Z",
+  "initialHttpStatus": 200,
+  "results": [
+    {
+      "label": "Xây dựng",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "construction-editor build",
+      "errors": []
+    }
+  ],
+  "pageErrors": [],
+  "httpErrors": []
+}

@@ -40,11 +40,6 @@ export function portraitKeyFor(state: GameState, render = characterRenderProfile
   return (hash >>> 0).toString(36);
 }
 
-function cachedPortrait(ownerId: string, portraitKey: string): string | null {
-  try { return localStorage.getItem(`lifelevel-portrait:${ownerId}:${portraitKey}`); }
-  catch { return null; }
-}
-
 export const useCharacterIdentity = create<IdentityStore>((set) => ({
   identity: null,
   sync: (state) => set((current) => {
@@ -58,7 +53,7 @@ export const useCharacterIdentity = create<IdentityStore>((set) => ({
       portraitKey,
       render: previous?.ownerId === state.userId && previous.portraitKey === portraitKey ? previous.render : render,
       avatarUrl: previous?.ownerId === state.userId && previous.portraitKey === portraitKey
-        ? previous.avatarUrl : cachedPortrait(state.userId, portraitKey),
+        ? previous.avatarUrl : null,
       name: state.character.name,
       level: levelProgress(state.character.xp).level,
       hp: state.character.hp,
@@ -70,8 +65,6 @@ export const useCharacterIdentity = create<IdentityStore>((set) => ({
   setPortrait: (ownerId, portraitKey, avatarUrl) => set((current) => {
     const identity = current.identity;
     if (!identity || identity.ownerId !== ownerId || identity.portraitKey !== portraitKey) return current;
-    try { localStorage.setItem(`lifelevel-portrait:${ownerId}:${portraitKey}`, avatarUrl); }
-    catch { /* Thumbnail remains available for this session. */ }
     return { identity: { ...identity, avatarUrl } };
   }),
 }));

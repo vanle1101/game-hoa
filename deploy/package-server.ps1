@@ -13,7 +13,8 @@ if ($outputRoot.StartsWith($repoRoot + [IO.Path]::DirectorySeparatorChar, [Strin
 $payload = @(
   'package.json', 'package-lock.json', 'next.config.ts', 'tsconfig.json',
   'next-env.d.ts', 'postcss.config.mjs', 'drizzle.config.ts',
-  'src', 'worker', 'drizzle', 'public', 'deploy', 'docs/DEPLOYMENT_HANDOFF.md'
+  'src', 'worker', 'drizzle', 'public', 'deploy', 'docs/DEPLOYMENT_HANDOFF.md',
+  'assets/apartment/registry-v18.json'
 )
 foreach ($item in $payload) {
   if (-not (Test-Path -LiteralPath (Join-Path $repoRoot $item))) { throw "Missing package input: $item" }
@@ -41,7 +42,7 @@ foreach ($member in $members) {
   $normalized = $member -replace '\\', '/'
   $top = $normalized.Split('/')[0]
   if ($top -notin @('package.json','package-lock.json','next.config.ts','tsconfig.json',
-      'next-env.d.ts','postcss.config.mjs','drizzle.config.ts','src','worker','drizzle','public','deploy','docs')) {
+      'next-env.d.ts','postcss.config.mjs','drizzle.config.ts','src','worker','drizzle','public','deploy','docs','assets')) {
     throw "Unexpected package member: $member"
   }
   if ($normalized -match $sensitiveName -or $normalized -match '(^|/)(node_modules|desktop|\.local-data|\.next)(/|$)') {
@@ -49,6 +50,9 @@ foreach ($member in $members) {
   }
   if ($top -eq 'docs' -and $normalized -ne 'docs/DEPLOYMENT_HANDOFF.md') {
     throw "Unexpected documentation package member: $member"
+  }
+  if ($top -eq 'assets' -and $normalized -notin @('assets/', 'assets/apartment/', 'assets/apartment/registry-v18.json')) {
+    throw "Unexpected asset package member: $member"
   }
 }
 $digest = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant()

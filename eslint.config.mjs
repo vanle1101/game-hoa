@@ -5,5 +5,6 @@ import nextTypescript from "eslint-config-next/typescript";
 export default defineConfig([
   ...nextVitals,
   ...nextTypescript,
-  globalIgnores([".next/**", "out/**", "coverage/**", "next-env.d.ts", ".tmp-chrome-v21*/**"]),
+  globalIgnores([".next/**", "out/**", "coverage/**", ".local-data/**", ".vercel/**", "dist-worker/**", "tmp/**", "next-env.d.ts", ".tmp-chrome-v21*/**"]),
+  { files: ["desktop/**/*.cjs"], rules: { "@typescript-eslint/no-require-imports": "off" } },
 ]);

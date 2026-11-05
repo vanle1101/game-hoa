@@ -1,9 +1,29 @@
 import { FURNITURE } from "../domain/catalog";
 import type { GameState } from "../domain/types";
-import { cellKey, emptyPlan, rectangleRoom } from "./grid";
+import { cellKey, edgeKey, emptyPlan, rectangleRoom } from "./grid";
 import { furnitureFootprint } from "./navigation";
 import type { BuildingFurniture, BuildingState } from "./types";
 import { STARTER_GRANT } from "./catalog";
+import { withLotObject } from "./lot-objects";
+
+/** Upgrade old wall-owned openings into movable household objects. */
+export function materializeWallOpenings(plan: BuildingState["plan"]): BuildingState["plan"] {
+  if (!plan.walls.some(wall => wall.opening)) return plan;
+  const next = structuredClone(plan);
+  for (const wall of next.walls) {
+    if (!wall.opening) continue;
+    const furnitureId = wall.opening.kind === "door" ? "glass_door_modern" : "wide_window_cyber";
+    const id = `wall-opening:${edgeKey(wall)}`;
+    if (!next.furniture.some(item => item.id === id || item.placementType === "wall_insert" && item.wall_id === edgeKey(wall))) {
+      next.furniture.push(withLotObject({ id, furnitureId, x: wall.x, z: wall.z, level: wall.level,
+        rotation: 0, placementType: "wall_insert", wall_id: edgeKey(wall), wall_u: 0.5,
+        wallNormal: wall.orientation === "x" ? [0, 0, 1] : [1, 0, 0],
+        wallY: wall.opening.kind === "door" ? 0 : 1 }));
+    }
+    delete wall.opening;
+  }
+  return next;
+}
 
 /** Preview-only migration: existing ownership and currency remain untouched. */
 export function migrateLegacyBuilding(state: GameState): BuildingState {
@@ -80,9 +100,18 @@ export function createFixedApartment(now: string): BuildingState {
 }
 
 export function migrateFoundation(state: GameState): GameState {
-  if (!state.building || state.building.foundation) return state;
+  if (!state.building) return state;
+  const plan = materializeWallOpenings(state.building.plan);
+  if (state.building.foundation && plan === state.building.plan) return state;
   const next = structuredClone(state);
-  next.building!.foundation = { version: APARTMENT_FOUNDATION_VERSION, mode: "legacy-preserved" };
+  if (!next.building!.foundation) next.building!.foundation = { version: APARTMENT_FOUNDATION_VERSION, mode: "legacy-preserved" };
+  if (plan !== state.building.plan) {
+    next.building!.plan = plan;
+    for (const furnitureId of ["glass_door_modern", "wide_window_cyber"]) {
+      const placed = plan.furniture.filter(item => item.furnitureId === furnitureId).length;
+      next.ownedFurniture[furnitureId] = Math.max(next.ownedFurniture[furnitureId] ?? 0, placed);
+    }
+  }
   return next;
 }
 

@@ -10,7 +10,8 @@ import type { BuildingPlan, Plot } from "@/construction/types";
 import type { RoomBounds } from "./architectural-materials";
 import { computeV9ApartmentCameraFraming } from "./v9-framing";
 import { isLiveTypingTarget, liveControlsBlocked } from "./live-movement";
-import { cameraRelativePan, lockOrbitTargetY, translateOrbitRig, characterCameraPreset, isCharacterCameraPreset, orbitCharacterCamera, followViewDirection, type CharacterCameraPreset } from "./camera-geometry";
+import { cameraPanAxes, cameraRelativePan, lockOrbitTargetY, translateOrbitRig, characterCameraPreset, isCharacterCameraPreset, orbitCharacterCamera, followViewDirection, type CharacterCameraPreset } from "./camera-geometry";
+import { CAMERA_PAN_CODES } from "./input-codes";
 import { residenceElevation, RESIDENTIAL_FLOOR_HEIGHT, RESIDENTIAL_FLOORS } from "./building-architecture";
 import { WORLD_VIEWS, worldViewPose, type WorldView } from './world-views';
 
@@ -18,6 +19,7 @@ export type DesktopCameraMode = "follow" | "free" | "build";
 type ShowcaseFocus = "benchmark" | "lobby" | "bed" | "sofa" | "desk" | "kitchen" | "window";
 type Props = {
   mode: "live" | "build" | "buy";
+  placingFurniture?: boolean;
   cameraMode?: DesktopCameraMode;
   onCameraModeChange?: (mode: DesktopCameraMode) => void;
   reset?: number;
@@ -28,6 +30,7 @@ type Props = {
   avatar: RefObject<{ x: number; z: number }>;
   enclosed?: boolean;
   referenceScene?: boolean;
+  initialShowcaseFocus?: "lobby";
   /** World-scale volumes supplied by the host for skyline and building occlusion. */
   worldColliders?: readonly THREE.Box3[];
 };
@@ -38,6 +41,7 @@ export function DesktopCamera(props: Props) {
   // R3F's camera is intentionally mutated by the imperative camera rig. Store
   // it in a ref to keep those updates out of React's render immutability path.
   const cameraRef = useRef(camera);
+  const canvasRef = useRef(gl.domElement);
   const orbit = useRef<OrbitControlsType>(null);
   const [localMode, setLocalMode] = useState<DesktopCameraMode>("follow");
   const active = props.mode === "live" ? (props.cameraMode ?? localMode) : "build";
@@ -88,7 +92,7 @@ export function DesktopCamera(props: Props) {
     // close crop. Live Home and the read-only fixture intentionally share the
     // same architectural inspection pose.
     if (active === "free" && props.mode === "live") {
-      const pose = showcaseFocusPose("benchmark");
+      const pose = showcaseFocusPose(props.initialShowcaseFocus ?? "benchmark");
       activeCamera.position.set(...pose.position);
       activeCamera.lookAt(new THREE.Vector3(...pose.target));
       orbit.current?.target.set(...pose.target);
@@ -104,14 +108,16 @@ export function DesktopCamera(props: Props) {
     orbit.current?.target.copy(framing.target);
     orbitTargetY.current = framing.target.y;
     orbit.current?.update();
-  }, [active, props.mode, props.plot, props.roomBounds, props.level, props.referenceScene, applyCharacterPreset]);
+  }, [active, props.mode, props.plot, props.roomBounds, props.level, props.referenceScene, props.initialShowcaseFocus, applyCharacterPreset]);
+  const resetCameraRef = useRef(resetCamera);
+  useEffect(() => { resetCameraRef.current = resetCamera; }, [resetCamera]);
   // Draft edits replace roomBounds, but they must never reframe the player's
   // orbit. Frame once per camera mode, or on an explicit Reset button press.
   useEffect(() => {
-    if (framedMode.current !== active || resetVersion.current !== props.reset) resetCamera();
+    if (framedMode.current !== active || resetVersion.current !== props.reset) resetCameraRef.current();
     framedMode.current = active;
     resetVersion.current = props.reset;
-  }, [props.reset, active, resetCamera]);
+  }, [props.reset, active]);
   useEffect(() => {
     const activeCamera = cameraRef.current;
     if (!(activeCamera instanceof THREE.PerspectiveCamera)) return;
@@ -123,9 +129,9 @@ export function DesktopCamera(props: Props) {
 
   useEffect(() => {
     const canvas = gl.domElement;
+    const heldPanKeys = panKeys.current;
     let pointer: number | undefined;
     const allowed = () => !liveControlsBlocked(document, { enabled: true });
-    const panCodes = new Set(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "KeyW", "KeyA", "KeyS", "KeyD"]);
     const key = (event: KeyboardEvent) => {
       if (event.repeat || event.ctrlKey || event.altKey || event.metaKey || event.isComposing ||
         event.defaultPrevented || isLiveTypingTarget(event.target) || !allowed()) return;
@@ -151,14 +157,14 @@ export function DesktopCamera(props: Props) {
     };
     const panDown = (event: KeyboardEvent) => {
       if (active === "follow" || !allowed() || isLiveTypingTarget(event.target) || event.ctrlKey || event.altKey || event.metaKey) return;
-      if (!panCodes.has(event.code)) return;
+      if (!CAMERA_PAN_CODES.has(event.code)) return;
       event.preventDefault();
-      panKeys.current.add(event.code);
+      heldPanKeys.add(event.code);
     };
     const panUp = (event: KeyboardEvent) => {
-      if (panCodes.has(event.code)) panKeys.current.delete(event.code);
+      if (CAMERA_PAN_CODES.has(event.code)) heldPanKeys.delete(event.code);
     };
-    const clearPan = () => panKeys.current.clear();
+    const clearPan = () => heldPanKeys.clear();
     const down = (event: PointerEvent) => {
       if (active !== "follow" || event.button !== 2 || !allowed()) return;
       pointer = event.pointerId; canvas.setPointerCapture(pointer); event.preventDefault();
@@ -191,6 +197,7 @@ export function DesktopCamera(props: Props) {
     const showcaseFocus = (event: Event) => {
       const focus = (event as CustomEvent<{ focus?: unknown }>).detail?.focus;
       if (props.mode !== "live" || active !== "free") return;
+      if (!(event.target instanceof HTMLElement) || !event.target.contains(canvas)) return;
       if (!["benchmark", "lobby", "bed", "sofa", "desk", "kitchen", "window"].includes(String(focus))) return;
       pendingShowcaseFocus.current = focus as ShowcaseFocus;
     };
@@ -208,7 +215,7 @@ export function DesktopCamera(props: Props) {
     canvas.addEventListener("wheel", wheel, { passive: false });
     canvas.addEventListener("contextmenu", context);
     return () => {
-      release(); panKeys.current.clear(); window.removeEventListener("keydown", key); window.removeEventListener("keydown", panDown); window.removeEventListener("keyup", panUp); window.removeEventListener("blur", release); window.removeEventListener("blur", clearPan);
+      release(); heldPanKeys.clear(); window.removeEventListener("keydown", key); window.removeEventListener("keydown", panDown); window.removeEventListener("keyup", panUp); window.removeEventListener("blur", release); window.removeEventListener("blur", clearPan);
       window.removeEventListener("life-level:camera-preset", preset);
       window.removeEventListener('life-level:world-view',worldView);
       window.removeEventListener("life-level:showcase-focus", showcaseFocus);
@@ -220,7 +227,7 @@ export function DesktopCamera(props: Props) {
 
   useFrame((_, dt) => {
     const activeCamera = cameraRef.current;
-    canvasDataset(gl.domElement, active);
+    canvasDataset(canvasRef.current, active);
     activeCamera.userData.desktopCameraMode = active;
     if (active !== "follow") {
       // OrbitControls has no mesh collision. Keep this rig free of the old
@@ -229,8 +236,7 @@ export function DesktopCamera(props: Props) {
       const controls = orbit.current;
       if (controls) {
         const keys = panKeys.current;
-        const inputX = (keys.has("ArrowRight") || keys.has("KeyD") ? 1 : 0) - (keys.has("ArrowLeft") || keys.has("KeyA") ? 1 : 0);
-        const inputForward = (keys.has("ArrowUp") || keys.has("KeyW") ? 1 : 0) - (keys.has("ArrowDown") || keys.has("KeyS") ? 1 : 0);
+        const { forward: inputForward, right: inputX } = cameraPanAxes(keys);
         const speed = active === "build" ? 7.5 : 12;
         const targetVelocity = cameraRelativePan(activeCamera, inputForward, inputX, vectors.direction).multiplyScalar(speed);
         panVelocity.current.lerp(targetVelocity, 1 - Math.exp(-12 * Math.min(dt, 0.1)));
@@ -306,20 +312,20 @@ export function DesktopCamera(props: Props) {
     activeCamera.lookAt(vectors.look);
     // Runtime QA can inspect the actual rig without touching player state.
     activeCamera.userData.followOrbit = { yaw: rig.yaw, pitch: rig.pitch, distance: rig.actualDistance };
-    gl.domElement.dataset.avatarHeading = avatarObject ? String(avatarObject.rotation.y) : "missing";
-    gl.domElement.dataset.followYaw = String(rig.yaw);
+    canvasRef.current.dataset.avatarHeading = avatarObject ? String(avatarObject.rotation.y) : "missing";
+    canvasRef.current.dataset.followYaw = String(rig.yaw);
   });
 
   if (active === "follow") return null;
   return <OrbitControls ref={orbit} makeDefault enableDamping dampingFactor={0.05}
     minDistance={active === "build" ? 5 : 3} maxDistance={active === "build" ? 25 : 240}
     minPolarAngle={0.025} maxPolarAngle={active === "build" ? Math.PI / 2 - 0.05 : Math.PI - 0.025}
-    mouseButtons={{ LEFT: -1 as typeof THREE.MOUSE.LEFT, MIDDLE: THREE.MOUSE.PAN, RIGHT: THREE.MOUSE.ROTATE }} />;
+    mouseButtons={{ LEFT: -1 as typeof THREE.MOUSE.LEFT, MIDDLE: THREE.MOUSE.PAN, RIGHT: props.placingFurniture ? -1 as typeof THREE.MOUSE.RIGHT : THREE.MOUSE.ROTATE }} />;
 }
 
 function showcaseFocusPose(focus: ShowcaseFocus): { position: [number, number, number]; target: [number, number, number] } {
   switch (focus) {
-    case "lobby": return { position: [4.5, 2.8, 4.5], target: [0, .9, .2] };
+    case "lobby": return { position: [14.5, 17.5, 19], target: [0, .6, 0] };
     case "bed": return { position: [-1.2, 4.3, 0.4], target: [-2.8, .75, -3.25] };
     case "sofa": return { position: [.7, 4.3, 5.8], target: [.5, .65, 1.2] };
     case "desk": return { position: [7.2, 3.9, .5], target: [3.7, .75, -3.85] };

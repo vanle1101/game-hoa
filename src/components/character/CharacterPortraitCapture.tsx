@@ -1,15 +1,15 @@
 "use client";
 
-import { Component, useState, type ReactNode } from "react";
+import { Component, useEffect, useState, type ReactNode } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CharacterModel } from "@/components/world/CharacterModel";
 import type { GameState } from "@/domain/types";
 import type { CharacterRenderProfile } from "./character-render-profile";
 import { useCharacterIdentity } from "./character-identity-store";
+import { clearLegacyPortrait, migrateLegacyPortrait, readServerPortrait, saveServerPortrait } from "./portrait-client";
 
-function Capture({ state, portraitKey, render, onFailed }: { state: GameState; portraitKey: string; render: CharacterRenderProfile; onFailed: () => void }) {
+function Capture({ render, onCaptured, onFailed }: { render: CharacterRenderProfile; onCaptured: (dataUrl: string) => void; onFailed: () => void }) {
   const { gl } = useThree();
-  const setPortrait = useCharacterIdentity((store) => store.setPortrait);
   const [done, setDone] = useState(false);
   const [frames, setFrames] = useState(0);
   useFrame(() => {
@@ -17,7 +17,7 @@ function Capture({ state, portraitKey, render, onFailed }: { state: GameState; p
     if (frames < 2) { setFrames(frames + 1); return; }
     try {
       const avatarUrl = gl.domElement.toDataURL("image/png");
-      if (avatarUrl.length > 100) setPortrait(state.userId, portraitKey, avatarUrl);
+      if (avatarUrl.length > 100) onCaptured(avatarUrl);
       else onFailed();
     } catch { onFailed(); }
     setDone(true);
@@ -42,13 +42,42 @@ class PortraitBoundary extends Component<{ children: ReactNode }, { failed: bool
 export default function CharacterPortraitCapture({ state }: { state: GameState }) {
   const identity = useCharacterIdentity((store) => store.identity);
   const [failed, setFailed] = useState(false);
+  const [captureReady, setCaptureReady] = useState(false);
   const portraitKey = identity?.portraitKey ?? "";
-  if (failed || !identity || identity.ownerId !== state.userId || identity.portraitKey !== portraitKey || identity.avatarUrl) return null;
+  const identityOwnerId = identity?.ownerId;
+  const hasPortrait = Boolean(identity?.avatarUrl);
+  const ownerId = state.userId;
+  useEffect(() => {
+    if (identityOwnerId !== ownerId || hasPortrait) return;
+    let cancelled = false;
+    void (async () => {
+      try {
+        const saved = await readServerPortrait(ownerId, portraitKey);
+        if (cancelled) return;
+        if (saved) {
+          clearLegacyPortrait(ownerId, portraitKey);
+          useCharacterIdentity.getState().setPortrait(ownerId, portraitKey, saved);
+          return;
+        }
+        const migrated = await migrateLegacyPortrait(ownerId, portraitKey);
+        if (cancelled) return;
+        if (migrated) useCharacterIdentity.getState().setPortrait(ownerId, portraitKey, migrated);
+        else setCaptureReady(true);
+      } catch { if (!cancelled) setFailed(true); }
+    })();
+    return () => { cancelled = true; };
+  }, [identityOwnerId, hasPortrait, ownerId, portraitKey]);
+  if (failed || !captureReady || !identity || identity.ownerId !== state.userId || identity.portraitKey !== portraitKey || identity.avatarUrl) return null;
+  const onCaptured = (dataUrl: string) => {
+    void saveServerPortrait(ownerId, portraitKey, dataUrl).then(() => {
+      useCharacterIdentity.getState().setPortrait(ownerId, portraitKey, dataUrl);
+    }).catch(() => setFailed(true));
+  };
   return <PortraitBoundary><div className="character-portrait-capture" aria-hidden="true">
     <Canvas dpr={1} camera={{ position: [0, 1.58, -1.45], fov: 26 }}
       onCreated={({ camera }) => camera.lookAt(0, 1.55, 0)}
       gl={{ antialias: true, alpha: true, preserveDrawingBuffer: true, powerPreference: "low-power" }}>
-      <Capture state={state} portraitKey={portraitKey} render={identity.render} onFailed={() => setFailed(true)} />
+      <Capture render={identity.render} onCaptured={onCaptured} onFailed={() => setFailed(true)} />
     </Canvas>
   </div></PortraitBoundary>;
 }

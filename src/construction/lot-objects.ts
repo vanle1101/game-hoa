@@ -1,6 +1,7 @@
 import { FURNITURE } from "@/domain/catalog";
 import { PlacementFlags, hasPlacementFlag } from "@/furniture/placement-flags";
 import { LEVEL_HEIGHT } from "./catalog";
+import { wallInsertYaw } from "./wall-inserts";
 import type { BuildingFurniture, BuildingPlan, GridPoint } from "./types";
 
 const definition = (id: string) => FURNITURE.find(item => item.id === id);
@@ -35,7 +36,7 @@ export function withLotObject(item: BuildingFurniture): BuildingFurniture {
   return {
     ...item,
     object_def_guid: item.furnitureId,
-    transform: { position, rotation: { x: item.placementType === "ceiling" ? Math.PI : 0, y: wallYaw + item.rotation * Math.PI / 180, z: 0 } },
+    transform: { position, rotation: { x: item.placementType === "ceiling" ? Math.PI : 0, y: insert ? wallInsertYaw(item) : wallYaw + item.rotation * Math.PI / 180, z: 0 } },
     scale: item.scale ?? 1,
     light_color: color,
     neonColor: color,

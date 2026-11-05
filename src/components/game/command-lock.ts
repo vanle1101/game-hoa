@@ -31,6 +31,8 @@ export interface LockedGameCommandOptions extends CommandIntent {
   send?: (command: PendingGameCommand) => ReturnType<typeof postGameCommand>;
   preflight?: () => void | Promise<void>;
   readAuthoritativeState?: (ownerId: string) => Promise<unknown>;
+  /** When present, the server receipt replaces browser storage as the source of pending work. */
+  syncPending?: () => Promise<PendingGameCommand | null>;
 }
 
 const signalKey = "lifelevel-state-changed";
@@ -115,18 +117,29 @@ export async function runLockedGameCommand(options: LockedGameCommandOptions): R
     }
     await options.preflight?.();
     if (intent.getCurrentOwnerId() !== intent.ownerId) throw new CommandLockError("OWNER_CHANGED", "Phiên người chơi đã thay đổi. Giữ giao dịch để đồng bộ lại.");
-    const pending = readPendingCommand(intent.storage, intent.ownerId);
+    const pending = options.syncPending ? await options.syncPending() : readPendingCommand(intent.storage, intent.ownerId);
+    if (intent.getCurrentOwnerId() !== intent.ownerId) throw new CommandLockError("OWNER_CHANGED", "Phiên người chơi đã thay đổi. Giữ giao dịch để đồng bộ lại.");
     if (retryKey !== undefined && pending?.key !== retryKey) {
       throw new CommandLockError("PENDING_CHANGED", "Thao tác chờ đã được xử lý hoặc thay đổi. Hãy đồng bộ trạng thái, không tạo lại giao dịch.");
     }
-    validateCommandIntent(intent, pending);
-    const command = retainCommand(intent.storage, intent.ownerId, action, options.makeKey ?? (() => crypto.randomUUID()), (options.now ?? (() => new Date().toISOString()))());
-    if (JSON.stringify(readPendingCommand(intent.storage, intent.ownerId)) !== JSON.stringify(command)) throw new CommandLockError("PENDING_CHANGED", "Không thể lưu mã giao dịch an toàn. Chưa gửi thao tác.");
+    if (options.syncPending) {
+      if (!validRevision(intent.revision)) throw new CommandLockError("INVALID_REVISION", "Phiên bản thao tác không hợp lệ.");
+      if (pending && JSON.stringify(pending.action) !== JSON.stringify(action)) throw new CommandLockError("PENDING_CHANGED", "Thao tác đã được máy chủ tiếp nhận. Hãy đồng bộ thao tác đó trước.");
+    } else validateCommandIntent(intent, pending);
+    const command = options.syncPending
+      ? pending ?? { key: (options.makeKey ?? (() => crypto.randomUUID()))(), action,
+        ownerId: intent.ownerId, createdAt: (options.now ?? (() => new Date().toISOString()))() }
+      : retainCommand(intent.storage, intent.ownerId, action, options.makeKey ?? (() => crypto.randomUUID()), (options.now ?? (() => new Date().toISOString()))());
+    if (options.syncPending) {
+      try { intent.storage.setItem(`lifelevel-pending-command:${intent.ownerId}`, JSON.stringify(command)); } catch { /* Server receipt is authoritative. */ }
+    } else if (JSON.stringify(readPendingCommand(intent.storage, intent.ownerId)) !== JSON.stringify(command)) {
+      throw new CommandLockError("PENDING_CHANGED", "Không thể lưu mã giao dịch an toàn. Chưa gửi thao tác.");
+    }
     let result: Awaited<ReturnType<typeof postGameCommand>>;
     try { result = await (options.send ?? postGameCommand)(command); }
     catch (error) {
       if (error instanceof GameCommandError && !error.uncertain && intent.getCurrentOwnerId() === intent.ownerId) {
-        clearPendingCommand(intent.storage, intent.ownerId, command.key);
+        try { clearPendingCommand(intent.storage, intent.ownerId, command.key); } catch { /* Best-effort cache. */ }
       }
       throw error;
     }
@@ -134,8 +147,13 @@ export async function runLockedGameCommand(options: LockedGameCommandOptions): R
       throw new CommandLockError("OWNER_CHANGED", "Phiên người chơi đã thay đổi. Giữ thao tác để đồng bộ lại.");
     }
     if (!validRevision(result.state.revision)) throw new CommandLockError("INVALID_REVISION", "Kết quả đồng bộ không hợp lệ. Giữ thao tác để đồng bộ lại.");
-    publishCommandRevision(intent.storage, intent.ownerId, Math.max(result.state.revision, intent.revision));
-    clearPendingCommand(intent.storage, intent.ownerId, command.key);
+    if (options.syncPending) {
+      try { publishCommandRevision(intent.storage, intent.ownerId, Math.max(result.state.revision, intent.revision)); } catch { /* Server revision is authoritative. */ }
+      try { clearPendingCommand(intent.storage, intent.ownerId, command.key); } catch { /* Best-effort cache. */ }
+    } else {
+      publishCommandRevision(intent.storage, intent.ownerId, Math.max(result.state.revision, intent.revision));
+      clearPendingCommand(intent.storage, intent.ownerId, command.key);
+    }
     return result;
   });
 }

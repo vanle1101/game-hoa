@@ -1,0 +1,38 @@
+{
+  "id": "sectional-sofa",
+  "status": "ASSET PRODUCTION",
+  "description": "Tailored taupe L-shaped sectional with individual soft seat/back cushions, rounded arm bolsters, bronze feet, piped seams, accent pillows and sculpted charcoal throw.",
+  "units": "metres",
+  "axes": "X right, Y up, Z front; feet at Y=0",
+  "dimensions": [
+    3.285,
+    1.305,
+    2.319
+  ],
+  "bounds": {
+    "min": [
+      -1.68,
+      0.0,
+      -0.825
+    ],
+    "max": [
+      1.605,
+      1.305,
+      1.495
+    ]
+  },
+  "meshCount": 51,
+  "triangles": 132472,
+  "features": [
+    "Subdivided deformed upholstery",
+    "Individual seat and back cushions",
+    "Chaise silhouette",
+    "Continuous stitched welt geometry",
+    "Tailored draped throw with fringes",
+    "Recessed bronze feet",
+    "Embedded fabric base color/normal maps"
+  ],
+  "runtime": "/assets/apartment/sofa/sectional-sofa.glb",
+  "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+  "reference": "REF-D; authored approximation, requires in-game visual gate"
+}

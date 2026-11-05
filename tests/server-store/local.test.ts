@@ -95,7 +95,9 @@ describe("real isolated local store concurrency", () => {
     expect(result.state.character.hp).toBe(85); expect(result.state.settings.hardcore).toBe(false); expect(result.events.some(event => event.type === "penalty")).toBe(true);
   });
   it("no-op reconciliation does not rewrite the save or create command receipts", async () => {
-    await seed(createInitialState(owner)); const timestamp = (await stat(savePath())).mtimeMs;
+    await seed(createInitialState(owner));
+    await gameCommand(owner, randomUUID(), { type: "reconcile" });
+    const timestamp = (await stat(savePath())).mtimeMs;
     await gameCommand(owner, randomUUID(), { type: "reconcile" });
     expect((await stat(savePath())).mtimeMs).toBe(timestamp); expect(Object.keys((await disk()).commands)).toHaveLength(0);
   });

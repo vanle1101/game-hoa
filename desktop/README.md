@@ -27,7 +27,7 @@ The browser partition is persistent so a server-issued HttpOnly session cookie s
 1. Install and launch the `.exe` from a verified checksum. Confirm the real TLS certificate is accepted without bypass.
 2. Log in, close and reopen the app, and confirm the account session remains. Log in on another machine and confirm the same server state appears without sharing local files.
 3. Open Home, Build Mode and Boss Arena. Check WebGL rendering, pointer/keyboard input, graphics quality, and restart after a GPU error.
-4. Export the JSON backup and verify the native save dialog and file contents. Test the CSV picker/import preview against a test account.
+4. Export the JSON backup and verify the native save dialog and file contents. This export covers game state, finance state and AI proposals; it is not a full server backup and excludes portraits and construction drafts. Test the CSV picker/import preview against a test account.
 5. Try an external navigation and popup link; the shell must block them. Check that server API actions are still protected by the server, not by Electron alone.
 6. Disconnect/reconnect the network. A server-accepted job must be visible after reconnect even if the Electron process was closed.
 

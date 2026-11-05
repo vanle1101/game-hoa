@@ -1,0 +1,765 @@
+PAGE 1
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+LIFE//LEVEL
+CYBERPUNK 3D  ·  26 VISUAL REFERENCES  ·  26 PROMPTS
+Game art direction · 3D characters · Build/Buy Mode · RPG & UI · AI Butler
+Concept artwork + selectable prompt text  |  Ready to share with Codex
+FINAL EDITION  |  CYBERPUNK STYLE LOCK  |  FULL 3D CHARACTER CUSTOMIZATION  |  FASHION SHOP
+PAGE 2
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+HƯỚNG DẪN SỬ DỤNG VỚI CODEX
+ Đây là bộ concept tham chiếu 26 màn hình/hạng mục; mỗi trang có 01 ảnh minh họa và 01 prompt tiếng Anh đầy đủ.
+Ảnh minh họa được dựng lại theo cùng brief (không phải file gốc của các thumbnail tìm kiếm ở tin nhắn trước).
+Ảnh concept không phải model 3D, không phải giao diện chạy được; Codex phải triển khai geometry, assets, React UI và logic thật.
+Không copy nguyên văn chữ sai trong ảnh AI. Các nhãn chức năng và dữ liệu phải lấy từ đặc tả/prompt, không dựa vào chữ trong hình.
+Ưu tiên đồng bộ art direction: dark navy, graphite, cyan có kiểm soát, violet/magenta có điểm nhấn, cyberpunk 3D stylized.
+Không được lấy ảnh làm background thay cho 3D. Build Mode phải có tường, ô sàn, cửa và cửa sổ thực sự có thể sửa và lưu.
+DANH MỤC 26 CONCEPT
+01  Nhân vật chính
+02  Tùy chỉnh nhân vật
+03  Thành phố NEON HAVEN
+04  Căn hộ khởi đầu
+05  Penthouse cấp cao
+06  Build Mode tổng thể
+07  Bộ block xây dựng
+08  Cửa, cửa sổ và vật liệu
+09  Buy Mode - Mua nội thất
+10  Bộ nội thất
+11  Kho đồ
+12  Trang bị nhân vật
+13  Bộ vũ khí RPG
+14  Bộ icon vật phẩm
+15  Chế tạo & nâng cấp
+16  Rơi đồ hiếm
+17  Thiết kế Boss
+18  Đấu trường Boss
+19  Nhật ký nhiệm vụ
+20  Cây kỹ năng
+21  Bản đồ chiến dịch
+22  Màn hình chính
+23  Tài chính cá nhân
+24  AI quản gia
+25  Thú cưng
+26  Cửa hàng tổng hợp
+
+PAGE 3
+LIFE//LEVEL  /  GLOBAL RULES
+01  Khóa chặt style Cyberpunk
+Non-negotiable art direction across ALL 26 original references.
+FINAL EDITION  /  CYBERPUNK STYLE LOCK  /  CHARACTER & WARDROBE SYSTEM
+SUPPLEMENT 01/07
+NEON HAVEN  /  PREMIUM STYLIZED CYBERPUNK 3D
+#080D18
+#10192C
+#32E6F4
+#9067FF
+#EE5ACB
+#FFBC62
+#EDF4FF
+LOCKED ART DIRECTION  /  ENFORCE GLOBALLY
+GLOBAL STYLE LOCK — copy these constraints into every design and coding task:
+Premium stylized cyberpunk 3D, futuristic high-rise residences, dark titanium, premium techwear, matte
+charcoal, navy, layered glass, restrained cyan/violet/magenta emissive accents, believable furniture scale,
+cinematic warm/cool lighting. UI remains a coherent high-end science-fiction game HUD — including finance,
+tasks, building editor, character creator, inventory, shops, AI and onboarding.
+Forbidden style drift: generic SaaS dashboards; flat unstyled forms; realistic modern-day casual UI;
+Roblox/blocky character art; 2D pixel art; cartoon/anime mismatch; medieval fantasy costume; excessive
+rainbow glow; random asset palettes; plain default browser controls; different graphic styles per module.
+Safe customization: allow controlled cyberpunk color variants, hairstyles, faces, wearable items and interiors
+WITHOUT leaving the shared cyberpunk art universe. Finance can be calmer and more readable, but must
+still match the same tokens, typography, framing and navigation.
+
+PAGE 4
+LIFE//LEVEL  /  GLOBAL QA
+02  Kiểm soát đồng nhất đồ họa
+Codex must enforce a visual contract, not merely use a color theme.
+FINAL EDITION  /  CYBERPUNK STYLE LOCK  /  CHARACTER & WARDROBE SYSTEM
+SUPPLEMENT 02/07
+ART CONSISTENCY CONTRACT
+Scene / architecture
+Stylized physically coherent 3D; modular floors
+and wall openings; reusable materials; purposeful
+signage; believable proportions; constrained
+isometric camera; cozy warm interiors against
+blue/purple city lighting.
+Character / animation
+One consistent body rig and asset scale; clothes
+fit the same character; same face, hair and outfit
+visible in character creator, home, equipment,
+wardrobe, boss and relevant overlays. No
+silhouette replacements between screens.
+Game UI
+Shared components for navigation, inventory
+slots, action buttons, iconography, tooltip,
+typography, focus outlines, rewards and alerts.
+Neon must highlight meaning, not dominate
+reading.
+Store / economy
+Cosmetic style stays cyberpunk; no medieval
+fantasy jackets or unrelated assets unless
+redesigned into the world. All shop previews must
+match the equipped 3D result.
+VISUAL ACCEPTANCE CONTRACT
+Mandatory visual quality gates
+01. Screenshot every affected screen at desktop
+and mobile viewports.
+02. Compare palette, 3D proportions, material
+scale, typography, HUD density and scene
+composition to the references.
+03. Verify actual 3D and interactive controls, not a
+static screenshot.
+04. Reject obvious placeholders as final assets.
+05. Inspect face/body clipping, outfit
+intersections, hair/headwear collisions, wall
+collision and camera behavior.
+06. Test reduced-motion and low graphics modes.
+07. Track deviations and fix before claiming visual
+acceptance.
+Locked style tokens
+Colors: #080D18, #10192C, #32E6F4, #9067FF,
+#EE5ACB, #FFBC62, #EDF4FF.
+Any added semantic colors must harmonize with
+these and remain accessible.
+Explicit instruction
+Do not silently reinterpret “Cyberpunk” as
+neon-only styling. The architectural world, avatar,
+garments, item silhouettes and UI need to share
+one art direction.
+ONE 3D UNIVERSE
+ONE DESIGN SYSTEM
+NO STYLE DRIFT
+
+PAGE 5
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+01 / 26
+A · NHÂN VẬT & THẾ GIỚI
+01   Nhân vật chính
+CHARACTER DESIGN
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Create a premium stylized 3D male character for LIFE//LEVEL, a cyberpunk life simulation RPG. Young
+adult, realistic adult proportions with appealing stylized facial features, short textured black hair,
+sophisticated black techwear jacket with subtle cyan illuminated seams, charcoal trousers, futuristic
+sneakers and a wearable wrist device. Full-body front, side, back and three-quarter views of the exact
+same character. Professional 3D game character model sheet, consistent proportions, detailed clothing
+construction, clean neutral dark gray studio background, soft studio lighting, optimized game-ready
+visual language. High-end original game design, no weapons, no text, no watermark. Landscape 16:9.
+
+PAGE 6
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+02 / 26
+A · NHÂN VẬT & THẾ GIỚI
+02   Tùy chỉnh nhân vật
+CHARACTER CREATOR
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design a premium cyberpunk 3D RPG character customization screen for LIFE//LEVEL. Large full-body
+stylized adult character preview in the center, modular hairstyle selection, face customization, skin
+tones, futuristic casual outfits, jackets, trousers, sneakers and accessories. Left side character
+customization categories, right side visual customization swatches, beautiful dark navy and titanium
+game UI with restrained cyan and violet highlights. Cohesive premium science-fiction interface, refined
+typography placeholders, clear hierarchy, game-ready visual reference, cinematic studio lighting,
+widescreen 16:9. Original design, not a SaaS dashboard.
+
+PAGE 7
+LIFE//LEVEL  /  CHARACTER DESIGN
+03  Tạo nhân vật chi tiết
+Hair · eyes · ears · nose · face · body · starting outfits.
+FINAL EDITION  /  CYBERPUNK STYLE LOCK  /  CHARACTER & WARDROBE SYSTEM
+SUPPLEMENT 03/07
+3D CUSTOMIZER PROMPT  /  SELECTABLE TEXT
+CHARACTER CREATOR MASTER PROMPT (EN): Build a truly editable 3D character creator, not a static
+picture. The player controls hair style/length/color; face preset and jaw; eye shape, iris color and eyebrow
+shape; nose bridge/tip shape; ear shape/size and earrings; lips/mouth; skin tone; optional facial hair,
+makeup and compatible body presets. The same customizable character must render across all game
+scenes. Design a cyberpunk avatar preview with switchable head close-up / full-body camera, orbit, zoom,
+reset, comparison and live updates.
+Minimum editable MVP content: 12 hairstyles, 12 hair colors, 6 eye shapes, 8 iris colors, 6 eyebrows, 6 nose
+shapes, 4 ear shapes, 6 mouth/lip types, 6 face/jaw presets, 12 skin tones, 3 body presets, plus optional
+beard, tattoos, piercings and cyberware where supported by the model pipeline.
+Behavior: Changing an appearance control must visibly update the 3D mesh, morph target, attached
+component or material. Do not implement fake sliders that only change numbers or captions. Provide
+curated presets where high-quality morph targets are unavailable.
+
+PAGE 8
+LIFE//LEVEL  /  CHARACTER IMPLEMENTATION
+04  Tóc, khuôn mặt và outfit ban đầu
+Production rules and first-run customization flow.
+FINAL EDITION  /  CYBERPUNK STYLE LOCK  /  CHARACTER & WARDROBE SYSTEM
+SUPPLEMENT 04/07
+CHARACTER MESH + INTERACTIONS
+3D asset contract
+Create a single avatar rig compatible with game
+locomotion and idle/action animations. Use
+reusable modular hairstyle meshes with correct
+scalp placement, eye/skin material variants and
+facial morph targets where feasible. Anchor
+eyewear, hats and earrings at consistent
+attachment points. Meshes need correct pivots
+and scale.
+Face editor
+Tabs: Hair, Face, Eyes, Brows, Nose, Ears, Mouth,
+Skin, Body, Makeup, Accessories and Outfit. Click
+a facial tab → camera smoothly frames the head;
+choose a preset or validated slider → immediate
+3D update; switch back to full body for clothing.
+Allow Save, Cancel, Reset and Randomize.
+Character persistence
+Save a structured appearance configuration
+server-side, including avatar version/model
+references, selected morph values or preset IDs
+and equipped cosmetic item instance IDs. Load it
+consistently after refresh and on mobile.
+INITIAL FREE CLOTHES + RULES
+FREE STARTER WARDROBE
+On first character creation, grant a starter
+cosmetic collection ONCE, server-side. Offer at
+least 3 complete free cyberpunk outfits (Street
+Runner, Neo-Corporate and Night Technician) with
+mix-and-match pieces. Suggested free options: 6
+tops, 4 bottoms, 4 shoe styles, 3 outerwear pieces
+and 4 small accessories, compatible with avatar
+variants.
+Starter selection
+Preview complete looks and individual layers.
+Choose a full starter set or create a custom
+combination from owned free items. Show the
+exact final 3D look before confirmation. All chosen
+items must remain owned and can be re-equipped
+later.
+Important boundary
+Appearance cosmetics are independent from
+combat equipment bonuses unless an item
+explicitly declares both capabilities; do not let
+wardrobe garments inadvertently alter boss
+damage. No real-money requirement or external
+payment for starter customization.
+
+PAGE 9
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+03 / 26
+A · NHÂN VẬT & THẾ GIỚI
+03   Thành phố NEON HAVEN
+CITY ENVIRONMENT
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Create an original futuristic cyberpunk megacity environment for LIFE//LEVEL called NEON HAVEN. View
+from a luxury residential tower overlooking a dense futuristic city, layered skyscrapers, elevated rail
+systems, illuminated streets, holographic advertisements, deep midnight navy atmosphere, restrained
+cyan, violet and magenta accents, subtle rain and atmospheric haze. Premium stylized 3D game
+environment with strong readable architectural silhouettes and believable scale. Beautiful cinematic
+lighting, detailed but optimized-looking assets, sophisticated rather than chaotic. Wide panoramic 16:9
+environment concept, no UI, no text, no watermark.
+
+PAGE 10
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+04 / 26
+A · NHÂN VẬT & THẾ GIỚI
+04   Căn hộ khởi đầu
+STARTER APARTMENT
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Create a beautiful premium stylized 3D isometric starter apartment for LIFE//LEVEL, an original
+cyberpunk life simulation game. Small but thoughtfully designed customizable apartment with
+bedroom, compact living area, computer workstation, kitchenette and large futuristic city-facing
+windows. Modular floor and wall structure, one-meter architectural grid proportions, matte charcoal
+surfaces, warm interior lighting, controlled cyan accent lights, detailed furniture, soft shadows, carefully
+composed cozy environment. Orthographic three-quarter isometric camera showing the entire room as
+a cutaway dollhouse, no roof blocking the view. Clearly separated furniture objects suitable for a real 3D
+building game. Wide 16:9, no UI, no text.
+
+PAGE 11
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+05 / 26
+A · NHÂN VẬT & THẾ GIỚI
+05   Penthouse cấp cao
+ENDGAME PENTHOUSE
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design the ultimate endgame cyberpunk penthouse for LIFE//LEVEL, in the exact same stylized 3D visual
+universe as a modest starter apartment. Massive multi-room futuristic luxury residence with panoramic
+city windows, a master bedroom, premium lounge, advanced gaming workstation, AI terminal, weapon
+display room, crafting workshop, trophy gallery, rooftop garden and collectible decorations. Modular
+walls, realistic room separation, clear architectural layout, beautiful warm and cool lighting balance,
+premium futuristic materials, elegant controlled neon. Orthographic isometric dollhouse cutaway view
+of the entire property, luxurious yet livable, cohesive game-ready asset scale. Landscape 16:9, no UI or
+text.
+
+PAGE 12
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+06 / 26
+B · XÂY NHÀ THE SIMS-STYLE
+06   Build Mode tổng thể
+BUILD MODE OVERVIEW
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design a fully featured 3D house construction mode interface for LIFE//LEVEL, a premium cyberpunk life
+simulation RPG. Inspired by the interaction depth of sophisticated house-building simulation games but
+with an entirely original visual identity. Large central 3D orthographic isometric construction viewport,
+partially built futuristic apartment, clearly visible square floor grid, individually editable wall segments, a
+rectangular room being drawn with a translucent preview, structural placement indicators. Bottom
+construction toolbar with walls, rooms, floors, doors, windows, stairs, roof, materials and demolition tool
+icons. Right contextual catalog, top currency and building cost display, undo/redo, confirm and cancel.
+Premium dark futuristic game UI, restrained cyan and violet highlights. Clean 16:9 desktop
+screenshot-style concept, readable spatial composition.
+
+PAGE 13
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+07 / 26
+B · XÂY NHÀ THE SIMS-STYLE
+07   Bộ block xây dựng
+MODULAR BUILDING KIT
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Create a professional modular 3D architectural asset kit for a premium stylized cyberpunk building
+simulation game. Show isolated reusable construction pieces organized in a clean grid: straight wall
+section, corner wall, half wall, glass wall, wall with doorway, wall with window opening, large panoramic
+window, sliding door, normal door, floor tiles, ceiling piece, roof panel, pillar, stairs and structural trims.
+Consistent 1-meter grid compatibility, 3-meter standard wall height, logically aligned pivots, matching
+thickness and scale, dark titanium and elegant futuristic materials with restrained cyan lighting. Each
+component clearly separated, three-quarter orthographic asset presentation on a neutral studio
+background. High-detail but optimized game-ready aesthetic, landscape 16:9.
+
+PAGE 14
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+08 / 26
+B · XÂY NHÀ THE SIMS-STYLE
+08   Cửa, cửa sổ và vật liệu
+DOORS WINDOWS MATERIALS
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Create an original premium cyberpunk architectural catalog art sheet for a 3D building game. Showcase
+a modular selection of hinged doors, automatic sliding doors, reinforced futuristic doors, glass doors,
+narrow windows, panoramic smart-glass windows, dark concrete walls, brushed titanium walls, glass
+partitions, luxury wood flooring, graphite ceramic flooring and illuminated metallic floor panels. Every
+model uses consistent realistic game scale and clean geometric construction, individual object
+presentation, subtle material labels represented only as blank caption spaces. Professional stylized 3D
+PBR asset showcase, soft controlled lighting, clean dark neutral background, organized catalog
+arrangement, 16:9.
+
+PAGE 15
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+09 / 26
+B · XÂY NHÀ THE SIMS-STYLE
+09   Buy Mode - Mua nội thất
+BUY MODE
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design a sophisticated Buy Mode interface for LIFE//LEVEL, a premium cyberpunk 3D apartment building
+game. Large isometric apartment viewport showing a partially furnished room, translucent ghost
+preview of a futuristic sofa being positioned on a visible floor grid, cyan valid placement outlines and
+subtle occupied-cell feedback. Bottom furniture catalog with thumbnail cards, category icons, prices in
+fictional game Gold and owned-item indicators. Contextual side panel showing furniture dimensions,
+rotation controls and purchase details. Smooth, spacious premium game interface, dark charcoal and
+navy surfaces, small controlled cyan and violet highlights. The apartment remains the visual focus. 16:9
+desktop UI concept, no watermark.
+
+PAGE 16
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+10 / 26
+B · XÂY NHÀ THE SIMS-STYLE
+10   Bộ nội thất
+FURNITURE ASSET PACK
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Create a cohesive premium stylized 3D cyberpunk furniture asset collection for a life simulation game.
+Display individual modular items including futuristic bed, sofa, lounge chair, coffee table, ergonomic
+office chair, workstation desk, gaming computer, wardrobe, bookshelf, kitchen counter, refrigerator,
+dining table, lamp, potted plant, wall display, AI terminal, weapon showcase and crafting bench. Unified
+real-world-like dimensions, premium dark titanium, textured fabric, warm wooden accents, glass and
+subtle cyan emissive details. Clean three-quarter orthographic camera, evenly spaced individual assets
+on neutral background, high-quality original game models, clear silhouettes, optimized WebGL-friendly
+styling, 16:9.
+
+PAGE 17
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+11 / 26
+C · RPG / KHO ĐỒ
+11   Kho đồ
+INVENTORY UI
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design a premium cyberpunk RPG inventory interface for LIFE//LEVEL. A spacious desktop game
+inventory screen with organized item grid, visually distinct rarity frames, item categories for weapons,
+armor, accessories, crafting materials, consumables and collectibles. Selected futuristic weapon shows a
+detailed tooltip with stats, rarity, item level and compare/equip actions. Balance visual hierarchy
+between inventory grid and item information. Dark brushed metal interface, subtle cyan navigation
+accents, purple legendary rarity details, crisp readable typography spaces, carefully aligned slots, item
+icons with consistent three-quarter game art style. High-end original RPG UI, widescreen 16:9, no clutter,
+no generic SaaS dashboard.
+
+PAGE 18
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+12 / 26
+C · RPG / KHO ĐỒ
+12   Trang bị nhân vật
+EQUIPMENT UI
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Create a high-end futuristic RPG character equipment screen for LIFE//LEVEL. Center shows the full-body
+stylized cyberpunk male hero wearing premium black and cyan techwear. Equipment slot frames are
+arranged naturally around the character: weapon, head, chest, gloves, boots, accessories and relic. Right
+panel displays attack, defense, critical rate, combat power and detailed equipment comparison with
+positive and negative stat deltas. Left panel displays level, XP, HP and progression. Premium minimalist
+dark sci-fi game interface, refined visual hierarchy, subtle holographic detailing, cyan and violet accents,
+polished game-art presentation, landscape 16:9.
+
+PAGE 19
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+13 / 26
+C · RPG / KHO ĐỒ
+13   Bộ vũ khí RPG
+WEAPON ASSET SHEET
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design an original collectible weapon concept sheet for LIFE//LEVEL, a premium cyberpunk 3D RPG.
+Show eight fictional game weapons progressing from common to mythic rarity: compact training blade,
+neon-edged katana, plasma saber, advanced energy blade, crystalline sword, heavy technological
+greatsword, legendary quantum edge and mythic luminous relic. Each weapon has a unique
+recognizable silhouette, increasing intricate detail and tasteful cyan, purple, amber or crimson glow
+according to rarity. Show each item isolated at the same scale and three-quarter angle, polished stylized
+3D game-ready art, dark neutral presentation background, no character hands, no branding, 16:9.
+
+PAGE 20
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+14 / 26
+C · RPG / KHO ĐỒ
+14   Bộ icon vật phẩm
+ITEM ICONS
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Create a cohesive game item icon reference sheet for LIFE//LEVEL, premium futuristic cyberpunk RPG. A
+clean 5-column visual collection featuring helmets, armored jackets, gloves, boots, rings, necklaces,
+neural chips, tech modules, glowing energy cores, alloy fragments, quantum crystals, upgrade stones,
+healing consumables, crafting materials and legendary relics. All objects are rendered individually in the
+same high-quality stylized 3D isometric game icon style, same lighting direction, same scale, distinct
+silhouettes and rarity accents. Each icon centered inside its own equally sized square cell, neutral dark
+backdrop. No text or watermark. Landscape 16:9.
+
+PAGE 21
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+15 / 26
+C · RPG / KHO ĐỒ
+15   Chế tạo & nâng cấp
+CRAFTING & ENHANCEMENT
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design a premium cyberpunk RPG crafting workshop interface for LIFE//LEVEL. Background shows a
+detailed futuristic workshop with metal workbench, robotic fabrication equipment and controlled neon
+lighting. Center features a large three-dimensional holographic preview of an energy sword being
+upgraded. Left side recipe and crafting category navigation. Right side stats before and after upgrade,
+required materials, available resources, Gold cost and a prominent enhance button. Bottom shows
+upgrade materials and blueprint icons. Sophisticated dark metallic game interface, clear visual focus,
+attractive restrained cyan and violet effects, immersive and functional, widescreen 16:9.
+
+PAGE 22
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+16 / 26
+C · RPG / KHO ĐỒ
+16   Rơi đồ hiếm
+LEGENDARY LOOT REVEAL
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Create an exciting premium cyberpunk RPG legendary loot reward reveal interface for LIFE//LEVEL. One
+beautiful legendary plasma blade suspended in the center with controlled golden and violet particles,
+cinematic dark background, subtle radial lighting and polished item rarity presentation. Supporting
+rewards underneath include Gold coins, upgrade materials, XP and rare fragments, each displayed as
+refined 3D item icons. Clear equipment action and inventory action in a balanced game UI layout.
+Dramatic but sophisticated, no excessive bloom, sharp item silhouette, high-end original game
+presentation, widescreen 16:9.
+
+PAGE 23
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+17 / 26
+D · BOSS & NHIỆM VỤ
+17   Thiết kế Boss
+STATIC WRAITH BOSS
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Create an original stylized 3D cyberpunk RPG boss concept for LIFE//LEVEL named STATIC WRAITH. A
+towering humanoid machine corrupted by unstable violet energy, angular black titanium armor,
+exposed luminous circuits, intimidating asymmetrical shoulder plates, glowing cyan core and elegant
+mechanical detailing. Distinctive recognizable silhouette suitable for a browser-based 3D game, detailed
+but not excessively complex geometry. Full-body front, side, back and three-quarter views plus a
+close-up of the head. Consistent model proportions and material reference, neutral dark studio
+backdrop, premium game character art, no text, widescreen 16:9.
+
+PAGE 24
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+18 / 26
+D · BOSS & NHIỆM VỤ
+18   Đấu trường Boss
+BOSS ARENA
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design a premium cyberpunk RPG boss encounter screen for LIFE//LEVEL. Central visual is a large
+original robotic boss on a futuristic arena platform overlooking the neon megacity, dynamic but
+controlled cinematic lighting. A clear boss HP and phase display sits across the upper screen. The
+player's character is visible at the foreground edge with equipped weapon. Side interface displays linked
+real-life quests that trigger attacks and damage when completed, combat history, equipment power and
+potential loot. Combat is task-driven, not button-mashing. Premium immersive 3D browser game
+design, strong visual hierarchy, restrained HUD, widescreen 16:9.
+
+PAGE 25
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+19 / 26
+D · BOSS & NHIỆM VỤ
+19   Nhật ký nhiệm vụ
+QUEST JOURNAL
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design a beautiful cyberpunk RPG quest journal for LIFE//LEVEL, where real-life productivity tasks appear
+as immersive RPG missions. Strong game-like interface with three high-priority quests, daily and weekly
+mission categories, task checklists, difficulty indicators, deadlines, XP/Gold rewards and boss damage
+previews. Selected mission opens a spacious detailed quest panel. Use premium dark navy surfaces,
+carefully balanced cyan and violet accents, high-quality iconography, subtle geometric textures and clear
+readable content hierarchy. No giant generic SaaS cards, no noisy holograms. Desktop 16:9, with space
+reserved for actual Vietnamese text overlays.
+
+PAGE 26
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+20 / 26
+D · BOSS & NHIỆM VỤ
+20   Cây kỹ năng
+SKILL TREE
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design a sophisticated RPG skill tree interface for LIFE//LEVEL with six major progression branches:
+Health, Knowledge, Career, Finance, Relationships and Creativity. Each branch has beautiful distinctive
+icons and connected skill nodes arranged as a balanced futuristic progression network. Clearly
+distinguish unlocked, unlockable and locked nodes using restrained cyan, violet, amber and muted gray
+treatments. Center focus on a selected skill with meaningful detail panel, requirements and progression
+information. Deep dark cyberpunk visual aesthetic, polished line connections, readable hierarchy and
+elegant motion-ready layers. Premium original game UI, widescreen 16:9.
+
+PAGE 27
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+21 / 26
+D · BOSS & NHIỆM VỤ
+21   Bản đồ chiến dịch
+CAMPAIGN MAP
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Create a premium cyberpunk RPG campaign progression map for LIFE//LEVEL. A beautiful visual journey
+through futuristic city districts representing life goals, with interconnected mission nodes, chapter
+gateways, milestone locations and dramatic boss icons. Some paths completed and illuminated in cyan,
+upcoming paths softly glowing, future regions locked in darkness. Selected campaign detail panel shows
+meaningful progress, rewards and requirements. A clear hierarchy of campaign, chapter, milestone and
+boss. Rich atmospheric cyberpunk world-map presentation combined with elegant legible game HUD,
+widescreen 16:9, no watermark.
+
+PAGE 28
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+22 / 26
+E · CÁC MÀN HÌNH KHÁC
+22   Màn hình chính
+HOME / HUD
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design the definitive LIFE//LEVEL main game screen, a premium cyberpunk 3D life simulation RPG. The
+central 75 percent of the screen is an interactive-looking isometric luxury apartment with a stylized
+character walking between furniture. Large, beautiful futuristic city windows, high-quality architectural
+details, cozy lighting and controlled cyan/violet accents. Compact top HUD for player level, Gold and
+notifications. Bottom HUD for HP, Energy, Mood and XP. Small contextual active boss widget and a
+compact three-priority quest panel. Collapsible minimal navigation instead of a huge sidebar. Gameplay
+world dominates the composition. Premium commercial game presentation, immersive, practical and
+uncluttered. Desktop widescreen 16:9.
+
+PAGE 29
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+23 / 26
+E · CÁC MÀN HÌNH KHÁC
+23   Tài chính cá nhân
+FINANCE
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design an elegant premium futuristic personal banking screen integrated into LIFE//LEVEL, a cyberpunk
+life simulation game. Sophisticated financial interface with real-money account balances, cashflow
+visualization, expense categories, monthly spending, budgets, savings goals, transactions and recurring
+payments. Dark graphite, midnight blue, muted cyan and subtle metallic accents. Professional
+bank-grade readability and refined typography, controlled use of glass surfaces, no excessive glow. A
+unique cyberpunk-inspired financial interface that feels trustworthy and useful, not a generic
+dashboard. Real money must be visually separate from fictional game Gold. Desktop widescreen 16:9.
+
+PAGE 30
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+24 / 26
+E · CÁC MÀN HÌNH KHÁC
+24   AI quản gia
+AI BUTLER
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design an original premium cyberpunk AI Butler interface for LIFE//LEVEL. A sophisticated futuristic
+personal assistant terminal with an elegant small holographic assistant identity on one side, readable
+conversational interface in the center and structured planning proposals on the other side. AI can break
+down life goals, suggest tasks, organize schedules and identify overload. Include proposal preview
+cards, visual change comparisons, approve/reject actions and permission indicators. High-quality dark
+glass and brushed titanium surfaces, controlled cyan and violet lighting, luxurious yet calm. Usable
+application UI integrated into an immersive game universe, desktop 16:9, no clutter.
+
+PAGE 31
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+25 / 26
+E · CÁC MÀN HÌNH KHÁC
+25   Thú cưng
+PETS
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Create a premium stylized 3D cyberpunk companion pet collection concept for LIFE//LEVEL. Five original
+friendly companion designs: a compact robotic cat, small cybernetic dog, floating drone pet, luminous
+mechanical fox and rare crystalline technology creature. Charming personalities, polished game-ready
+stylized forms, coherent scale for a luxury cyberpunk apartment, dark metallic shells, soft cyan and violet
+illumination, subtle animated-feature-like appeal without looking childish. Show each pet separately at a
+three-quarter view, with consistent lighting and proportions on neutral dark studio background. Original
+character designs, landscape 16:9, no text.
+
+PAGE 32
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+26 / 26
+E · CÁC MÀN HÌNH KHÁC
+26   Cửa hàng tổng hợp
+RPG STORE
+VISUAL REFERENCE  |  Concept only, not an exportable 3D model / UI component
+DETAILED PROMPT  /  SELECTABLE ENGLISH TEXT
+Design a premium futuristic RPG marketplace screen for LIFE//LEVEL, cyberpunk life simulation game. A
+visually rich but clearly organized virtual store featuring weapons, armor, crafting materials, furniture,
+pets and cosmetics. Distinctive navigation categories, large featured item showcase, attractive item
+cards with rarity borders, fictional Gold prices, owned states and purchase actions. The selected item
+appears in a large high-quality 3D preview with detailed stats and description. Sophisticated
+titanium-black background, deep navy layered surfaces, restrained cyan, violet and amber accents.
+Looks like a polished game marketplace, not an ecommerce website. Widescreen 16:9.
+
+PAGE 33
+LIFE//LEVEL  /  WARDROBE & SHOP
+05  Mua quần áo bằng Gold
+Personal fashion progression must be visible on the character and in the apartment.
+FINAL EDITION  /  CYBERPUNK STYLE LOCK  /  CHARACTER & WARDROBE SYSTEM
+SUPPLEMENT 05/07
+FASHION STORE PROMPT  /  SELECTABLE TEXT
+WARDROBE & FASHION SHOP MASTER PROMPT (EN): Build a premium cyberpunk 3D clothing store and
+personal wardrobe with a large live full-body avatar preview, clothing categories, curated cyberpunk outfit
+collections, item rarity, ownership tags, Gold prices, 3D color variants, before/after appearance comparison,
+filters and purchase confirmation. New purchases unlock wearable items permanently and can be mixed
+with starter pieces. Display the exact equipped result on the player avatar in the home apartment, profile,
+creator, and other relevant game scenes.
+Catalog: hairstyles, techwear jackets, coats, hoodies, tops, trousers, shoes, gloves, masks, eyewear, hats,
+piercings, backpacks, cyberware cosmetics, jewelry and seasonal neon-themed collections. Offer complete
+outfits and individual slots; prevent invalid layer combinations and clipping. Both starter and earned items
+appear in one unified owned wardrobe.
+Purchasing: Preview item without charge → show price and current Gold → server validates ownership,
+unlock and funds → debit game Gold atomically → grant item once → persist ownership → offer “Equip now”
+→ immediately update the same 3D character.
+
+PAGE 34
+LIFE//LEVEL  /  FASHION SYSTEM
+06  Kết nối shop, tủ đồ và tiến trình
+No hardcoded item grants, no client-trusted balances, no outfit desynchronization.
+FINAL EDITION  /  CYBERPUNK STYLE LOCK  /  CHARACTER & WARDROBE SYSTEM
+SUPPLEMENT 06/07
+SERVER & AVATAR CONTRACT
+Ownership and unlocks
+Use a catalog of cosmetic definitions + per-user
+owned item instances/entitlements. Make starter
+item grants idempotent. Award optional cosmetic
+items from campaigns, bosses, achievements and
+game Gold shops. No real-money transactions.
+Store appearance history only if useful, and never
+grant purchases merely from UI state.
+Wearable compatibility
+Slots: Hair, Headwear, Face/Eyes, Earrings, Top,
+Outerwear, Bottoms, Shoes, Gloves, Back,
+Cyberware and optional Full Outfit. Define mesh
+compatibility and priority for clipping prevention.
+Full outfits may lock some slots; disclose this
+before equipping.
+Persistence
+Transactions: wallet ledger + cosmetic ownership
++ event log. Each equipped item must be owned,
+available and compatible. Protect
+purchase/equip/undo from two simultaneous tabs
+and network retries.
+ACCEPTANCE TESTS
+Must-pass QA cases
+01 Create avatar, customize eye/nose/ear/hair
+independently; visibly confirm changes.
+02 Pick a free starter outfit; no Gold is deducted.
+03 Reload and verify every face setting and outfit
+layer persist.
+04 Buy one jacket with game Gold; exact debit,
+one grant.
+05 Try duplicate purchase/retry and concurrent
+tabs; no duplicate debit or grants.
+06 Equip new jacket; verify in wardrobe, 3D home
+and character view.
+07 Remove jacket/re-equip original outfit; original
+owned inventory remains.
+08 Insufficient Gold or locked item does not
+unlock.
+09 Changing clothing does not alter finance
+balance or combat stats accidentally.
+10 Verify headwear/hair, face masks, shoes, arm
+joints and animations do not clip badly.
+11 Verify desktop, mobile, low-graphics and
+reloaded sessions.
+
+PAGE 35
+LIFE//LEVEL  /  VISUAL REFERENCE & PROMPT BIBLE
+CODEX — IMPLEMENTATION DIRECTIVE
+01
+Analyze all 26 references and prompts. Treat images as visual guidance, not finished
+implementation.
+02
+Use the existing LIFE//LEVEL repository and maintain all game systems and current user data.
+03
+Build a real interactive 3D apartment and The Sims-style house editor: walls, floors, doors, windows,
+rooms, grid and Buy Mode.
+04
+Implement each UI as responsive React components with valid navigation, state, APIs and visual
+consistency.
+05
+Use shared art direction, scales, materials, colors, iconography and character identity across
+screens.
+06
+If sub-agent delegation is available, distribute independent work to UI, World, Building, RPG/Assets,
+AI and QA agents.
+07
+Set file ownership, interface contracts and test gates; parallelize only genuinely independent work.
+08
+After each milestone run build, typecheck, tests, visual preview and performance checks; fix
+regressions before proceeding.
+09
+Do not fake production features with screenshots, decorative buttons or client-generated
+currency/loot.
+10
+Preview requests during development are not design approval. Continue the master plan until
+verified or transparently blocked.
+
+PAGE 36
+LIFE//LEVEL  /  CODEX IMPLEMENTATION
+07  Lệnh bổ sung bắt buộc cho Codex
+Integrate into existing plan; spawn agents when the runtime supports it.
+FINAL EDITION  /  CYBERPUNK STYLE LOCK  /  CHARACTER & WARDROBE SYSTEM
+SUPPLEMENT 07/07
+STRICT INSTRUCTION  /  SELECTABLE TEXT
+IMPLEMENTATION DIRECTIVE: Preserve the existing 26 original image references and prompts. The rules in
+these seven supplementary pages take precedence where a reference is ambiguous, especially for
+cyberpunk consistency, facial customization and starting/future clothing. Do not substitute a static
+screenshot for an editable 3D avatar or a working shop. Do not overwrite working quest, boss, apartment,
+finance or Muse/AI systems.
+Multi-agent delegation: If Codex supports real subagents, launch independent agents with explicit file
+ownership and test contracts: (A) cyberpunk design system/visual QA, (B) character rig + facial
+customization, (C) starter wardrobe + wearables, (D) cosmetic shop + server economy, (E) cross-screen
+integration + regression tests. Coordinate shared data contracts before parallel edits; integrate the results
+after each wave. Do not claim to have spawned agents if unavailable.
+Suggested plan: repo audit → visual/style inventory → avatar data contract → facial controls and actual mesh
+responses → free starter outfits → saved avatar → wardrobe UI → Gold-powered fashion shop → item
+ownership → world/profile synchronization → UI and 3D QA → production build and persistence tests.
+Required report: implemented/verified/not-yet-verified/blocked status for each facial option, starter outfit,
+clothing category, purchase, equip, persistence, cyberpunk visual check and FPS test. Include screenshots
+when a browser exists. Do not mark final “done” based solely on successful compilation.
+NON-NEGOTIABLE CHECKPOINT
+Minimum acceptance: editable hair + face + eyes + nose + ears + mouth + skin; 3 free cyberpunk starter
+outfits; Gold-funded purchase of additional clothing; inventory ownership and live equip; 3D avatar
+appearance persistence across relevant screens; no style drift from premium cyberpunk; QA tests pass.
+Preview rule: If the user asks to run the application while work continues, treat it only as an interim preview
+— not approval or completion.

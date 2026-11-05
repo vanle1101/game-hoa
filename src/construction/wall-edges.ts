@@ -18,10 +18,10 @@ export function orthogonalWallEnd(start: GridPoint, end: GridPoint): GridPoint {
 }
 
 /** A drag of N metres yields exactly N persistent one-metre edges. */
-export function wallEdgesBetweenVertices(start: GridPoint, pointerEnd: GridPoint, clickEdge?: WallEdge): WallEdge[] {
+export function wallEdgesBetweenVertices(start: GridPoint, pointerEnd: GridPoint): WallEdge[] {
   if (start.level !== pointerEnd.level) return [];
   const end = orthogonalWallEnd(start, pointerEnd);
-  if (start.x === end.x && start.z === end.z) return clickEdge ? [clickEdge] : [];
+  if (start.x === end.x && start.z === end.z) return [];
   const edges: WallEdge[] = [];
   if (start.z === end.z) {
     for (let x = Math.min(start.x, end.x); x < Math.max(start.x, end.x); x++)

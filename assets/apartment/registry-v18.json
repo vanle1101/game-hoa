@@ -1,0 +1,446 @@
+[
+  {
+    "id": "ceramic-bathroom-suite",
+    "status": "ASSET PRODUCTION",
+    "description": "Vessel basin vanity and sculpted ceramic toilet suite",
+    "units": "metres",
+    "axes": "X right, Y up, Z front; feet at Y=0",
+    "dimensions": [
+      1.816,
+      1.87,
+      0.866
+    ],
+    "bounds": {
+      "min": [
+        -1.055,
+        0.02,
+        -0.423
+      ],
+      "max": [
+        0.761,
+        1.89,
+        0.444
+      ]
+    },
+    "meshCount": 18,
+    "triangles": 8620,
+    "features": [
+      "closed basin bowl",
+      "sculpted toilet pedestal",
+      "open seat ring",
+      "cistern",
+      "walnut vanity",
+      "silvered mirror",
+      "brass faucet",
+      "soap pump"
+    ],
+    "runtime": "/assets/apartment/bathroom/ceramic-bathroom-suite.glb",
+    "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+    "reference": "REF-D; authored approximation, requires in-game visual gate"
+  },
+  {
+    "id": "premium-bed",
+    "status": "ASSET PRODUCTION",
+    "description": "Premium low walnut platform bed with sculpted bedding, integrated nightstands, opal lamps and offset upholstered foot bench.",
+    "units": "metres",
+    "axes": "X right, Y up, Z front; feet at Y=0",
+    "dimensions": [
+      3.42,
+      1.24,
+      3.147
+    ],
+    "bounds": {
+      "min": [
+        -1.71,
+        0.0,
+        -1.275
+      ],
+      "max": [
+        1.71,
+        1.24,
+        1.872
+      ]
+    },
+    "meshCount": 86,
+    "triangles": 156636,
+    "features": [
+      "Beveled walnut joinery and recessed feet",
+      "Subdivided sculpted pillows and draped bedding",
+      "Tailored headboard and mattress piping",
+      "Embedded woven fabric and walnut PBR textures",
+      "Offset upholstered foot bench with stitched seams and draped throw",
+      "Two bedside drawer units and opal practical lamps"
+    ],
+    "runtime": "/assets/apartment/bed/premium-bed.glb",
+    "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+    "reference": "REF-D; authored approximation, requires in-game visual gate"
+  },
+  {
+    "id": "ergonomic-chair",
+    "status": "ASSET PRODUCTION",
+    "description": "Contoured upholstered task chair with swept lumbar shell and five spoke caster base",
+    "units": "metres",
+    "axes": "X right, Y up, Z front; feet at Y=0",
+    "dimensions": [
+      0.726,
+      1.274,
+      0.76
+    ],
+    "bounds": {
+      "min": [
+        -0.352,
+        0.006,
+        -0.389
+      ],
+      "max": [
+        0.373,
+        1.28,
+        0.371
+      ]
+    },
+    "meshCount": 27,
+    "triangles": 38132,
+    "features": [
+      "curved mesh backrest",
+      "waterfall cushion",
+      "welt seam",
+      "adjustable arm pads",
+      "five spoke base",
+      "10 casters",
+      "headrest"
+    ],
+    "runtime": "/assets/apartment/chair/ergonomic-chair.glb",
+    "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+    "reference": "REF-D; authored approximation, requires in-game visual gate"
+  },
+  {
+    "id": "coffee-table",
+    "status": "ASSET PRODUCTION",
+    "description": "Low Nero marble and antique brass coffee table with inset smoked shelf, tapered feet, books, ceramic bowl and dried branch arrangement.",
+    "units": "metres",
+    "axes": "X right, Y up, Z front; feet at Y=0",
+    "dimensions": [
+      1.46,
+      1.423,
+      0.82
+    ],
+    "bounds": {
+      "min": [
+        -0.73,
+        0.0,
+        -0.41
+      ],
+      "max": [
+        0.73,
+        1.423,
+        0.41
+      ]
+    },
+    "meshCount": 35,
+    "triangles": 31232,
+    "features": [
+      "Beveled marble slab",
+      "Brushed brass reveal and legs",
+      "Smoked glass shelf",
+      "Three books with page layers",
+      "Ceramic bowl",
+      "Dried branch and leaves"
+    ],
+    "runtime": "/assets/apartment/coffee-table/coffee-table.glb",
+    "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+    "reference": "REF-D; authored approximation, requires in-game visual gate"
+  },
+  {
+    "id": "potted-palm",
+    "status": "ASSET PRODUCTION",
+    "description": "Arching palm with individually folded tapered leaflets in turned planter",
+    "units": "metres",
+    "axes": "X right, Y up, Z front; feet at Y=0",
+    "dimensions": [
+      1.885,
+      1.543,
+      1.767
+    ],
+    "bounds": {
+      "min": [
+        -0.995,
+        0.0,
+        -0.868
+      ],
+      "max": [
+        0.89,
+        1.543,
+        0.899
+      ]
+    },
+    "meshCount": 353,
+    "triangles": 5744,
+    "features": [
+      "13 curved fronds",
+      "338 modeled leaflets",
+      "soil surface",
+      "turned double wall planter"
+    ],
+    "runtime": "/assets/apartment/decor/potted-palm.glb",
+    "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+    "reference": "REF-D; authored approximation, requires in-game visual gate"
+  },
+  {
+    "id": "executive-desk",
+    "status": "ASSET PRODUCTION",
+    "description": "Walnut dual pedestal workstation with individual controls and articulated lamp",
+    "units": "metres",
+    "axes": "X right, Y up, Z front; feet at Y=0",
+    "dimensions": [
+      2.35,
+      1.465,
+      0.865
+    ],
+    "bounds": {
+      "min": [
+        -1.175,
+        0.0,
+        -0.43
+      ],
+      "max": [
+        1.175,
+        1.465,
+        0.435
+      ]
+    },
+    "meshCount": 120,
+    "triangles": 37176,
+    "features": [
+      "beveled walnut cabinets",
+      "6 brass handled drawers",
+      "monitor stand and lit display",
+      "56 individual keycaps",
+      "mouse",
+      "leather desk mat",
+      "spun shade lamp",
+      "books and pencil cup"
+    ],
+    "runtime": "/assets/apartment/desk/executive-desk.glb",
+    "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+    "reference": "REF-D; authored approximation, requires in-game visual gate"
+  },
+  {
+    "id": "marble-island",
+    "status": "ASSET PRODUCTION",
+    "description": "Reeded walnut island with actual inset sink cavity, Nero marble slabs and brass fittings",
+    "units": "metres",
+    "axes": "X right, Y up, Z front; feet at Y=0",
+    "dimensions": [
+      2.68,
+      1.378,
+      1.12
+    ],
+    "bounds": {
+      "min": [
+        -1.34,
+        0.0,
+        -0.56
+      ],
+      "max": [
+        1.34,
+        1.378,
+        0.56
+      ]
+    },
+    "meshCount": 72,
+    "triangles": 27398,
+    "features": [
+      "open basin mesh",
+      "gooseneck faucet",
+      "9 drawer fronts",
+      "brass hardware",
+      "reeded back",
+      "veined marble",
+      "fruit bowl"
+    ],
+    "runtime": "/assets/apartment/kitchen/marble-island.glb",
+    "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+    "reference": "REF-D; authored approximation, requires in-game visual gate"
+  },
+  {
+    "id": "dome-floor-lamp",
+    "status": "ASSET PRODUCTION",
+    "description": "1.82 m sculptural floor lamp with weighted stone foot, curved blackened-brass stem, tailored amber dome shade and emissive warm bulb.",
+    "units": "metres",
+    "axes": "X right, Y up, Z front; feet at Y=0",
+    "dimensions": [
+      1.14,
+      2.17,
+      0.62
+    ],
+    "bounds": {
+      "min": [
+        -0.3,
+        0.0,
+        -0.3
+      ],
+      "max": [
+        0.84,
+        2.17,
+        0.32
+      ]
+    },
+    "meshCount": 7,
+    "triangles": 7680,
+    "features": [
+      "Weighted stone base",
+      "Curved metal stem",
+      "UV dome shade mesh",
+      "Brass trim",
+      "Warm emissive bulb"
+    ],
+    "runtime": "/assets/apartment/lamp/dome-floor-lamp.glb",
+    "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+    "reference": "REF-D; authored approximation, requires in-game visual gate"
+  },
+  {
+    "id": "wool-rug",
+    "status": "ASSET PRODUCTION",
+    "description": "Large dark taupe hand-tufted wool rug with mottled woven PBR texture, uneven pile mesh and soft binding.",
+    "units": "metres",
+    "axes": "X right, Y up, Z front; feet at Y=0",
+    "dimensions": [
+      4.189,
+      0.057,
+      3.059
+    ],
+    "bounds": {
+      "min": [
+        -2.095,
+        0.003,
+        -1.53
+      ],
+      "max": [
+        2.095,
+        0.06,
+        1.53
+      ]
+    },
+    "meshCount": 6,
+    "triangles": 45540,
+    "features": [
+      "Physically uneven 120 by 90 pile mesh",
+      "1024-pixel mottled wool base colour",
+      "Tangent-space micro normal map",
+      "Woven backing and bound edges"
+    ],
+    "runtime": "/assets/apartment/rug/wool-rug.glb",
+    "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+    "reference": "REF-D; authored approximation, requires in-game visual gate"
+  },
+  {
+    "id": "sectional-sofa",
+    "status": "ASSET PRODUCTION",
+    "description": "Tailored taupe L-shaped sectional with individual soft seat/back cushions, rounded arm bolsters, bronze feet, piped seams, accent pillows and sculpted charcoal throw.",
+    "units": "metres",
+    "axes": "X right, Y up, Z front; feet at Y=0",
+    "dimensions": [
+      3.285,
+      1.305,
+      2.319
+    ],
+    "bounds": {
+      "min": [
+        -1.68,
+        0.0,
+        -0.825
+      ],
+      "max": [
+        1.605,
+        1.305,
+        1.495
+      ]
+    },
+    "meshCount": 51,
+    "triangles": 132472,
+    "features": [
+      "Subdivided deformed upholstery",
+      "Individual seat and back cushions",
+      "Chaise silhouette",
+      "Continuous stitched welt geometry",
+      "Tailored draped throw with fringes",
+      "Recessed bronze feet",
+      "Embedded fabric base color/normal maps"
+    ],
+    "runtime": "/assets/apartment/sofa/sectional-sofa.glb",
+    "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+    "reference": "REF-D; authored approximation, requires in-game visual gate"
+  },
+  {
+    "id": "leather-bar-stool",
+    "status": "ASSET PRODUCTION",
+    "description": "Padded leather stool on slender brass splayed frame",
+    "units": "metres",
+    "axes": "X right, Y up, Z front; feet at Y=0",
+    "dimensions": [
+      0.486,
+      1.115,
+      0.486
+    ],
+    "bounds": {
+      "min": [
+        -0.243,
+        0.023,
+        -0.243
+      ],
+      "max": [
+        0.243,
+        1.138,
+        0.243
+      ]
+    },
+    "meshCount": 10,
+    "triangles": 15072,
+    "features": [
+      "upholstered seat",
+      "padded back",
+      "stitched perimeter",
+      "continuous footrest",
+      "splayed tubular legs"
+    ],
+    "runtime": "/assets/apartment/stool/leather-bar-stool.glb",
+    "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+    "reference": "REF-D; authored approximation, requires in-game visual gate"
+  },
+  {
+    "id": "paneled-wardrobe",
+    "status": "ASSET PRODUCTION",
+    "description": "Four full-height inset walnut doors with champagne metal hardware",
+    "units": "metres",
+    "axes": "X right, Y up, Z front; feet at Y=0",
+    "dimensions": [
+      1.95,
+      2.36,
+      0.739
+    ],
+    "bounds": {
+      "min": [
+        -0.975,
+        0.0,
+        -0.315
+      ],
+      "max": [
+        0.975,
+        2.36,
+        0.424
+      ]
+    },
+    "meshCount": 28,
+    "triangles": 4992,
+    "features": [
+      "inset panels",
+      "recessed plinth",
+      "4 long brass pulls",
+      "cornice light",
+      "base light"
+    ],
+    "runtime": "/assets/apartment/wardrobe/paneled-wardrobe.glb",
+    "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+    "reference": "REF-D; authored approximation, requires in-game visual gate"
+  }
+]

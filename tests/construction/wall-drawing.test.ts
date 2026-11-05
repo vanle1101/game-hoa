@@ -29,6 +29,22 @@ describe("consecutive wall strokes", () => {
     expect(reversed.walls.filter(wall => wall.orientation === "x").map(edgeKey)).toEqual(["0:x:0:1", "0:x:1:1"]);
   });
 
+  it("leaves the wall, door, and undo history untouched after a zero-metre click", () => {
+    const source = toolDraft(plan(), "wall", point(0, 1), point(3, 1), "wall-basic");
+    const door = withLotObject({ id: "door-1", furnitureId: "glass_door_modern", x: 1, z: 1, level: 0,
+      rotation: 0, placementType: "wall_insert", wall_id: edgeKey(source.walls[1]), wall_u: 0.5,
+      wallY: 0, wallNormal: [0, 0, 1] });
+    source.furniture.push(door);
+    const vertex = point(1, 1);
+    const edge = { ...vertex, orientation: "x" as const };
+    expect(wallEdgesBetweenVertices(vertex, vertex)).toEqual([]);
+    const next = toolDraft(source, "wall", vertex, vertex, "wall-basic", edge);
+    expect(next).toBe(source);
+    expect(next).toEqual(source);
+    expect(next.furniture).toEqual([door]);
+    expect(pushDraft({ past: [], present: source, future: [] }, next).past).toEqual([]);
+  });
+
   it("keeps each stroke as one undo step and restores it with redo", () => {
     const source = plan();
     const start = { past: [], present: source, future: [] };

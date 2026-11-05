@@ -2132,3 +2132,4 @@
     border-color: rgba(237, 244, 255, 0.3);
   }
 }
+.target-skill-tag{display:inline-flex;align-items:center;gap:4px;padding:2px 6px;border:1px solid #00dfff55;background:#00cfff10;color:#8ff3ff;font-size:9px;line-height:1.4;white-space:nowrap}

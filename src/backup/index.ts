@@ -23,7 +23,7 @@ const gameSchema = z.object({
   gold: nonnegative, tasks: z.array(identified.extend({ title: text, archived: z.boolean() })), occurrences: z.array(identified.extend({ taskId: id, status: z.enum(["open", "completed", "missed", "canceled"]) })), campaigns: z.array(identified),
   bosses: z.array(identified.extend({ definitionId: id, hp: nonnegative, phase: z.union([z.literal(1), z.literal(2), z.literal(3)]) })), activeBossId: text,
   inventory: z.array(identified.extend({ definitionId: id, enhancement: integer.min(0).max(10) })), equipment: z.record(z.string(), id),
-  materials: z.record(z.string(), nonnegative), ownedFurniture: z.record(z.string(), nonnegative), placements: z.array(identified.extend({ furnitureId: id, roomId: id, x: z.number().finite(), z: z.number().finite(), rotation: z.number().finite() })), unlockedRooms: z.array(id),
+  materials: z.record(z.string(), nonnegative), ownedFurniture: z.record(z.string(), nonnegative), furnitureNeonColors: z.record(z.string(), z.string().regex(/^#[0-9a-f]{6}$/i)).optional(), placements: z.array(identified.extend({ furnitureId: id, roomId: id, x: z.number().finite(), z: z.number().finite(), rotation: z.number().finite() })), unlockedRooms: z.array(id),
   pets: z.array(identified), achievements: z.array(id), journal: z.array(identified), ledger: z.array(identified.extend({ amount: integer, balance: nonnegative })),
   consumables: z.record(z.string(), nonnegative).optional(), activeBuffs: z.array(z.object({ id, attackBonus: nonnegative, remainingQuests: nonnegative })).optional(),
   realLifeRewards: z.array(z.object({ id, name: text, description: text, cost: nonnegative, redemptions: nonnegative, archived: z.boolean(), lastRedeemedAt: z.iso.datetime().optional() })).optional(),

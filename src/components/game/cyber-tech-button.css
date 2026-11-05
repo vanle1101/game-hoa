@@ -1,0 +1,176 @@
+.cyber-tech-button {
+  --cyber-accent: #00f0ff;
+  --cyber-stroke: #67e8f9a6;
+  --cyber-glow: #00f0ff55;
+  --cyber-inner: #00f0ff40;
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .35rem;
+  min-width: 0;
+  min-height: 28px;
+  overflow: hidden;
+  padding: .35rem .7rem .35rem .9rem;
+  border: 1px solid var(--cyber-stroke) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(90deg, #091526f2 0%, #0d2238e6 50%, #1a0b2ef2 100%) !important;
+  box-shadow: inset 0 1px 0 #ffffff40, inset 0 0 12px var(--cyber-inner), 0 0 10px var(--cyber-glow);
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  color: #effcff;
+  cursor: pointer;
+  text-align: center;
+  text-shadow: 0 1px 3px #000;
+  transition: transform .16s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease, filter .18s ease;
+}
+.cyber-tech-button--magenta {
+  --cyber-accent: #ff00aa;
+  --cyber-stroke: #f472b6b8;
+  --cyber-glow: #ff00aa55;
+  --cyber-inner: #ff00aa40;
+}
+.cyber-tech-button--amber {
+  --cyber-accent: #f59e0b;
+  --cyber-stroke: #fbbf24b8;
+  --cyber-glow: #f59e0b55;
+  --cyber-inner: #f59e0b40;
+}
+.cyber-tech-button::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: -25%;
+  left: -45%;
+  width: 35%;
+  height: 150%;
+  background: linear-gradient(90deg, transparent, #ffffff52, transparent);
+  opacity: 0;
+  transform: skewX(-24deg) translateX(-200%);
+  pointer-events: none;
+}
+.cyber-tech-button__rail {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 6px;
+  background: var(--cyber-accent);
+  box-shadow: 0 0 8px var(--cyber-accent), 0 0 15px var(--cyber-glow);
+  pointer-events: none;
+}
+.cyber-tech-button__content {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .35rem;
+  min-width: 0;
+  transition: transform .18s ease, filter .18s ease;
+}
+.cyber-tech-button__corner {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  bottom: 0;
+  width: 10px;
+  height: 10px;
+  background: var(--cyber-accent);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  filter: drop-shadow(0 0 6px var(--cyber-accent));
+  pointer-events: none;
+}
+.cyber-tech-button:not(:disabled):hover,
+.cyber-tech-button:not(:disabled):focus-visible {
+  border-color: var(--cyber-accent) !important;
+  background: linear-gradient(90deg, #0b3448f2, #16466ade 48%, #35133ff2) !important;
+  box-shadow: inset 0 1px 0 #ffffff5c, inset 0 0 18px var(--cyber-inner), 0 0 20px var(--cyber-glow);
+}
+.vref-lobby .cyber-tech-button:not(:disabled):hover,
+.vref-lobby .cyber-tech-button:not(:disabled):focus-visible {
+  filter: drop-shadow(0 0 6px var(--cyber-accent));
+}
+.cyber-tech-button:not(:disabled):hover::before,
+.cyber-tech-button:not(:disabled):focus-visible::before {
+  animation: cyber-tech-scan .65s ease-out 1;
+}
+.cyber-tech-button:not(:disabled):hover .cyber-tech-button__content,
+.cyber-tech-button:not(:disabled):focus-visible .cyber-tech-button__content {
+  transform: translateX(2px);
+  filter: drop-shadow(0 0 6px var(--cyber-accent));
+}
+.cyber-tech-button:focus-visible {
+  outline: 2px solid var(--cyber-accent);
+  outline-offset: 2px;
+}
+.cyber-tech-button:not(:disabled):active {
+  transform: scale(.98);
+  border-color: #ffb64f !important;
+  background: linear-gradient(90deg, #351029f2, #54301ae6, #40102ef2) !important;
+  box-shadow: inset 0 0 15px #ff00aa70, 0 0 12px #f59e0b88;
+}
+.cyber-tech-button:disabled {
+  opacity: .46;
+  cursor: not-allowed;
+  filter: none;
+}
+
+/* Lobby widget selectors already have strong legacy button styles. */
+.game-shell.lobby-view .vref-panel button.cyber-tech-button {
+  border: 1px solid var(--cyber-stroke) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(90deg, #091526f2 0%, #0d2238e6 50%, #1a0b2ef2 100%) !important;
+  box-shadow: inset 0 1px 0 #ffffff40, inset 0 0 12px var(--cyber-inner), 0 0 10px var(--cyber-glow);
+}
+.game-shell.lobby-view .vref-panel button.cyber-tech-button:not(:disabled):hover,
+.game-shell.lobby-view .vref-panel button.cyber-tech-button:not(:disabled):focus-visible {
+  border-color: var(--cyber-accent) !important;
+  background: linear-gradient(90deg, #0b3448f2, #16466ade 48%, #35133ff2) !important;
+  box-shadow: inset 0 1px 0 #ffffff5c, inset 0 0 18px var(--cyber-inner), 0 0 20px var(--cyber-glow);
+}
+.game-shell.lobby-view .vref-panel button.cyber-tech-button:not(:disabled):active {
+  border-color: #ffb64f !important;
+  background: linear-gradient(90deg, #351029f2, #54301ae6, #40102ef2) !important;
+  box-shadow: inset 0 0 15px #ff00aa70, 0 0 12px #f59e0b88;
+}
+.cyber-tech-button--preserve-children,
+.game-shell.lobby-view .vref-panel button.cyber-tech-button--preserve-children {
+  box-shadow: inset 6px 0 0 var(--cyber-accent), inset 0 1px 0 #ffffff40, inset 0 0 12px var(--cyber-inner), 0 0 10px var(--cyber-glow);
+}
+.cyber-tech-button--preserve-children::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  bottom: 0;
+  width: 10px;
+  height: 10px;
+  background: var(--cyber-accent);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  filter: drop-shadow(0 0 6px var(--cyber-accent));
+  pointer-events: none;
+}
+.cyber-tech-button--preserve-children:not(:disabled):hover,
+.cyber-tech-button--preserve-children:not(:disabled):focus-visible,
+.game-shell.lobby-view .vref-panel button.cyber-tech-button--preserve-children:not(:disabled):hover,
+.game-shell.lobby-view .vref-panel button.cyber-tech-button--preserve-children:not(:disabled):focus-visible {
+  box-shadow: inset 6px 0 0 var(--cyber-accent), inset 0 1px 0 #ffffff5c, inset 0 0 18px var(--cyber-inner), 0 0 20px var(--cyber-glow);
+  text-shadow: 0 0 6px var(--cyber-accent);
+}
+.cyber-tech-button--preserve-children:not(:disabled):active,
+.game-shell.lobby-view .vref-panel button.cyber-tech-button--preserve-children:not(:disabled):active {
+  box-shadow: inset 6px 0 0 #ffb64f, inset 0 0 15px #ff00aa70, 0 0 12px #f59e0b88;
+}
+@keyframes cyber-tech-scan {
+  0% { opacity: 0; transform: skewX(-24deg) translateX(-200%); }
+  25% { opacity: 1; }
+  100% { opacity: 0; transform: skewX(-24deg) translateX(550%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cyber-tech-button,
+  .cyber-tech-button__content { transition: none; }
+  .cyber-tech-button:not(:disabled):hover::before,
+  .cyber-tech-button:not(:disabled):focus-visible::before { animation: none; }
+}

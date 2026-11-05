@@ -29,6 +29,7 @@ import type { Action, GameState, Task, TaskInput, TaskOccurrence } from "@/domai
 import { BOSSES, REWARDS } from "@/domain/catalog";
 import { damagePreview, dateKey } from "@/domain/engine";
 import { matchesQuest, taskEditPatch } from "./quest-model";
+import { SkillTargetBadge, SkillTargetSelect } from "./SkillTargetSelect";
 import "./quest.css";
 
 export type QuestManagerProps = {
@@ -408,6 +409,7 @@ export function QuestManager({ state, act, busy, onCreate }: QuestManagerProps) 
                       <span className={`skill-tag skill-${task.skill}`}>
                         {skills[task.skill]}
                       </span>
+                      <SkillTargetBadge skillId={task.targetSkillId} xpReward={task.xpReward} />
                       <span className={`difficulty-tag difficulty-${task.difficulty}`}>
                         {difficulties[task.difficulty]}
                       </span>
@@ -739,6 +741,8 @@ function EditQuest({
       title: text("title").trim(),
       description: text("description"),
       skill: text("skill") as Task["skill"],
+      targetSkillId: text("targetSkillId") || null,
+      xpReward: Number(text("xpReward")),
       priority: text("priority") as Task["priority"],
       checklist: checklist
         .split("\n")
@@ -903,6 +907,14 @@ function EditQuest({
                   </option>
                 ))}
               </select>
+            </label>
+            <label>
+              Kỹ năng luyện tập
+              <SkillTargetSelect defaultValue={task.targetSkillId} />
+            </label>
+            <label>
+              XP thưởng kỹ năng
+              <input name="xpReward" type="number" min={1} max={1000000} step={1} defaultValue={task.xpReward ?? 100} required />
             </label>
             <label>
               Boss liên kết

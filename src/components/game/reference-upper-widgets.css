@@ -1,0 +1,300 @@
+/* Inner layout of the three upper widgets at the supplied 1801 × 873 viewport. */
+@media (min-width: 1760px) and (max-width: 2100px) and (min-height: 850px) and (max-height: 1000px) {
+  .game-shell.cyber-chrome.lobby-view .vref-today-top .vref-heading,
+  .game-shell.cyber-chrome.lobby-view .vref-boss > .vref-heading,
+  .game-shell.cyber-chrome.lobby-view .vref-butler > .vref-heading {
+    min-height: 34px;
+    height: 34px;
+    transform: translateY(-8px);
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-today-top .vref-heading { margin-left: 19px; }
+  .game-shell.cyber-chrome.lobby-view .vref-boss > .vref-heading { margin-left: 34px; }
+  .game-shell.cyber-chrome.lobby-view .vref-butler > .vref-heading { margin-left: 17px; }
+
+  .game-shell.cyber-chrome.lobby-view :is(.vref-today, .vref-boss, .vref-butler) .vref-heading-link.cyber-tech-button {
+    min-height: 28px;
+    padding: 2px 5px;
+    clip-path: none;
+    border: 0 !important;
+    background: rgba(3, 9, 24, .58) !important;
+    box-shadow: none !important;
+  }
+
+  .game-shell.cyber-chrome.lobby-view :is(.vref-today, .vref-boss, .vref-butler) .vref-heading-link.cyber-tech-button::after,
+  .game-shell.cyber-chrome.lobby-view :is(.vref-today, .vref-boss, .vref-butler) .vref-heading-link .cyber-tech-button__rail {
+    display: none;
+  }
+
+  /* Today: the status sits by the title; the cards form a 98/52px stack. */
+  .game-shell.cyber-chrome.lobby-view .vref-today-top { position: relative; }
+  .game-shell.cyber-chrome.lobby-view .vref-today-top > span:not(.vref-meter) {
+    position: absolute;
+    right: 35px;
+    top: 3px;
+    padding: 3px 10px;
+    font-size: 13px;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-today-top > .vref-meter { display: none; }
+  .game-shell.cyber-chrome.lobby-view .vref-today-content { margin-bottom: 4px; }
+  .game-shell.cyber-chrome.lobby-view .vref-hero-summary {
+    grid-template-columns: 105px minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) 46px;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-today-character {
+    align-self: start;
+    height: 157px;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-vitals {
+    grid-template-rows: 98px 52px;
+    gap: 5px;
+    align-content: start;
+    padding: 1px 6px 0 15px;
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-vitals > .vref-vital-link.cyber-tech-button {
+    min-height: 0;
+    gap: 3px;
+    padding: 6px 2px;
+    clip-path: none;
+    border: 1px solid #458bc5a6 !important;
+    border-radius: 5px !important;
+    background: rgba(5, 9, 25, .73) !important;
+    box-shadow: inset 0 0 10px #102a5266 !important;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-vitals > .vref-vital-link.cyber-tech-button::after,
+  .game-shell.cyber-chrome.lobby-view .vref-vitals > .vref-vital-link .cyber-tech-button__rail { display: none; }
+  .game-shell.cyber-chrome.lobby-view .vref-vitals > .vref-vital-link svg { width: 25px; height: 25px; }
+  .game-shell.cyber-chrome.lobby-view .vref-vitals > .vref-vital-link span { color: #f4f8ff; font-size: 11px; }
+  .game-shell.cyber-chrome.lobby-view .vref-vitals > .vref-vital-link strong { font-size: 14px; line-height: 1; }
+  .game-shell.cyber-chrome.lobby-view .vref-vitals > .vref-vital-link .vref-meter { width: 83%; height: 8px !important; min-height: 8px; }
+
+  .game-shell.cyber-chrome.lobby-view .vref-vitals > .vref-gold.cyber-tech-button {
+    min-height: 0;
+    padding: 5px 8px;
+    clip-path: none;
+    border: 1px solid #d19535bd !important;
+    border-radius: 5px !important;
+    background: rgba(12, 17, 36, .85) !important;
+    box-shadow: inset 0 0 14px #8a571630 !important;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-vitals > .vref-gold.cyber-tech-button::after,
+  .game-shell.cyber-chrome.lobby-view .vref-vitals > .vref-gold .cyber-tech-button__rail { display: none; }
+  .game-shell.cyber-chrome.lobby-view .vref-gold > svg:first-child { width: 29px; height: 29px; }
+  .game-shell.cyber-chrome.lobby-view .vref-gold > span { margin-left: 4px; color: #e9d3a8; font-size: 11px; }
+  .game-shell.cyber-chrome.lobby-view .vref-gold strong { font-size: 18px; line-height: 1.1; }
+  .game-shell.cyber-chrome.lobby-view .vref-gold > svg:last-child {
+    width: 35px;
+    height: 35px;
+    padding: 8px;
+    border: 1px solid #b47f35ad;
+    border-radius: 5px;
+    background: #59351d9c;
+    color: #ffcb5e;
+    filter: none;
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-level.cyber-tech-button {
+    padding-left: 5px;
+    clip-path: none;
+    border: 1px solid #2379bca8 !important;
+    border-radius: 4px !important;
+    background: rgba(4, 17, 40, .84) !important;
+    box-shadow: inset 0 0 12px #054d8566 !important;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-level.cyber-tech-button::after,
+  .game-shell.cyber-chrome.lobby-view .vref-level .cyber-tech-button__rail { display: none; }
+  .game-shell.cyber-chrome.lobby-view .vref-level strong { font-size: 14px; }
+
+  .game-shell.cyber-chrome.lobby-view .vref-tasks h3 { margin-bottom: 10px; font-size: 13px !important; }
+  .game-shell.cyber-chrome.lobby-view .vref-task {
+    min-height: 44px;
+    padding: 3px 5px;
+    border: 1px solid #2dbfe4a8 !important;
+    border-radius: 4px;
+    background: rgba(3, 11, 28, .79) !important;
+    box-shadow: inset 0 0 10px #14518255;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-task-summary.cyber-tech-button {
+    min-height: 0;
+    padding: 0 2px;
+    clip-path: none;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-task-summary.cyber-tech-button::after,
+  .game-shell.cyber-chrome.lobby-view .vref-task-summary .cyber-tech-button__rail { display: none; }
+  .game-shell.cyber-chrome.lobby-view .vref-task-summary strong { font-size: 11px; }
+  .game-shell.cyber-chrome.lobby-view .vref-task-summary small { font-size: 10px; }
+
+  /* Boss: widen the portrait slightly and give the encounter text its own glass. */
+  .game-shell.cyber-chrome.lobby-view .vref-boss {
+    gap: 0;
+    padding-right: 32px !important;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-boss-main {
+    grid-template-columns: 179px minmax(0, 1fr);
+    gap: 11px;
+    margin-top: 2px;
+    margin-bottom: 5px;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-boss-art {
+    align-self: start;
+    height: calc(100% - 6px);
+    background-position: center top !important;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-boss-art::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: url('/assets/reference-hud/boss-art-overlay.png') center top / 100% 100% no-repeat;
+    pointer-events: none;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-boss-loot span:first-child { color: #edf2ff; }
+  .game-shell.cyber-chrome.lobby-view .vref-boss-info { gap: 4px; }
+  .game-shell.cyber-chrome.lobby-view .vref-boss-stats.cyber-tech-button {
+    height: 89px;
+    padding: 5px 8px;
+    gap: 3px;
+    clip-path: none;
+    border: 1px solid #52aaceab !important;
+    border-radius: 4px !important;
+    background: rgba(3, 10, 27, .82) !important;
+    box-shadow: inset 0 0 9px #1776a22b !important;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-boss-stats.cyber-tech-button::after,
+  .game-shell.cyber-chrome.lobby-view .vref-boss-stats .cyber-tech-button__rail { display: none; }
+  .game-shell.cyber-chrome.lobby-view .vref-boss-identity strong { font-size: 13px; }
+  .game-shell.cyber-chrome.lobby-view .vref-boss-stats > small { font-size: 9px; }
+  .game-shell.cyber-chrome.lobby-view .vref-boss-story { color: #e0e7f3; font-size: 10px; line-height: 1.2; }
+  .game-shell.cyber-chrome.lobby-view .vref-boss-checklist {
+    padding: 6px 8px;
+    border: 1px solid #3b80b3a8;
+    border-radius: 4px;
+    background: rgba(3, 10, 27, .84) !important;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-boss-checklist-title.cyber-tech-button {
+    min-height: 18px;
+    padding: 0;
+    clip-path: none;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #55e8f5;
+    font-size: 11px;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-boss-checklist-title.cyber-tech-button::after,
+  .game-shell.cyber-chrome.lobby-view .vref-boss-checklist-title .cyber-tech-button__rail { display: none; }
+  .game-shell.cyber-chrome.lobby-view .vref-boss-checklist > span { font-size: 11px; color: #e8e8f2; }
+  .game-shell.cyber-chrome.lobby-view .vref-boss-detail.cyber-tech-button {
+    min-height: 23px;
+    padding: 2px 5px;
+    clip-path: none;
+    border: 1px solid #9c4faeb0 !important;
+    border-radius: 4px !important;
+    background: rgba(10, 13, 34, .74) !important;
+    box-shadow: none !important;
+    font-size: 10px;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-boss-detail.cyber-tech-button::after,
+  .game-shell.cyber-chrome.lobby-view .vref-boss-detail .cyber-tech-button__rail { display: none; }
+
+  /* NOVA: artwork and five live suggestion rows fill the framed content area. */
+  .game-shell.cyber-chrome.lobby-view .vref-butler { padding-bottom: 15px !important; }
+  .game-shell.cyber-chrome.lobby-view .vref-butler > .vref-heading { z-index: 3; }
+  .game-shell.cyber-chrome.lobby-view .vref-butler-art {
+    z-index: 2;
+    width: calc(100% + 1px);
+    height: 80px;
+    max-height: none;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: -1px;
+    margin-right: 0;
+    border: 0 !important;
+    background: rgba(1, 7, 20, .78) !important;
+    overflow: visible;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-butler-art::before {
+    inset: auto;
+    left: 0;
+    top: -1px;
+    width: 89px;
+    height: 81px;
+    background: url('/assets/reference-hud/butler-robot.png') center / contain no-repeat !important;
+    filter: none !important;
+    mix-blend-mode: normal;
+    opacity: 1 !important;
+    pointer-events: none;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-butler-art::after {
+    content: "";
+    left: 134px;
+    right: auto;
+    top: -23px;
+    width: 123px;
+    height: 107px;
+    padding: 0;
+    border: 0;
+    background: url('/assets/reference-hud/butler-hologram.png') center / contain no-repeat !important;
+    box-shadow: none;
+    clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%, 0 18%);
+    filter: none;
+    pointer-events: none;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-butler-art > :is(.vref-butler-chip, .vref-scanlines) { display: none; }
+  .game-shell.cyber-chrome.lobby-view .vref-butler-message.cyber-tech-button {
+    z-index: 3;
+    height: 28px;
+    min-height: 28px;
+    margin: 2px 0 5px !important;
+    padding: 4px 8px 4px 28px !important;
+    clip-path: none;
+    border: 1px solid #40b9d5a8 !important;
+    border-radius: 4px !important;
+    background: rgba(2, 11, 26, .78) !important;
+    box-shadow: none !important;
+    color: #f1f8ff;
+    font-size: 11px !important;
+    line-height: 16px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-butler-message .cyber-tech-button__rail { display: none; }
+  .game-shell.cyber-chrome.lobby-view .vref-butler-message.cyber-tech-button::after {
+    content: "✥";
+    position: absolute;
+    left: 7px;
+    top: 3px;
+    display: block;
+    width: 16px;
+    height: 20px;
+    clip-path: none;
+    background: transparent;
+    color: #48e6f5;
+    font-size: 17px;
+    line-height: 20px;
+    text-align: center;
+    filter: drop-shadow(0 0 4px #27d7ec);
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-butler-list { gap: 3px; overflow: hidden; }
+  .game-shell.cyber-chrome.lobby-view .vref-butler-list > button.cyber-tech-button {
+    height: 25px;
+    min-height: 25px;
+    gap: 7px;
+    padding: 2px 7px;
+    clip-path: none;
+    border: 1px solid #2e91b3a8 !important;
+    border-radius: 4px !important;
+    background: rgba(2, 11, 26, .78) !important;
+    box-shadow: none !important;
+    color: #e9f4ff;
+    font-size: 11px;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-butler-list > button.cyber-tech-button::after,
+  .game-shell.cyber-chrome.lobby-view .vref-butler-list .cyber-tech-button__rail { display: none; }
+  .game-shell.cyber-chrome.lobby-view .vref-butler-list > button svg:first-child { color: #37dcea; }
+}

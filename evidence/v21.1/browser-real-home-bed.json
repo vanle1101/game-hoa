@@ -1,0 +1,448 @@
+{
+  "captureTime": "2026-10-18T05:29:19.837Z",
+  "base": "http://127.0.0.1:3336",
+  "home": {
+    "route": "/",
+    "pageErrors": [],
+    "consoleErrors": [],
+    "failedRequests": [],
+    "badResponses": [],
+    "assetResponses": [
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-a.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-b.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-c.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-d.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-e.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-f.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-h.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-g.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-i.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-k.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-j.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-l.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-m.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-n.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-skyscraper-b.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-skyscraper-d.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-skyscraper-e.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-skyscraper-c.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-skyscraper-a.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/apartment/bed/premium-bed.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/apartment/wardrobe/paneled-wardrobe.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/apartment/desk/executive-desk.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/apartment/chair/ergonomic-chair.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/apartment/lamp/dome-floor-lamp.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/materials/polyhaven/laminate_floor_02/diffuse.jpg"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/materials/polyhaven/laminate_floor_02/normal.jpg"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/materials/polyhaven/laminate_floor_02/roughness.jpg"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      }
+    ],
+    "httpStatus": 200,
+    "webgl": {
+      "canvasWidth": 1060,
+      "canvasHeight": 664,
+      "clientWidth": 1060,
+      "clientHeight": 664,
+      "contextAvailable": true,
+      "contextLost": false,
+      "cameraMode": "follow"
+    },
+    "loadingText": [
+      "Không thể khởi tạo 3D"
+    ],
+    "slowLoadOverlayVisible": false,
+    "visibleFallback": 0,
+    "title": "LIFE//LEVEL — Neon Haven"
+  },
+  "homeFocus": "bed",
+  "showcase": {
+    "route": "/showcase/apartment-v18",
+    "pageErrors": [],
+    "consoleErrors": [],
+    "failedRequests": [],
+    "badResponses": [],
+    "assetResponses": [
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/materials/polyhaven/laminate_floor_02/diffuse.jpg"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/materials/polyhaven/laminate_floor_02/normal.jpg"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/materials/polyhaven/laminate_floor_02/roughness.jpg"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-a.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-b.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-c.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-d.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-e.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-f.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-g.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-h.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-i.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-j.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-k.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-l.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-m.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-n.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-skyscraper-b.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-skyscraper-d.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-skyscraper-e.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-skyscraper-c.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/building-skyscraper-a.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/apartment/bed/premium-bed.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/apartment/wardrobe/paneled-wardrobe.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/apartment/desk/executive-desk.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/apartment/chair/ergonomic-chair.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/apartment/lamp/dome-floor-lamp.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/apartment/sofa/sectional-sofa.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/apartment/coffee-table/coffee-table.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/apartment/stool/leather-bar-stool.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/apartment/kitchen/marble-island.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/apartment/bathroom/ceramic-bathroom-suite.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/apartment/decor/potted-palm.glb"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      },
+      {
+        "status": 200,
+        "url": "http://127.0.0.1:3336/assets/world-v20/commercial/models/Textures/colormap.png"
+      }
+    ],
+    "httpStatus": 200,
+    "webgl": {
+      "canvasWidth": 1280,
+      "canvasHeight": 720,
+      "clientWidth": 1280,
+      "clientHeight": 720,
+      "contextAvailable": true,
+      "contextLost": false,
+      "cameraMode": "free"
+    },
+    "loadingText": [
+      "Không thể khởi tạo 3D"
+    ],
+    "slowLoadOverlayVisible": false,
+    "visibleFallback": 0,
+    "title": "LIFE//LEVEL — Neon Haven"
+  },
+  "saveUnchanged": true
+}

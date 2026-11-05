@@ -10,4 +10,4 @@ export const HOUSING_LAYOUTS = [
   { id: "one-bedroom", name: "Một phòng ngủ" },
   { id: "open-plan", name: "Không gian mở" },
 ] as const;
-export const STARTER_FURNITURE_IDS = ["cloud-bed", "workstation", "dining-chair", "v7-desktop-tower", "wardrobe", "cyan_floor_light"] as const;
+export const STARTER_FURNITURE_IDS = ["cloud-bed", "workstation", "dining-chair", "v7-desktop-tower", "wardrobe", "cyan_floor_light", "glass_door_modern", "wide_window_cyber"] as const;

@@ -5,7 +5,7 @@ import { actionSchema } from "@/domain/validation";
 import { FURNITURE } from "@/domain/catalog";
 import { getBuilding } from "@/construction";
 import { buildingStateSchema } from "@/construction/schema";
-import { GameCommandError, postGameCommand, retainCommand, type CommandStorage, type PendingGameCommand } from "@/components/game/command-client";
+import { GameCommandError, postGameCommand, retainCommand, syncPendingGameCommand, type CommandStorage, type PendingGameCommand } from "@/components/game/command-client";
 import { readAuthoritativeGameState, runLockedGameCommand, type LockedGameCommandOptions } from "@/components/game/command-lock";
 
 export type ConstructionAction = Extract<Action, { type: "construction.commit" | "furniture.buy" | "furniture.sell" }>;
@@ -63,8 +63,11 @@ export function canApplyConstructionResponse(ownerId: string, epoch: number, cur
 
 export async function runConstructionCommand(options: Omit<LockedGameCommandOptions, "send">, transport: typeof fetch = fetch): Promise<GameState> {
   if (options.action.type !== "construction.commit" && options.action.type !== "furniture.buy" && options.action.type !== "furniture.sell") throw new Error("Hãy trở về màn hình chính để đồng bộ giao dịch đang chờ.");
-  const result = await runLockedGameCommand({ ...options, readAuthoritativeState: options.readAuthoritativeState ?? (() => readAuthoritativeGameState(transport)), send: async command => {
-    const response = await postGameCommand(command, transport);
+  const result = await runLockedGameCommand({ ...options, syncPending: options.syncPending ?? (transport === fetch
+    ? () => syncPendingGameCommand(options.ownerId, options.storage) : undefined),
+    readAuthoritativeState: options.readAuthoritativeState ?? (() => readAuthoritativeGameState(transport)), send: async command => {
+    const response = await postGameCommand(command, transport,
+      options.syncPending || transport === fetch ? options.revision : undefined);
     const state = validateConstructionState(response.state, command.ownerId);
     if (command.action.type === "construction.commit" && getBuilding(state).revision <= command.action.expectedRevision) throw new GameCommandError("Chưa xác nhận được phiên bản công trình đã lưu. Hãy thử lại giao dịch đang chờ.", true);
     return { ...response, state };

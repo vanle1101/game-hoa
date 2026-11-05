@@ -44,7 +44,10 @@ describe("V12 apartment architecture, panorama facade, exterior tower attachment
       gold: 0,
       characterLevel: 1,
       defeatedCampaign: false,
-      ownedFurniture: Object.fromEntries(starter.plan.furniture.map(item => [item.furnitureId, 1])),
+      ownedFurniture: starter.plan.furniture.reduce<Record<string, number>>((counts, item) => {
+        counts[item.furnitureId] = (counts[item.furnitureId] ?? 0) + 1;
+        return counts;
+      }, {}),
     };
 
     for (const building of [fixed, starter]) {

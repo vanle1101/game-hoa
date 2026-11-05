@@ -1,0 +1,38 @@
+{
+  "id": "marble-island",
+  "status": "ASSET PRODUCTION",
+  "description": "Reeded walnut island with actual inset sink cavity, Nero marble slabs and brass fittings",
+  "units": "metres",
+  "axes": "X right, Y up, Z front; feet at Y=0",
+  "dimensions": [
+    2.68,
+    1.378,
+    1.12
+  ],
+  "bounds": {
+    "min": [
+      -1.34,
+      0.0,
+      -0.56
+    ],
+    "max": [
+      1.34,
+      1.378,
+      0.56
+    ]
+  },
+  "meshCount": 72,
+  "triangles": 27398,
+  "features": [
+    "open basin mesh",
+    "gooseneck faucet",
+    "9 drawer fronts",
+    "brass hardware",
+    "reeded back",
+    "veined marble",
+    "fruit bowl"
+  ],
+  "runtime": "/assets/apartment/kitchen/marble-island.glb",
+  "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+  "reference": "REF-D; authored approximation, requires in-game visual gate"
+}

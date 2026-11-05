@@ -1,26 +1,16 @@
 import { aiRequestSchema, createProposal, proposalAction, proposalSchema, providerStatus } from "@/server/ai";
-import { checkOrigin, errorResponse, HttpError, requireUser } from "@/server/identity";
-import { compareAndSetProposal, gameCommand, readPrivate, saveProposal } from "@/server/store";
+import { checkOrigin, errorResponse, HttpError, isLocalDevelopment, requireAccount, requireUser } from "@/server/identity";
+import { compareAndSetProposal, gameCommand, readGame, readPrivate, saveProposal } from "@/server/store";
+import { enqueueAiJob, listUserJobs } from "@/server/jobs";
 import { readJSON } from "@/server/request";
 
 export const runtime = "nodejs";
-export const maxDuration = 40;
-// Per-instance admission control; deploy a shared limiter before opening access beyond the allowlist.
-const requests = new Map<string, { start: number; count: number; active: boolean }>();
-function enterProvider(userId: string) {
-  const now = Date.now();
-  const previous = requests.get(userId);
-  if (previous?.active) throw new HttpError(429, "Một kế hoạch đang được tạo. Hãy đợi phản hồi.");
-  const current = previous && now - previous.start < 60_000 ? previous : { start: now, count: 0, active: false };
-  if (current.count >= 6) throw new HttpError(429, "Bạn đã gửi nhiều yêu cầu. Hãy thử lại sau một phút.");
-  current.count++; current.active = true; requests.set(userId, current);
-  return () => { current.active = false; };
-}
 export async function GET() {
   try {
     const userId = await requireUser();
     const proposals = await readPrivate(userId, "proposals") as Record<string, unknown>;
-    return Response.json({ proposals: Object.values(proposals).map(value => proposalSchema.parse(value)), provider: providerStatus() }, { headers: { "Cache-Control": "no-store" } });
+    const jobs = isLocalDevelopment() ? [] : await listUserJobs(userId);
+    return Response.json({ proposals: Object.values(proposals).map(value => proposalSchema.parse(value)), jobs, provider: providerStatus() }, { headers: { "Cache-Control": "private, no-store" } });
   } catch (error) { return errorResponse(error); }
 }
 
@@ -33,12 +23,20 @@ export async function POST(request: Request) {
     if (!parsed.success) throw new HttpError(400, "Yêu cầu AI không hợp lệ.");
     const command = parsed.data;
     if (command.mode === "propose") {
-      const leave = enterProvider(userId);
-      try {
+      if (!providerStatus().configured) throw new HttpError(503, "AI phía máy chủ chưa được cấu hình.");
+      // The local-only demo retains its short synchronous workflow. Production
+      // acknowledges work only after a durable PostgreSQL transaction commits.
+      if (isLocalDevelopment()) {
         const proposal = await createProposal(command.prompt);
         await saveProposal(userId, proposal.id, proposal);
         return Response.json({ proposal, provider: providerStatus() }, { status: 201 });
-      } finally { leave(); }
+      }
+      await requireAccount();
+      const key = request.headers.get("Idempotency-Key");
+      if (!key) throw new HttpError(400, "Thiếu mã yêu cầu.");
+      await readGame(userId);
+      const job = await enqueueAiJob(userId, command.prompt, key);
+      return Response.json({ job, provider: providerStatus() }, { status: 202, headers: { "Cache-Control": "private, no-store" } });
     }
     const proposals = await readPrivate(userId, "proposals") as Record<string, unknown>;
     const stored = proposalSchema.safeParse(proposals[command.id]);

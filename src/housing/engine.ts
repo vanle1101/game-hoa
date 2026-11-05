@@ -1,6 +1,6 @@
 import type { GameState } from "../domain/types";
 import { constructionContext, validateConstruction } from "../construction/engine";
-import { createFixedApartment, isUninvestedLegacyStarterBuilding } from "../construction/migration";
+import { createFixedApartment, isUninvestedLegacyStarterBuilding, materializeWallOpenings } from "../construction/migration";
 import type { BuildingState } from "../construction/types";
 import { HOUSING_BUILDINGS, HOUSING_FLOORS, HOUSING_LAYOUTS, STARTER_FURNITURE_IDS } from "./catalog";
 import type { HousingLayoutId, HousingSelection } from "./types";
@@ -60,6 +60,8 @@ function reconcileHousing(state: GameState, now: string, allowLegacyWallRemoval:
   const next = structuredClone(state);
   for (const id of STARTER_FURNITURE_IDS) next.ownedFurniture[id] = Math.max(next.ownedFurniture[id] ?? 0, 1);
   next.building = createStarterHome(residence.layoutId, now);
+  for (const id of ["glass_door_modern", "wide_window_cyber"])
+    next.ownedFurniture[id] = Math.max(next.ownedFurniture[id] ?? 0, next.building.plan.furniture.filter(item => item.furnitureId === id).length);
   next.building.revision = (state.building?.revision ?? -1) + 1;
   next.housingStarterEligible = false;
   validateConstruction(next.building, next.building.plan, constructionContext(next));
@@ -95,10 +97,11 @@ export function createStarterHome(layoutId: HousingLayoutId, now: string): Build
     { id: "starter-home:tower", furnitureId: "v7-desktop-tower", x: 4, z: -4, level: 0, rotation: 0 },
     { id: "starter-home:light", furnitureId: "cyan_floor_light", x: -5, z: 2, level: 0, rotation: 0, neonColor: "#00f0ff" },
   ];
+  const furnishedPlan = materializeWallOpenings(plan);
 
   return {
     ...base,
-    plan,
+    plan: furnishedPlan,
   };
 }
 export function settleHousing(state: GameState, selection: HousingSelection, now: string): { state: GameState; starterGranted: boolean } {
@@ -109,6 +112,8 @@ export function settleHousing(state: GameState, selection: HousingSelection, now
   if (starterGranted) {
     for (const id of STARTER_FURNITURE_IDS) next.ownedFurniture[id] = (next.ownedFurniture[id] ?? 0) + 1;
     next.building = createStarterHome(selection.layoutId, now);
+    for (const id of ["glass_door_modern", "wide_window_cyber"])
+      next.ownedFurniture[id] = Math.max(next.ownedFurniture[id] ?? 0, next.building.plan.furniture.filter(item => item.furnitureId === id).length);
     validateConstruction(next.building, next.building.plan, constructionContext(next));
   }
   next.residence = { districtId: selection.districtId, buildingId: selection.buildingId, floor: selection.floor, layoutId: selection.layoutId, completedAt: now };

@@ -2,22 +2,16 @@ import "server-only";
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import path from "node:path";
 import { createHash, randomUUID, randomInt } from "node:crypto";
-import postgres from "postgres";
-import { drizzle } from "drizzle-orm/postgres-js";
 import { eq, and } from "drizzle-orm";
 import * as schema from "./schema";
-import { isLocalDevelopment, HttpError } from "./identity";
+import { isLocalDevelopment } from "./runtime-mode";
+import { HttpError } from "./errors";
+import { database } from "./database";
 import { applyAction, createInitialState } from "@/domain";
 import { settleHousing } from "@/housing/engine";
 import type { GameState, Action, ActionResult } from "@/domain/types";
 
 export type DataEnvelope = { game:GameState; finance:unknown; proposals:Record<string,unknown>; commands:Record<string,{fingerprint:string;result:unknown}> };
-let db: ReturnType<typeof drizzle<typeof schema>> | undefined;
-function database(){
-  if(!process.env.DATABASE_URL)throw new HttpError(503,"Chưa có DATABASE_URL. Kết nối Neon Postgres để bật lưu trữ production.");
-  if(!db)db=drizzle(postgres(process.env.DATABASE_URL,{max:3,prepare:false,ssl:process.env.DATABASE_URL.includes("localhost")?false:"require"}),{schema});
-  return db;
-}
 function localRoot(){
   if(!isLocalDevelopment())throw new HttpError(503,"Local storage is available only in local development or the opt-in owner preview.");
   return process.env.LOCAL_DATA_DIR?path.resolve(process.env.LOCAL_DATA_DIR):path.join(process.cwd(),".local-data");
@@ -48,7 +42,7 @@ export async function gameCommand(userId:string,key:string,action:Action):Promis
   const perform=(state:GameState)=>{
     const context={userId,now:new Date().toISOString(),random:()=>randomInt(0,1_000_000)/1_000_000,eventId:randomUUID()};
     if(action.type==="reconcile")return applyAction(state,action,context);
-    const settled=applyAction(state,{type:"reconcile"},{...context,eventId:randomUUID()});
+    const settled=applyAction(state,{type:"reconcile"},{...context,eventId:randomUUID(),seedStarterTasks:false});
     const result=applyAction(settled.state,action,context);
     return {...result,events:[...settled.events,...result.events]};
   };
@@ -56,6 +50,11 @@ export async function gameCommand(userId:string,key:string,action:Action):Promis
   await readGame(userId);const d=database();
   return d.transaction(async tx=>{
     const [row]=await tx.select().from(schema.playerStates).where(eq(schema.playerStates.userId,userId)).for("update");
+    if (/^[a-f0-9]{64}$/.test(userId)) {
+      const [claim] = await tx.select({ guestUserId: schema.guestClaims.guestUserId }).from(schema.guestClaims)
+        .where(eq(schema.guestClaims.guestUserId, userId));
+      if (claim) throw new HttpError(409, "Dữ liệu khách đã chuyển vào tài khoản; hãy đăng nhập để tiếp tục.");
+    }
     const [prior]=await tx.select().from(schema.commandRecords).where(and(eq(schema.commandRecords.userId,userId),eq(schema.commandRecords.key,key)));
     if(prior){if(prior.fingerprint!==fingerprint)throw new HttpError(409,"Mã thao tác đã được dùng cho nội dung khác.");return {...prior.result as Omit<ActionResult,"state">,state:row.state};}
     const result=perform(row.state);
@@ -75,15 +74,39 @@ export async function updateFinance<T>(userId:string,fn:(current:unknown)=>{stat
   if(isLocalDevelopment())return serial(async()=>{const data=await localRead(userId);const out=fn(data.finance);data.finance=out.state;await localWrite(userId,data);return out.result;});
   await readGame(userId);const d=database();return d.transaction(async tx=>{
     await tx.select().from(schema.playerStates).where(eq(schema.playerStates.userId,userId)).for("update");
+    if (/^[a-f0-9]{64}$/.test(userId)) {
+      const [claim] = await tx.select({ guestUserId: schema.guestClaims.guestUserId }).from(schema.guestClaims)
+        .where(eq(schema.guestClaims.guestUserId, userId));
+      if (claim) throw new HttpError(409, "Dữ liệu khách đã chuyển vào tài khoản; hãy đăng nhập để tiếp tục.");
+    }
     const [row]=await tx.select().from(schema.financeStates).where(eq(schema.financeStates.userId,userId));const out=fn(row?.state??null);
     await tx.insert(schema.financeStates).values({userId,state:out.state}).onConflictDoUpdate({target:schema.financeStates.userId,set:{state:out.state,updatedAt:new Date()}});return out.result;
   });
 }
 export async function saveProposal(userId:string,id:string,proposal:unknown){
   if(isLocalDevelopment())return serial(async()=>{const data=await localRead(userId);data.proposals[id]=proposal;await localWrite(userId,data);});
-  await readGame(userId);await database().insert(schema.aiProposals).values({id,userId,proposal}).onConflictDoUpdate({target:schema.aiProposals.id,set:{proposal},setWhere:eq(schema.aiProposals.userId,userId)});
+  await readGame(userId);await database().transaction(async tx=>{
+    await tx.select({ userId: schema.playerStates.userId }).from(schema.playerStates).where(eq(schema.playerStates.userId,userId)).for("update");
+    if (/^[a-f0-9]{64}$/.test(userId)) {
+      const [claim] = await tx.select({ guestUserId: schema.guestClaims.guestUserId }).from(schema.guestClaims)
+        .where(eq(schema.guestClaims.guestUserId, userId));
+      if (claim) throw new HttpError(409, "Dữ liệu khách đã chuyển vào tài khoản; hãy đăng nhập để tiếp tục.");
+    }
+    await tx.insert(schema.aiProposals).values({id,userId,proposal}).onConflictDoUpdate({target:schema.aiProposals.id,set:{proposal},setWhere:eq(schema.aiProposals.userId,userId)});
+  });
 }
 export async function compareAndSetProposal(userId:string,id:string,expectedStatus:string,nextProposal:unknown):Promise<boolean>{
   if(isLocalDevelopment())return serial(async()=>{const data=await localRead(userId);const current=data.proposals[id] as {status?:string}|undefined;if(current?.status!==expectedStatus)return false;data.proposals[id]=nextProposal;await localWrite(userId,data);return true;});
-  return database().transaction(async tx=>{const [row]=await tx.select().from(schema.aiProposals).where(and(eq(schema.aiProposals.userId,userId),eq(schema.aiProposals.id,id))).for("update");if(!row||(row.proposal as {status?:string}).status!==expectedStatus)return false;await tx.update(schema.aiProposals).set({proposal:nextProposal,status:(nextProposal as {status:string}).status}).where(and(eq(schema.aiProposals.userId,userId),eq(schema.aiProposals.id,id)));return true;});
+  return database().transaction(async tx=>{
+    await tx.select({ userId: schema.playerStates.userId }).from(schema.playerStates).where(eq(schema.playerStates.userId,userId)).for("update");
+    if (/^[a-f0-9]{64}$/.test(userId)) {
+      const [claim] = await tx.select({ guestUserId: schema.guestClaims.guestUserId }).from(schema.guestClaims)
+        .where(eq(schema.guestClaims.guestUserId, userId));
+      if (claim) throw new HttpError(409, "Dữ liệu khách đã chuyển vào tài khoản; hãy đăng nhập để tiếp tục.");
+    }
+    const [row]=await tx.select().from(schema.aiProposals).where(and(eq(schema.aiProposals.userId,userId),eq(schema.aiProposals.id,id))).for("update");
+    if(!row||(row.proposal as {status?:string}).status!==expectedStatus)return false;
+    await tx.update(schema.aiProposals).set({proposal:nextProposal,status:(nextProposal as {status:string}).status}).where(and(eq(schema.aiProposals.userId,userId),eq(schema.aiProposals.id,id)));
+    return true;
+  });
 }

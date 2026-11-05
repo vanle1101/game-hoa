@@ -1,0 +1,80 @@
+.reference-hud-overlay { display: none; }
+
+@media (min-width: 1760px) and (max-width: 1840px) and (min-height: 850px) and (max-height: 920px) {
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .reference-hud-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 71;
+    display: block;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .reference-hud-overlay svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .mech-vector-frame__art,
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .vref-board .cyber-led-border,
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .vref-header-led,
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-sidebar-led,
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-sidebar-emitter {
+    display: none !important;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .mech-vector-frame {
+    background: rgba(5, 8, 22, .55) !important;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar::before,
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar::after {
+    content: none;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded :is(.mech-vector-frame__art, .vref-header-led, .cyber-sidebar-led) .cyber-led-border__train > * {
+    animation-play-state: paused;
+  }
+}
+
+.reference-hud-led__segment {
+  animation: reference-hud-lap var(--reference-led-speed) linear infinite;
+  animation-delay: var(--reference-led-phase);
+  stroke-linecap: round;
+}
+
+/* The traced chassis asset already contains the exact static circuit. */
+.reference-hud-led__track { opacity: 0; }
+
+.reference-hud-led__segment--second { animation-delay: var(--reference-led-phase-second); }
+
+.reference-hud-reactor-glint {
+  opacity: .62;
+  animation: reference-hud-reactor-lap 8s linear infinite;
+  animation-delay: var(--reference-reactor-phase);
+}
+
+@keyframes reference-hud-lap {
+  from { stroke-dashoffset: var(--reference-led-start); }
+  to { stroke-dashoffset: calc(var(--reference-led-start) - 1000px); }
+}
+
+@keyframes reference-hud-reactor-lap {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -1000; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reference-hud-led__segment { animation: none !important; opacity: 0; }
+  .reference-hud-reactor-glint { animation: none !important; opacity: 0; }
+}
+
+.game-shell.reduce-motion .reference-hud-led__segment,
+.reference-hud-led[data-motion="off"] .reference-hud-led__segment { animation: none !important; opacity: 0; }
+.game-shell.reduce-motion .reference-hud-reactor-glint { animation: none !important; opacity: 0; }

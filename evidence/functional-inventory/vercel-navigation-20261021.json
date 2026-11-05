@@ -1,0 +1,214 @@
+{
+  "url": "https://life-level-theta.vercel.app/",
+  "checkedAt": "2026-10-21T01:43:38.295Z",
+  "initialHttpStatus": 200,
+  "results": [
+    {
+      "label": "Sảnh chờ",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-lobby ",
+      "errors": []
+    },
+    {
+      "label": "Nhiệm vụ",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-quests ",
+      "errors": []
+    },
+    {
+      "label": "Lịch trình",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-calendar ",
+      "errors": []
+    },
+    {
+      "label": "Chiến dịch",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-campaigns module-headed",
+      "errors": []
+    },
+    {
+      "label": "Đấu trường",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-arena ",
+      "errors": []
+    },
+    {
+      "label": "Thử thách trùm",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-bosses ",
+      "errors": []
+    },
+    {
+      "label": "Chiến lợi phẩm",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-loot module-headed",
+      "errors": []
+    },
+    {
+      "label": "Nhân vật",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-character module-headed",
+      "errors": []
+    },
+    {
+      "label": "Trang bị",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-equipment ",
+      "errors": []
+    },
+    {
+      "label": "Túi đồ",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-inventory module-headed",
+      "errors": []
+    },
+    {
+      "label": "Cây kỹ năng",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-skills module-headed",
+      "errors": []
+    },
+    {
+      "label": "Sự nghiệp",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-career ",
+      "errors": []
+    },
+    {
+      "label": "Nội thất",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-furniture module-headed",
+      "errors": []
+    },
+    {
+      "label": "Cửa hàng trang bị",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-shop module-headed",
+      "errors": []
+    },
+    {
+      "label": "Chế tạo",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-crafting module-headed",
+      "errors": []
+    },
+    {
+      "label": "Tích lũy",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-farming ",
+      "errors": []
+    },
+    {
+      "label": "Bạn đồng hành",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-pets module-headed",
+      "errors": []
+    },
+    {
+      "label": "Thành tựu",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-achievements ",
+      "errors": []
+    },
+    {
+      "label": "Tài chính",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-finance module-headed",
+      "errors": []
+    },
+    {
+      "label": "Phần thưởng",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-rewards module-headed",
+      "errors": []
+    },
+    {
+      "label": "NOVA AI",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-butler module-headed",
+      "errors": []
+    },
+    {
+      "label": "Nhật ký",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-journal ",
+      "errors": []
+    },
+    {
+      "label": "Cài đặt",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "content-main screen-settings ",
+      "errors": []
+    },
+    {
+      "label": "Cuộc sống",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "world-main",
+      "errors": []
+    },
+    {
+      "label": "Căn hộ",
+      "opened": true,
+      "main": true,
+      "visibleFallback": false,
+      "screenClass": "world-main",
+      "errors": []
+    },
+    {
+      "label": "Xây dựng",
+      "opened": false,
+      "error": "locator.click: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button[aria-label=\"Xây dựng\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <button class=\"\" title=\"Xây dựng\" aria-label=\"Xây dựng\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - performing click action\u001b[22m\n"
+    }
+  ],
+  "pageErrors": [],
+  "httpErrors": []
+}

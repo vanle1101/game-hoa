@@ -1,36 +1,53 @@
 import { createHash, randomUUID } from "node:crypto";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-const mocks = vi.hoisted(() => ({ cookies: vi.fn(), cookieGet: vi.fn(), cookieSet: vi.fn(), readGame: vi.fn(), gameCommand: vi.fn(), readPrivate: vi.fn(), updateFinance: vi.fn(), saveProposal: vi.fn(), compareAndSetProposal: vi.fn() }));
+const mocks = vi.hoisted(() => ({ cookies: vi.fn(), cookieGet: vi.fn(), cookieSet: vi.fn(), isClaimedGuest: vi.fn(), readGame: vi.fn(), gameCommand: vi.fn(), readPrivate: vi.fn(), updateFinance: vi.fn(), saveProposal: vi.fn(), compareAndSetProposal: vi.fn(), listUserJobs: vi.fn(), submitGameIntent: vi.fn(), submitFinanceIntent: vi.fn(), readOpenIntent: vi.fn() }));
 vi.mock("server-only", () => ({}));
 vi.mock("next/headers", () => ({ cookies: mocks.cookies }));
+vi.mock("@/server/auth", async importOriginal => ({ ...(await importOriginal<typeof import("@/server/auth")>()), isClaimedGuest: mocks.isClaimedGuest }));
 vi.mock("@/server/store", () => ({ readGame: mocks.readGame, gameCommand: mocks.gameCommand, readPrivate: mocks.readPrivate, updateFinance: mocks.updateFinance, saveProposal: mocks.saveProposal, compareAndSetProposal: mocks.compareAndSetProposal }));
+vi.mock("@/server/jobs", () => ({ listUserJobs: mocks.listUserJobs }));
+vi.mock("@/server/command-intents", () => ({ submitGameIntent: mocks.submitGameIntent, submitFinanceIntent: mocks.submitFinanceIntent, readOpenIntent: mocks.readOpenIntent }));
 import { requireUser, isLocalDevelopment, checkOrigin } from "@/server/identity";
 import { readJSON } from "@/server/request";
 import * as game from "@/app/api/game/route";
 import * as finance from "@/app/api/finance/route";
+import * as gameIntent from "@/app/api/game/intent/route";
+import * as financeIntent from "@/app/api/finance/intent/route";
 import * as ai from "@/app/api/ai/route";
 import { applyAction, createInitialState } from "@/domain";
-import { emptyFinance, type FinanceState } from "@/finance";
+import { applyFinance, emptyFinance, readFinance, type FinanceState } from "@/finance";
 const origin = "https://game.example.com";
 const guestToken = "ab".repeat(32);
 const owner = createHash("sha256").update(`guest:${guestToken}`).digest("hex");
 const request = (path: string, body: unknown, headers: Record<string, string> = {}) => new Request(`${origin}/api/${path}`, { method: "POST", headers: { origin, "content-type": "application/json", ...headers }, body: typeof body === "string" ? body : JSON.stringify(body) });
 beforeEach(() => {
   vi.clearAllMocks();
-  vi.stubEnv("NODE_ENV", "production"); vi.stubEnv("LOCAL_DEV_MODE", "true"); vi.stubEnv("PREVIEW_LOCAL_SAVE", "false"); vi.stubEnv("VERCEL", "");
+  vi.stubEnv("NODE_ENV", "production"); vi.stubEnv("APP_ORIGIN", origin); vi.stubEnv("LOCAL_DEV_MODE", "true"); vi.stubEnv("PREVIEW_LOCAL_SAVE", "false"); vi.stubEnv("VERCEL", "");
   mocks.cookies.mockResolvedValue({ get: mocks.cookieGet, set: mocks.cookieSet });
+  mocks.isClaimedGuest.mockResolvedValue(false);
   mocks.cookieGet.mockReturnValue({ value: guestToken });
   mocks.readPrivate.mockResolvedValue({}); mocks.gameCommand.mockResolvedValue({ state: { revision: 1 }, events: [], message: "Saved" });
+  mocks.submitGameIntent.mockImplementation(async (userId, key, action) => ({ status: "applied", result: await mocks.gameCommand(userId, key, action) }));
+  mocks.submitFinanceIntent.mockImplementation(async (userId, key, command) => ({ status: "applied", result: await mocks.updateFinance(userId, (current: unknown) => { const state = applyFinance(readFinance(current), command, key, randomUUID); return { state, result: state }; }) }));
+  mocks.listUserJobs.mockResolvedValue([]);
+  mocks.readOpenIntent.mockResolvedValue(null);
 });
 afterEach(() => vi.unstubAllEnvs());
 
 describe("browser guest identity boundary", () => {
   it("accepts browser localhost Host when Next uses its wildcard listening address", () => {
+    vi.stubEnv("NODE_ENV", "development"); vi.stubEnv("APP_ORIGIN", "");
     const req=new Request("http://0.0.0.0:3000/api/game",{method:"POST",headers:{host:"localhost:3000",origin:"http://localhost:3000"}});
     expect(()=>checkOrigin(req)).not.toThrow();
   });
   it("rejects foreign origins even with a matching forwarded protocol", () => {
     const req=new Request("http://0.0.0.0:3000/api/game",{method:"POST",headers:{host:"localhost:3000",origin:"https://attacker.example.com","x-forwarded-proto":"https"}});
+    expect(()=>checkOrigin(req)).toThrow();
+  });
+  it("requires the canonical HTTPS origin in production even if proxy headers are spoofed", () => {
+    const req=new Request("http://127.0.0.1:3000/api/game",{method:"POST",headers:{host:"attacker.example.com",origin:"https://attacker.example.com","x-forwarded-proto":"https"}});
+    expect(()=>checkOrigin(req)).toThrow();
+    vi.stubEnv("APP_ORIGIN", "");
     expect(()=>checkOrigin(req)).toThrow();
   });
   it("cannot enable local auth bypass in production", async () => {
@@ -58,6 +75,12 @@ describe("browser guest identity boundary", () => {
     expect(mocks.cookieGet).toHaveBeenCalledWith("lifelevel-session"); expect(mocks.cookieSet).not.toHaveBeenCalled();
     mocks.cookieGet.mockReturnValue({ value: "cd".repeat(32) });
     expect(await requireUser()).not.toBe(owner);
+  });
+  it("denies reads from a guest cookie after its save was claimed", async () => {
+    mocks.isClaimedGuest.mockResolvedValue(true);
+    await expect(requireUser()).rejects.toMatchObject({ status: 401 });
+    expect((await game.GET()).status).toBe(401);
+    expect(mocks.readGame).not.toHaveBeenCalled();
   });
   it.each([undefined, "", "not-a-token", "a".repeat(63), "z".repeat(64)])("creates a safe session when cookie is absent or invalid (%s)", async token => {
     mocks.cookieGet.mockReturnValue(token === undefined ? undefined : { value: token });
@@ -98,6 +121,23 @@ describe("bounded request reader", () => {
 });
 
 describe("server-authoritative game mutations", () => {
+  it("returns 202 only after a command was accepted and forwards the expected revision", async () => {
+    const key = randomUUID();
+    mocks.submitGameIntent.mockResolvedValue({ status: "pending" });
+    const result = await game.POST(request("game", { key, action: { type: "character.rest" }, expectedRevision: 3 }));
+    expect(result.status).toBe(202);
+    expect(await result.json()).toEqual({ status: "pending", key });
+    expect(mocks.submitGameIntent).toHaveBeenCalledWith(owner, key, { type: "character.rest" }, 3);
+  });
+  it("exposes only the authenticated owner's open game intent", async () => {
+    mocks.readOpenIntent.mockResolvedValue({ key: "pending", domain: "game" });
+    const result = await gameIntent.GET(new Request(`${origin}/api/game/intent?expectedOwnerId=${owner}`));
+    expect(result.status).toBe(200);
+    expect(await result.json()).toMatchObject({ ownerId: owner, intent: { key: "pending" } });
+    expect(mocks.readOpenIntent).toHaveBeenCalledWith(owner, "game");
+    const rejected = await gameIntent.GET(new Request(`${origin}/api/game/intent?expectedOwnerId=victim`));
+    expect(rejected.status).toBe(409);
+  });
   it("GET loads only the authenticated player's state without a game mutation", async () => {
     mocks.readGame.mockResolvedValue({ revision: 3 }); const response = await game.GET();
     expect(response.status).toBe(200); expect(await response.json()).toEqual({ state: { revision: 3 }, mode: "production" });
@@ -124,6 +164,25 @@ describe("server-authoritative game mutations", () => {
 });
 
 describe("finance and AI separation", () => {
+  it("returns 202 for an accepted finance intent and rejects a changed owner before admission", async () => {
+    mocks.submitFinanceIntent.mockResolvedValue({ status: "pending" });
+    const command = { type: "account.create", name: "Bank", openingBalance: 0 };
+    const pending = await finance.POST(request("finance", command, { "Idempotency-Key": "finance-key", "X-Expected-Owner-Id": owner }));
+    expect(pending.status).toBe(202);
+    expect(await pending.json()).toEqual({ status: "pending", key: "finance-key" });
+    expect(mocks.submitFinanceIntent).toHaveBeenCalledWith(owner, "finance-key", command);
+    mocks.submitFinanceIntent.mockClear();
+    const rejected = await finance.POST(request("finance", command, { "Idempotency-Key": "finance-key", "X-Expected-Owner-Id": "victim" }));
+    expect(rejected.status).toBe(409);
+    expect(mocks.submitFinanceIntent).not.toHaveBeenCalled();
+  });
+  it("exposes only the authenticated owner's open finance intent", async () => {
+    const result = await financeIntent.GET(new Request(`${origin}/api/finance/intent?expectedOwnerId=${owner}`));
+    expect(result.status).toBe(200);
+    expect(mocks.readOpenIntent).toHaveBeenCalledWith(owner, "finance");
+    const rejected = await financeIntent.GET(new Request(`${origin}/api/finance/intent?expectedOwnerId=victim`));
+    expect(rejected.status).toBe(409);
+  });
   let current: FinanceState;
   beforeEach(() => {
     current = emptyFinance();
@@ -149,6 +208,12 @@ describe("finance and AI separation", () => {
     vi.stubEnv("AI_PROVIDER", "demo");
     expect((await ai.POST(request("ai", { mode: "propose", prompt: "Plan my week" }))).status).toBe(503);
     expect(mocks.readPrivate).not.toHaveBeenCalled(); expect(mocks.gameCommand).not.toHaveBeenCalled();
+  });
+  it("requires an account before admitting a configured production AI job", async () => {
+    vi.stubEnv("AI_PROVIDER", "openai-compatible"); vi.stubEnv("AI_BASE_URL", "https://provider.example/v1");
+    vi.stubEnv("AI_API_KEY", "test-only-key"); vi.stubEnv("AI_MODEL", "test-model");
+    expect((await ai.POST(request("ai", { mode: "propose", prompt: "Plan my week" }, { "Idempotency-Key": randomUUID() }))).status).toBe(401);
+    expect(mocks.readGame).not.toHaveBeenCalled();
   });
   it("AI history requests only the authenticated user's proposal domain", async () => {
     expect((await ai.GET()).status).toBe(200); expect(mocks.readPrivate).toHaveBeenCalledWith(owner, "proposals"); expect(mocks.readPrivate).toHaveBeenCalledTimes(1);

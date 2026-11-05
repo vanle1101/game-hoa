@@ -44,7 +44,7 @@ describe("V12 Construction UI/UX Specification", () => {
     }
   });
 
-  it("renders bottom edit toolbar with tools, hotkeys, and aria attributes in build mode", () => {
+  it("renders mouse-only bottom tools and the separated movement hint in build mode", () => {
     const html = renderEditor({ startMode: "build" });
     expect(html).toContain('class="construction-toolbar"');
     expect(html).toContain('aria-label="Công cụ xây dựng"');
@@ -53,9 +53,9 @@ describe("V12 Construction UI/UX Specification", () => {
       expect(html).toContain(`aria-label="${toolName}"`);
       expect(html).toContain(`<span>${toolName}</span>`);
     }
-    for (const hotkey of ["Q", "W", "E", "R", "T", "Y", "U", "C", "M", "Del"]) {
-      expect(html).toContain(`data-hotkey="${hotkey}"`);
-    }
+    expect(html).not.toContain('data-hotkey=');
+    expect(html).toContain("WASD: DI CHUYỂN CAMERA");
+    expect(html).toContain("PHÍM MŨI TÊN: DI CHUYỂN NHÂN VẬT Ở SINH HOẠT");
   });
 
   it("renders right catalog with real 3D model projections, ownership badges, and prices in buy mode", () => {

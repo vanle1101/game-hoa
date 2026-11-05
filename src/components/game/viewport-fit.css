@@ -1,0 +1,299 @@
+/* One fixed viewport shell; scroll is owned by its content panes. */
+.game-shell {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+.game-shell > .main-shell {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  width: auto;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.game-shell:not(.lobby-view) > .main-shell {
+  margin-left: var(--desktop-sidebar-width, var(--shell-sidebar)) !important;
+}
+
+.game-shell.world-view:not(.lobby-view) > .main-shell {
+  margin-left: var(--home-sidebar, var(--desktop-sidebar-width, var(--shell-sidebar))) !important;
+}
+
+.game-shell.lobby-view > .cyber-chrome-sidebar {
+  position: relative;
+  inset: auto;
+  flex: 0 0 var(--desktop-sidebar-width, var(--shell-sidebar));
+  width: var(--desktop-sidebar-width, var(--shell-sidebar));
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+}
+
+.game-shell.lobby-view > .main-shell {
+  flex: 1 1 0;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.game-shell > .main-shell > .topbar {
+  position: relative;
+  top: auto;
+  flex: 0 0 var(--shell-topbar, 60px);
+  min-height: 0;
+}
+
+.game-shell > .main-shell > .offline-banner {
+  flex: 0 0 auto;
+}
+
+.game-shell:not(.lobby-view) > .main-shell > .content-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  width: 100%;
+  height: 0;
+  min-width: 0;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.screen-content-scroll {
+  flex: 1 1 0;
+  width: 100%;
+  height: 0;
+  min-width: 0;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: #00efff55 transparent;
+}
+
+.screen-content-scroll::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+.screen-content-scroll::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  background: #00efff55;
+  background-clip: padding-box;
+}
+
+.screen-content-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Self-headed reference panels use the route viewport as their fixed frame;
+   each panel keeps its title chrome in place and scrolls only its content. */
+.screen-pets .screen-content-scroll,
+.screen-loot .screen-content-scroll,
+.screen-inventory .screen-content-scroll,
+.screen-shop .screen-content-scroll,
+.screen-crafting .screen-content-scroll,
+.screen-skills .screen-content-scroll {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 0;
+}
+
+.screen-pets .screen-content-scroll {
+  overflow: hidden;
+}
+
+.screen-pets .screen-content-scroll > .ref-panel,
+.screen-loot .screen-content-scroll > .ref-panel,
+.screen-inventory .screen-content-scroll > .ref-panel,
+.screen-shop .screen-content-scroll > .ref-panel,
+.screen-crafting .screen-content-scroll > .ref-panel,
+.screen-skills .screen-content-scroll > .ref-panel {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+}
+
+/* Inventory and shop append extra panels after their primary framed panel.
+   Keep the primary card viewport-sized, then let the route pane scroll to extras. */
+.screen-inventory .screen-content-scroll > .ref-panel,
+.screen-shop .screen-content-scroll > .ref-panel {
+  flex: 0 0 100%;
+}
+
+.screen-pets .screen-content-scroll > .ref-panel > .ref-header,
+.screen-pets .screen-content-scroll > .ref-panel > .ref-summary,
+.screen-loot .screen-content-scroll > .ref-panel > .ref-header,
+.screen-loot .screen-content-scroll > .ref-panel > .ref-summary,
+.screen-inventory .screen-content-scroll > .ref-panel > .ref-header,
+.screen-inventory .screen-content-scroll > .ref-panel > .ref-summary,
+.screen-inventory .screen-content-scroll > .ref-panel > .ref-categories,
+.screen-shop .screen-content-scroll > .ref-panel > .ref-header,
+.screen-shop .screen-content-scroll > .ref-panel > .ref-destinations,
+.screen-crafting .screen-content-scroll > .ref-panel > .ref-header,
+.screen-crafting .screen-content-scroll > .ref-panel > .ref-categories,
+.screen-skills .screen-content-scroll > .ref-panel > .ref-header {
+  flex: 0 0 auto;
+}
+
+.screen-pets .ref-pets-scroll,
+.screen-loot .ref-loot-layout,
+.screen-inventory .ref-split,
+.screen-shop .equipment-shop-layout,
+.screen-crafting .ref-forge-layout,
+.screen-skills .skill-tree-manager {
+  flex: 1 1 0;
+  min-height: 0;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #00efff55 transparent;
+}
+
+.screen-pets .ref-pets-scroll {
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-bottom: 24px;
+}
+
+.screen-pets .ref-pets-scroll::-webkit-scrollbar,
+.screen-loot .ref-loot-layout::-webkit-scrollbar,
+.screen-inventory .ref-split::-webkit-scrollbar,
+.screen-shop .equipment-shop-layout::-webkit-scrollbar,
+.screen-crafting .ref-forge-layout::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+.screen-pets .ref-pets-scroll::-webkit-scrollbar-thumb,
+.screen-loot .ref-loot-layout::-webkit-scrollbar-thumb,
+.screen-inventory .ref-split::-webkit-scrollbar-thumb,
+.screen-shop .equipment-shop-layout::-webkit-scrollbar-thumb,
+.screen-crafting .ref-forge-layout::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  background: #00efff55;
+  background-clip: padding-box;
+}
+
+.screen-pets .ref-pets-layout {
+  min-width: 0;
+  min-height: min-content;
+  align-items: stretch;
+}
+
+.screen-loot .ref-loot-layout,
+.screen-inventory .ref-split,
+.screen-shop .equipment-shop-layout,
+.screen-crafting .ref-forge-layout {
+  overflow: auto;
+}
+
+.screen-skills .skill-tree-manager {
+  overflow: hidden;
+}
+
+@media (max-width: 760px) {
+  .screen-pets .screen-content-scroll > .ref-panel,
+  .screen-loot .screen-content-scroll > .ref-panel,
+  .screen-crafting .screen-content-scroll > .ref-panel,
+  .screen-skills .screen-content-scroll > .ref-panel {
+    flex-basis: auto;
+  }
+
+  .screen-pets .ref-pets-layout {
+    min-height: min-content;
+  }
+}
+
+.game-shell > .main-shell > .world-main {
+  flex: 1 1 0;
+  width: 100%;
+  height: 0;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.game-shell.lobby-view > .main-shell > .content-main.screen-lobby {
+  flex: 1 1 0;
+  height: auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.game-shell.lobby-view .vref-lobby,
+.game-shell.lobby-view .vref-body,
+.game-shell.lobby-view .vref-board {
+  min-height: 0;
+}
+
+/* On smaller screens, keep the four dashboard bands scrollable inside the
+   dashboard viewport while the global header and navigation remain anchored. */
+@media (max-width: 1130px) {
+  .game-shell.lobby-view .vref-board {
+    height: 100%;
+    min-height: 0;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    grid-template-rows: 320px 320px 500px 320px;
+  }
+}
+
+@media (max-width: 640px) {
+  .game-shell.cyber-chrome:not(.lobby-view) {
+    flex-direction: column;
+  }
+
+  .game-shell.cyber-chrome:not(.lobby-view) > .cyber-chrome-sidebar {
+    flex: 0 0 auto;
+  }
+
+  .game-shell.cyber-chrome:not(.lobby-view) > .main-shell {
+    flex: 1 1 0;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    margin-left: 0 !important;
+  }
+
+  .game-shell:not(.lobby-view) > .main-shell {
+    width: 100%;
+    margin-left: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .game-shell.world-view:not(.lobby-view) > .main-shell {
+    margin-left: 0 !important;
+  }
+
+  .game-shell:not(.lobby-view) > .main-shell > .topbar {
+    flex-basis: 60px;
+  }
+
+  .game-shell:not(.lobby-view) > .main-shell > .world-main {
+    height: 0;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}

@@ -1,0 +1,288 @@
+/* Armor is decorative. Widget content remains a direct child of the section. */
+.game-shell.lobby-view .mech-armor-frame {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  clip-path: polygon(0 20px, 20px 0, calc(50% - 48px) 0, calc(50% - 32px) 12px, calc(50% + 32px) 12px, calc(50% + 48px) 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px));
+  box-shadow: none !important;
+  filter: drop-shadow(0 0 8px #00f0ffba) drop-shadow(0 0 14px #ff00aa80);
+}
+.game-shell.lobby-view .mech-armor-frame::before,
+.game-shell.lobby-view .mech-armor-frame::after { content: none !important; }
+.game-shell.lobby-view .mech-armor-frame > :not(.mech-armor-layer) {
+  position: relative;
+  z-index: 3;
+}
+.game-shell.lobby-view .mech-armor-layer { pointer-events: none; }
+
+/* Three nested layers: 16px forged shell, recessed channel, translucent core. */
+.game-shell.lobby-view .mech-armor-shell {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  box-sizing: border-box;
+  padding: 16px;
+  background: transparent;
+  clip-path: inherit;
+}
+.game-shell.lobby-view .mech-armor-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 16px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 19px, #d5e6f01c 19px 20px, transparent 20px 37px),
+    linear-gradient(180deg, #a1b1c1 0%, #34465b 8%, #0c111c 27%, #111827 55%, #1a2133 80%, #7c91a7 100%);
+  clip-path: inherit;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  box-shadow: inset 0 0 10px #000c, inset 0 0 15px #ff00aa4d;
+}
+.game-shell.lobby-view .mech-armor-scan {
+  position: absolute;
+  z-index: 3;
+  inset: 9px;
+  padding: 4px;
+  overflow: hidden;
+  clip-path: polygon(0 11px, 11px 0, calc(100% - 11px) 0, 100% 11px, 100% calc(100% - 11px), calc(100% - 11px) 100%, 11px 100%, 0 calc(100% - 11px));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+.game-shell.lobby-view .mech-armor-scan::before {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg 24deg,
+    #00f0ff 29deg,
+    #e8ffff 32deg,
+    #00f0ff 35deg,
+    transparent 43deg 171deg,
+    #ff00aa 178deg,
+    #fff1fb 181deg,
+    #ff00aa 184deg,
+    transparent 193deg 360deg
+  );
+  will-change: transform;
+  animation: mech-armor-scan 4.8s linear infinite;
+}
+.game-shell.lobby-view .mech-armor-groove {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+.game-shell.lobby-view .mech-armor-groove::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: -5px;
+  padding: 5px;
+  background: linear-gradient(135deg, #02050c 0%, #101a2b 28%, #02040b 51%, #261026 75%, #02050c 100%);
+  clip-path: polygon(0 12px, 12px 0, calc(50% - 37px) 0, calc(50% - 27px) 7px, calc(50% + 27px) 7px, calc(50% + 37px) 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  box-shadow: inset 0 0 12px #000;
+}
+.game-shell.lobby-view .mech-armor-core {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #0609138c;
+  backdrop-filter: blur(4px);
+  clip-path: polygon(0 8px, 8px 0, calc(50% - 28px) 0, calc(50% - 20px) 5px, calc(50% + 20px) 5px, calc(50% + 28px) 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px));
+  box-shadow: inset 0 0 22px #00f0ff24;
+}
+.game-shell.lobby-view .mech-armor-grid {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(#00f0ff 1px, transparent 1px) 0 0 / 16px 16px;
+  opacity: .15;
+}
+
+/* Light travels inside the channel, with cyan above/left and magenta below/right. */
+.game-shell.lobby-view .mech-armor-tube {
+  --mech-tube-glint: #e7ffff;
+  position: absolute;
+  z-index: 2;
+  display: block;
+  border-radius: 0;
+  outline: 2px solid #02050c;
+  color: #00f0ff;
+  background: currentColor;
+  box-shadow: 0 0 10px currentColor, 0 0 24px currentColor, inset 0 1px #e7ffff;
+  filter: drop-shadow(0 0 10px currentColor);
+  animation: mech-neon-pulse 2.6s ease-in-out infinite;
+}
+.game-shell.lobby-view .mech-armor-tube--top-left,
+.game-shell.lobby-view .mech-armor-tube--top-right {
+  top: 10px;
+  width: min(220px, calc(50% - 73px));
+  height: 4px;
+}
+.game-shell.lobby-view .mech-armor-tube--top-left { left: 28px; }
+.game-shell.lobby-view .mech-armor-tube--top-right { right: 28px; }
+.game-shell.lobby-view .mech-armor-tube--left {
+  top: 30px;
+  bottom: 30px;
+  left: 10px;
+  width: 4px;
+}
+.game-shell.lobby-view .mech-armor-tube--bottom-left,
+.game-shell.lobby-view .mech-armor-tube--bottom-right {
+  --mech-tube-glint: #ffe7f8;
+  bottom: 10px;
+  width: min(220px, calc(50% - 73px));
+  height: 4px;
+  color: #ff00aa;
+  box-shadow: 0 0 10px currentColor, 0 0 24px currentColor, inset 0 1px #ffe7f8;
+  animation-delay: -1.3s;
+}
+.game-shell.lobby-view .mech-armor-tube--bottom-left { left: 28px; }
+.game-shell.lobby-view .mech-armor-tube--bottom-right { right: 28px; }
+.game-shell.lobby-view .mech-armor-tube--right {
+  --mech-tube-glint: #ffe7f8;
+  top: 30px;
+  bottom: 30px;
+  right: 10px;
+  width: 4px;
+  color: #ff00aa;
+  box-shadow: 0 0 10px currentColor, 0 0 24px currentColor, inset 1px 0 #ffe7f8;
+  animation-delay: -1.3s;
+}
+
+@keyframes mech-neon-pulse {
+  0%, 100% {
+    opacity: .76;
+    box-shadow: 0 0 8px currentColor, 0 0 14px currentColor, inset 0 0 4px var(--mech-tube-glint);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 20px currentColor, 0 0 34px currentColor, inset 0 0 12px var(--mech-tube-glint);
+  }
+}
+
+@keyframes mech-armor-scan {
+  to { transform: rotate(360deg); }
+}
+
+/* Four cast-metal clamps, with paired bolt heads and an etched warning edge. */
+.game-shell.lobby-view .mech-armor-clamp {
+  position: absolute;
+  z-index: 4;
+  width: 48px;
+  height: 48px;
+}
+.game-shell.lobby-view .mech-armor-clamp::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(135deg, #dce9f42b 0 2px, transparent 2px 6px),
+    linear-gradient(135deg, #bdcbd8, #64788e 23%, #202c3d 55%, #090f1a 72%, #879bb0);
+  clip-path: polygon(0 20px, 20px 0, 100% 0, 100% 15px, 29px 15px, 15px 29px, 15px 100%, 0 100%);
+  box-shadow: inset 0 0 9px #d9efffa6, 0 0 10px #00f0ff99;
+}
+.game-shell.lobby-view .mech-armor-clamp::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 23px;
+  width: 18px;
+  height: 3px;
+  background: linear-gradient(90deg, #00f0ff, #e6ffff);
+  box-shadow: 0 0 8px #00f0ff;
+}
+.game-shell.lobby-view .mech-armor-clamp--top-left { top: 0; left: 0; }
+.game-shell.lobby-view .mech-armor-clamp--top-right { top: 0; right: 0; transform: scaleX(-1); }
+.game-shell.lobby-view .mech-armor-clamp--bottom-left { bottom: 0; left: 0; transform: scaleY(-1); }
+.game-shell.lobby-view .mech-armor-clamp--bottom-right { bottom: 0; right: 0; transform: scale(-1); }
+.game-shell.lobby-view .mech-armor-clamp i {
+  position: absolute;
+  z-index: 1;
+  width: 6px;
+  height: 6px;
+  border: 1px solid #d7e6f2;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #f7fbff, #8397aa 48%, #243042 75%);
+  box-shadow: inset 0 1px 2px #000c, 0 0 5px #00f0ffaa;
+}
+.game-shell.lobby-view .mech-armor-clamp i:first-of-type { top: 14px; left: 14px; }
+.game-shell.lobby-view .mech-armor-clamp i:nth-of-type(2) { top: 5px; left: 32px; }
+.game-shell.lobby-view .mech-armor-clamp em {
+  position: absolute;
+  z-index: 1;
+  top: 30px;
+  left: 4px;
+  width: 5px;
+  height: 13px;
+  background: repeating-linear-gradient(0deg, #f59e0b 0 3px, #0b1320 3px 6px);
+  opacity: .85;
+}
+.game-shell.lobby-view .mech-armor-hazard {
+  position: absolute;
+  z-index: 2;
+  top: 3px;
+  right: 53px;
+  width: 50px;
+  height: 6px;
+  background: repeating-linear-gradient(45deg, #f59e0b 0 5px, #111b29 5px 10px);
+  box-shadow: 0 0 5px #f59e0b8c;
+}
+.game-shell.lobby-view .mech-armor-leds {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  right: 4px;
+  display: grid;
+  gap: 5px;
+  transform: translateY(-50%);
+}
+.game-shell.lobby-view .mech-armor-leds i {
+  width: 4px;
+  height: 4px;
+  background: #00f0ff;
+  box-shadow: 0 0 7px #00f0ff;
+}
+.game-shell.lobby-view .mech-armor-leds i:nth-child(even) { background: #ff00aa; box-shadow: 0 0 7px #ff00aa; }
+.game-shell.lobby-view .mech-armor-serial {
+  position: absolute;
+  z-index: 2;
+  right: 112px;
+  bottom: 3px;
+  left: 28px;
+  overflow: hidden;
+  color: #80edfaa8;
+  font: 600 8px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .13em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.game-shell.lobby-view .mech-armor-barcode {
+  position: absolute;
+  z-index: 2;
+  right: 32px;
+  bottom: 3px;
+  width: 62px;
+  height: 5px;
+  background: repeating-linear-gradient(90deg, #b8eeff 0 2px, transparent 2px 4px, #b8eeff 4px 5px, transparent 5px 8px);
+  opacity: .75;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-shell.lobby-view .mech-armor-tube,
+  .game-shell.lobby-view .mech-armor-scan::before {
+    animation: none;
+  }
+}

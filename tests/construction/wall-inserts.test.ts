@@ -4,7 +4,7 @@ import { subtractWallInsertCutouts, visibleInsertWallHeight, wallInsertClipPlane
 import { edgeKey, emptyPlan } from "../../src/construction/grid";
 import { withLotObject } from "../../src/construction/lot-objects";
 import { indexedNeighbors, navigationIndex } from "../../src/construction/navigation";
-import { snapWallInsertPoint, solidWallSpans, WALL_GRID_SIZE, wallCutoutsForSegment, wallInsertPlacementValid } from "../../src/construction/wall-inserts";
+import { snapWallInsertPoint, solidWallSpans, WALL_GRID_SIZE, wallCutoutsForSegment, wallInsertOrientationValid, wallInsertPlacementValid, wallInsertYaw } from "../../src/construction/wall-inserts";
 import type { BuildingFurniture, BuildingPlan, WallSegment } from "../../src/construction/types";
 
 const walls: WallSegment[] = [0, 1, 2].map(x => ({ x, z: 1, level: 0, orientation: "x", materialId: "wall-basic" }));
@@ -28,6 +28,33 @@ function insert(furnitureId: string, bottom: number): BuildingFurniture {
 }
 
 describe("wall insert entities", () => {
+  it("auto-orients doors and windows flush with either wall axis and rejects quarter turns", () => {
+    for (const orientation of ["x", "z"] as const) {
+      for (const furnitureId of ["glass_door_modern", "wide_window_cyber"]) {
+        const plan = room();
+        plan.walls = [0, 1, 2].map(index => ({ x: orientation === "x" ? index : 1,
+          z: orientation === "z" ? index : 1, level: 0, orientation, materialId: "wall-basic" }));
+        const normal: [number, number, number] = orientation === "x" ? [0, 0, 1] : [1, 0, 0];
+        const item = withLotObject({ id: `${orientation}-${furnitureId}`, furnitureId, x: 1, z: 1, level: 0,
+          rotation: 0, placementType: "wall_insert", wall_id: edgeKey(plan.walls[1]), wall_u: 0.5,
+          wallNormal: normal, wallY: furnitureId === "glass_door_modern" ? 0 : 1 });
+        expect(wallInsertYaw(item)).toBeCloseTo(orientation === "x" ? 0 : Math.PI / 2);
+        expect(item.transform?.rotation.y).toBeCloseTo(wallInsertYaw(item));
+        expect(wallInsertOrientationValid(plan.walls[1], item)).toBe(true);
+        expect(wallInsertPlacementValid(plan, item)).toBe(true);
+        const quarterTurn = withLotObject({ ...item, rotation: 90 });
+        expect(wallInsertYaw(quarterTurn)).toBeCloseTo(wallInsertYaw(item));
+        expect(wallInsertPlacementValid(plan, quarterTurn)).toBe(false);
+        const faceFlip = withLotObject({ ...item, rotation: 180 });
+        expect(wallInsertPlacementValid(plan, faceFlip)).toBe(true);
+        expect(Math.abs(Math.sin(wallInsertYaw(faceFlip) - wallInsertYaw(item)))).toBeLessThan(1e-8);
+        expect(wallInsertPlacementValid(plan, { ...item, wallNormal: orientation === "x" ? [1, 0, 0] : [0, 0, 1] })).toBe(false);
+        expect(wallInsertPlacementValid(plan, { ...item, transform: {
+          ...item.transform!, rotation: { x: 0, y: wallInsertYaw(item) + Math.PI / 2, z: 0 },
+        } })).toBe(false);
+      }
+    }
+  });
   it("anchors a floor-level door to a continuous wall, then restores the wall when removed", () => {
     const plan = room();
     const door = insert("glass_door_modern", 0);

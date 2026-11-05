@@ -1,0 +1,361 @@
+/* Live lobby controls inside the traced 1801 × 873 kit chassis. */
+@media (min-width: 1760px) and (max-width: 2100px) and (min-height: 850px) and (max-height: 1000px) {
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .nav-group > span {
+    margin-left: 13px;
+    padding: 0;
+    background: transparent !important;
+    color: #c2c6d2;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    line-height: 21.5px;
+    text-shadow: 0 1px 5px #050611;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .nav-group:nth-child(2) {
+    margin-top: -3px;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .nav-group:nth-child(3) {
+    margin-top: -15px;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .cyber-nav-item {
+    isolation: isolate;
+    gap: 13px;
+    padding-left: 10px;
+    color: #f2f0fa;
+    font-size: 11px;
+    font-weight: 650;
+    text-shadow: 0 1px 4px #03030d;
+    border-color: #8c50b57c !important;
+    background: linear-gradient(96deg, #110b29f2, #080c1eee 61%, #180725de) !important;
+    box-shadow: inset 0 1px 0 #b773da58, inset 0 -1px 0 #893bba68, 0 0 8px #bc3cdd40;
+    clip-path: path("M 10 0 H 171 L 179 8 V 30 L 171 38 H 10 Q 0 38 0 28 V 10 Q 0 0 10 0 Z");
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .cyber-nav-item:not(.active) {
+    background: linear-gradient(95deg, #0b0b22f3 0%, #080c1eec 64%, #180923dd 100%) !important;
+    clip-path: path("M 10 0 H 179 L 144 38 H 10 Q 0 38 0 28 V 10 Q 0 0 10 0 Z");
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .cyber-nav-item:not(.active)::before {
+    top: 1px;
+    bottom: 1px;
+    width: 2px;
+    background: #f14bf2;
+    box-shadow: 0 0 7px #ff39e8;
+    opacity: .65;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .cyber-nav-item::after {
+    top: 18px;
+    right: -6px;
+    width: 54px;
+    height: 2px;
+    background: linear-gradient(90deg, #d759f2, #a64be3 62%, #42e6ff);
+    box-shadow: 0 0 7px #d73ce5;
+    opacity: .58;
+    filter: blur(.35px);
+    transform: rotate(-45deg);
+    transform-origin: center;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .nav-group:first-child .cyber-nav-item:nth-of-type(2) {
+    border-color: #47e4ef9c !important;
+    box-shadow: inset 0 1px 0 #87f6f2a6, inset 0 -1px 0 #36d6ea9c, 0 0 7px #35def666;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .nav-group:first-child .cyber-nav-item:not(.active) {
+    background: linear-gradient(95deg, #03091ee8, #0b0a29c9 68%, #180a2d47) !important;
+    border-color: #6947a26b !important;
+    box-shadow: inset 0 0 9px #160f3980, 0 1px 0 #ab4def3d;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .nav-group:first-child .cyber-nav-item:not(.active):not(:nth-of-type(2))::after {
+    opacity: .34;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .nav-group:nth-child(2) .cyber-nav-item:first-of-type {
+    clip-path: path("M 10 0 H 171 L 179 8 V 30 L 171 38 H 10 Q 0 38 0 28 V 10 Q 0 0 10 0 Z");
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .nav-group:first-child .cyber-nav-item:nth-of-type(2)::before,
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .nav-group:first-child .cyber-nav-item:nth-of-type(2)::after {
+    background: #54eeff;
+    box-shadow: 0 0 7px #41eaff;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .cyber-nav-item.active {
+    border-color: #8c70da !important;
+    background: linear-gradient(96deg, #511a99dd 0%, #24103fdc 62%, #0d265bd9 100%) !important;
+    box-shadow: inset 0 0 12px #a040d77a, inset 0 -2px 0 #21d8fca6, 0 0 10px #a14dcb74;
+    clip-path: path("M 10 0 H 171 L 179 8 V 30 L 171 38 H 10 Q 0 38 0 28 V 10 Q 0 0 10 0 Z");
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .cyber-nav-item.active::after {
+    top: auto;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #218cfe, #1af3ff 70%, #42e6ff);
+    box-shadow: 0 0 6px #25e5ff;
+    opacity: .45;
+    transform: none;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .cyber-nav-item.active i {
+    width: 7px;
+    height: 7px;
+    border-radius: 1px;
+    transform: rotate(45deg);
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .cyber-nav-item svg {
+    width: 18px;
+    height: 18px;
+    flex-basis: 18px;
+    color: #f5f3ff;
+    filter: drop-shadow(0 0 2px #eacaff6b);
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .nav-group:nth-child(3) .cyber-nav-item:nth-of-type(n+3) {
+    border-color: #6947a26b !important;
+    background: linear-gradient(95deg, #03091ee8, #0b0a29c9 68%, #180a2d47) !important;
+    box-shadow: inset 0 0 9px #160f3980, 0 1px 0 #ab4def3d;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .nav-group:nth-child(3) .cyber-nav-item:nth-of-type(n+3)::after {
+    opacity: .25;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .cyber-nav-item:hover,
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .cyber-nav-item:focus-visible {
+    border-color: #7cf4ff !important;
+    background: linear-gradient(96deg, #35276cea, #092641ed) !important;
+    filter: drop-shadow(0 0 7px #43e8ffad);
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .lobby-sidebar-motto {
+    width: 165px;
+    margin-left: 12px;
+    padding: 3px 0;
+    color: #54ebff;
+    background: rgba(2, 9, 25, .8) !important;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: .075em;
+    line-height: 1.25;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar .lobby-sidebar-settings {
+    border-color: #a650dfb3 !important;
+    background: linear-gradient(96deg, #100a29e8, #080c20eb 72%, #230d36e0) !important;
+    box-shadow: inset 0 1px 0 #ae63e17d, inset 0 -1px 0 #5b2cb57a, 0 0 7px #b937d35c;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .vref-date,
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .vref-quote,
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .vref-search-wrap,
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .vref-header-bell,
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .vref-header-profile {
+    background: rgba(7, 7, 28, .88) !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .vref-date {
+    background: rgba(13, 10, 37, .82) !important;
+    color: #f3f0fa;
+    font-size: 13px;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .vref-date svg,
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .vref-search-wrap svg {
+    color: #f1f2fb;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .vref-quote {
+    background: rgba(10, 8, 29, .9) !important;
+    color: #f4edf9;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .vref-search-wrap {
+    background: rgba(5, 7, 27, .92) !important;
+    padding-left: 24px;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .vref-search-wrap input::placeholder {
+    color: #9691ae;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .vref-header-bell {
+    background: rgba(42, 23, 72, .88) !important;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .vref-header-profile {
+    background: rgba(9, 6, 29, .86) !important;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .vref-header-profile > span {
+    border-color: #fd70df;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .vref-header-profile svg {
+    transform: rotate(90deg);
+  }
+}
+
+/* The source crop starts outside the live panel box. Give today's chassis
+   that measured offset and reserve clear space beside and below its turbine. */
+@media (min-width: 1760px) and (max-width: 2100px) and (min-height: 850px) and (max-height: 1000px) {
+  .game-shell.cyber-chrome.lobby-view .vref-today {
+    overflow: visible;
+  }
+
+  /* The reference's exposed center is darker than the shared glass backing.
+     Keep the city visible through this panel-specific tint. */
+  .game-shell.cyber-chrome.lobby-view .vref-today.mech-vector-frame {
+    background: rgba(5, 8, 22, .68) !important;
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-today > .fluid-mechanical-frame {
+    inset: -7px 10px -1px -13px;
+    z-index: 0;
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-today-top {
+    padding-left: 23px;
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-today-top .vref-heading {
+    margin-left: 0;
+    transform: translateY(-8px);
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-today .vref-heading h2 {
+    font-size: 20px !important;
+  }
+
+  /* The title occupies the clear pocket between the turbine and top rail.
+     Its backing follows the reference's dark blue badge, while the sun keeps
+     its layout slot and grows within that pocket without moving the text. */
+  .game-shell.cyber-chrome.lobby-view .vref-today .vref-heading-link.cyber-tech-button {
+    background: rgba(1, 13, 31, .94) !important;
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-today .vref-heading-link > svg {
+    transform: scale(1.18);
+    transform-origin: right center;
+  }
+
+  /* Skill title: the 83 px turbine ends at x=349 in the calibration crop.
+     Keep the badge outside it and tighten the icon/text gap so text stays at
+     its reference x coordinate. */
+  .game-shell.cyber-chrome.lobby-view .vref-skill-header .vref-heading {
+    margin-left: 35px;
+    transform: translateY(1px);
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-skill-header .vref-heading-link {
+    gap: 5px;
+    background: rgba(1, 13, 31, .98) !important;
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-skill-header .vref-heading h2 {
+    font-size: 21px !important;
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-boss.mech-vector-frame {
+    background: rgba(5, 8, 22, .75) !important;
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-boss > .vref-heading {
+    margin-left: 37px;
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-butler > .vref-heading {
+    margin-left: 19px;
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-boss .vref-heading h2 {
+    font-size: 21px !important;
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-butler .vref-heading h2 {
+    font-size: 20.5px !important;
+    font-weight: 600;
+  }
+
+  .game-shell.cyber-chrome.lobby-view :is(.vref-boss, .vref-butler) .vref-heading-link.cyber-tech-button {
+    background: rgba(1, 13, 31, .98) !important;
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-achievements > .vref-heading {
+    margin-left: 30px;
+    transform: translateY(-6px);
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-achievements .vref-heading h2 {
+    font-size: 19px !important;
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-rewards.mech-vector-frame {
+    background: rgba(5, 8, 22, .72) !important;
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-header {
+    background: rgba(75, 20, 75, .3) !important;
+  }
+
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-chrome-sidebar {
+    background: rgba(5, 8, 22, .22) !important;
+  }
+}
+
+/* At the wider desktop viewport, source-scale reactor circles set the title
+   clearance. Short straight-channel pieces absorb the added frame length. */
+@media (min-width: 1841px) and (max-width: 2100px) and (min-height: 850px) and (max-height: 1000px) {
+  .game-shell.cyber-chrome.lobby-view.sidebar-expanded .cyber-sidebar-led {
+    width: 264px;
+    right: auto;
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-character,
+  .game-shell.cyber-chrome.lobby-view .vref-achievements {
+    overflow: visible;
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-character > .fluid-mechanical-frame {
+    height: 276px;
+    bottom: auto;
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-achievements > .fluid-mechanical-frame {
+    height: 182px;
+    top: -17px;
+    bottom: auto;
+  }
+
+  .game-shell.cyber-chrome.lobby-view .vref-boss > .vref-heading { margin-left: 43px; }
+  .game-shell.cyber-chrome.lobby-view .vref-butler > .vref-heading { margin-left: 35px; }
+  .game-shell.cyber-chrome.lobby-view .vref-skill-header .vref-heading { margin-left: 47px; }
+  .game-shell.cyber-chrome.lobby-view .vref-character-heading .vref-heading { margin-left: 35px; }
+  .game-shell.cyber-chrome.lobby-view .vref-rewards > .vref-heading { margin-left: 36px; }
+}
+
+/* Apply one real safe-area offset to every live widget heading. Earlier per-widget
+   calibration selectors otherwise kept smaller margins on several cards. */
+.game-shell.cyber-chrome.lobby-view .vref-panel .vref-heading {
+  margin-inline-start: clamp(30px, 2.35vw, 42px) !important;
+}
+
+/* The character title has a wrapper of its own; avoid stacking two offsets. */
+.game-shell.cyber-chrome.lobby-view .vref-panel .vref-character-heading {
+  margin-inline-start: 0 !important;
+}

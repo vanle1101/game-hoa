@@ -1,0 +1,741 @@
+/* Shared chrome: leave the cyberpunk skyline visible behind every 2D module. */
+.game-shell.cyber-chrome {
+  --hud-cyan: #00efff;
+  --hud-pink: #ff3eec;
+  --hud-purple: #9b5cff;
+  --hud-metal: #10101c;
+}
+
+.game-shell.cyber-chrome:not(.world-view) {
+  background-color: #070b1b;
+  background-image: url('/assets/cyberpunk-bg.png') !important;
+  background-position: center center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+
+.game-shell.cyber-chrome:not(.world-view) .main-shell,
+.game-shell.cyber-chrome:not(.world-view) .content-main {
+  background-color: transparent;
+}
+
+.game-shell.cyber-chrome.lobby-view .lobby-city-overlay {
+  background: rgba(0, 0, 0, .06) !important;
+}
+
+/* The sidebar shell is transparent. Its rail and the individual labels carry the hardware. */
+.game-shell.cyber-chrome .cyber-chrome-sidebar {
+  isolation: isolate;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.game-shell.cyber-chrome .cyber-chrome-sidebar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, #ff3eec, #9b5cff 52%, #00efff) top / 100% 2px no-repeat,
+    linear-gradient(180deg, #ff3eecb0, #00efff86 48%, #9b5cff9b) right / 2px 100% no-repeat,
+    linear-gradient(180deg, #18213f72, transparent 22%, transparent 78%, #11162b60);
+  box-shadow: inset -9px 0 15px #00efff14, 5px 0 22px #9b5cff25;
+}
+
+.game-shell.cyber-chrome .cyber-chrome-sidebar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 5px;
+  bottom: 0;
+  z-index: 0;
+  width: 1px;
+  pointer-events: none;
+  background: linear-gradient(180deg, #ffffff8a, #00efff4a 22%, #ff3eec53 70%, #ffffff5c);
+}
+
+.game-shell.cyber-chrome .cyber-chrome-sidebar > :not(.cyber-sidebar-emitter):not(.cyber-sidebar-led) {
+  position: relative;
+  z-index: 1;
+}
+
+.game-shell.cyber-chrome .cyber-sidebar-emitter {
+  position: absolute;
+  z-index: 3;
+  top: 77px;
+  right: -13px;
+  width: 39px;
+  height: 39px;
+  border: 3px solid #8f5be7;
+  border-radius: 50%;
+  background: radial-gradient(circle, #c9f9ff 0 7%, #36436d 10% 22%, #070b17 25% 43%, #fb62e7 46% 52%, #14132c 57% 100%);
+  box-shadow: 0 0 0 2px #090d1c, 0 0 10px #ff3eec, 0 0 20px #9b5cff76, inset 0 0 6px #00efff;
+  pointer-events: none;
+}
+
+.game-shell.cyber-chrome .cyber-sidebar-emitter::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid #c1deffad;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #00efff;
+}
+
+.game-shell.cyber-chrome .cyber-chrome-sidebar .brand {
+  width: fit-content;
+  max-width: 100%;
+  padding: 5px 7px;
+  color: #fff;
+  background: #060b20a8 !important;
+  text-shadow: 0 0 9px #9b5cffb5;
+}
+
+.game-shell.cyber-chrome .cyber-chrome-sidebar .brand > span {
+  color: var(--hud-pink);
+  text-shadow: 0 0 11px var(--hud-pink);
+}
+
+.game-shell.cyber-chrome .cyber-chrome-sidebar .nav-group > span {
+  color: #c8d8ed;
+  text-shadow: 0 1px 4px #030613;
+}
+
+.game-shell.cyber-chrome .cyber-chrome-sidebar .cyber-nav-item {
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+  color: #e2e9ff;
+  border: 1px solid #6e4fb474 !important;
+  border-radius: 0 !important;
+  background: linear-gradient(100deg, #08142ba9, #080b1e96 70%, #29103968) !important;
+  box-shadow: inset 0 0 0 1px #080b1aa8, inset 0 0 9px #9b5cff24;
+  clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+  transition: color .2s ease, background-color .2s ease, filter .2s ease, transform .2s ease;
+}
+
+.game-shell.cyber-chrome .cyber-chrome-sidebar .cyber-nav-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background: linear-gradient(#ff3eec, #00efff);
+  box-shadow: 0 0 7px #ff3eec;
+  opacity: .55;
+  pointer-events: none;
+}
+
+.game-shell.cyber-chrome .cyber-chrome-sidebar .cyber-nav-item::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  top: 0;
+  width: 22%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #00efff);
+  opacity: .6;
+  pointer-events: none;
+}
+
+.game-shell.cyber-chrome .cyber-chrome-sidebar .cyber-nav-item svg {
+  display: block;
+  flex: 0 0 17px;
+  opacity: 1;
+  filter: drop-shadow(0 0 4px #00efff8a);
+}
+
+.game-shell.cyber-chrome .cyber-chrome-sidebar .cyber-nav-item:hover,
+.game-shell.cyber-chrome .cyber-chrome-sidebar .cyber-nav-item:focus-visible {
+  color: #fff;
+  border-color: #00efff !important;
+  background: linear-gradient(90deg, #163461cf, #23113eb8) !important;
+  filter: drop-shadow(0 0 6px #00efff79);
+  transform: translateX(2px);
+}
+
+.game-shell.cyber-chrome .cyber-chrome-sidebar .cyber-nav-item.active {
+  color: #fff;
+  border-color: #ff69f0 !important;
+  background: linear-gradient(90deg, #6139b7c9, #17114dad 62%, #082d56b5) !important;
+  box-shadow: inset 0 0 12px #ff3eec57, inset 0 -2px 0 #00efff9e;
+  filter: drop-shadow(0 0 7px #ff3eec91);
+}
+
+.game-shell.cyber-chrome .cyber-chrome-sidebar .cyber-nav-item.active::before {
+  width: 3px;
+  background: var(--hud-cyan);
+  box-shadow: 0 0 10px var(--hud-cyan);
+  opacity: 1;
+}
+
+.game-shell.cyber-chrome .cyber-chrome-sidebar .cyber-nav-item.active i {
+  background: var(--hud-cyan);
+  box-shadow: 0 0 9px var(--hud-cyan);
+}
+
+.game-shell.cyber-chrome .cyber-chrome-sidebar .sidebar-footer {
+  height: auto;
+  min-height: 100px;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 9px 0 10px;
+  border-top: 1px solid #ff3eec69;
+  background: transparent;
+}
+
+.game-shell.cyber-chrome .cyber-chrome-sidebar .lobby-sidebar-motto {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0;
+  padding: 3px 5px;
+  color: #7bf5ff;
+  background: #050a1cad;
+  font-size: 9px;
+  line-height: 1.4;
+  letter-spacing: .06em;
+  text-shadow: 0 0 8px #00efff;
+}
+
+.game-shell.cyber-chrome .cyber-chrome-sidebar .lobby-sidebar-settings {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  min-height: 32px;
+  padding: 6px 9px;
+  color: #f6f3ff;
+  border: 1px solid #ae63eaa8 !important;
+  border-radius: 0 !important;
+  background: #120c2eb8 !important;
+  clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px));
+  text-align: left;
+}
+
+.game-shell.cyber-chrome .cyber-chrome-sidebar .lobby-sidebar-settings:hover {
+  color: #fff;
+  border-color: var(--hud-cyan) !important;
+  background: #142353cb !important;
+}
+
+.game-shell.cyber-chrome .cyber-chrome-sidebar .lobby-sidebar-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #9cdfe6;
+  font-size: 7px;
+  letter-spacing: .06em;
+}
+
+.game-shell.cyber-chrome.sidebar-compact .cyber-sidebar-emitter,
+.game-shell.cyber-chrome.sidebar-compact .lobby-sidebar-motto,
+.game-shell.cyber-chrome.sidebar-compact .lobby-sidebar-settings span,
+.game-shell.cyber-chrome.sidebar-compact .lobby-sidebar-status {
+  display: none;
+}
+
+.game-shell.cyber-chrome.sidebar-compact .cyber-chrome-sidebar .sidebar-footer {
+  min-height: 47px;
+}
+
+.game-shell.cyber-chrome.sidebar-compact .cyber-chrome-sidebar .lobby-sidebar-settings {
+  justify-content: center;
+}
+
+/* The non-lobby topbar and its controls use compact chrome instead of flat boxes. */
+.game-shell.cyber-chrome .cyber-chrome-topbar {
+  isolation: isolate;
+  background: #070c1e9e !important;
+  border-bottom: 1px solid #a25cf7a1 !important;
+  box-shadow: inset 0 -1px 0 #00efff7c, 0 4px 20px #09082157;
+  backdrop-filter: blur(5px);
+}
+
+.game-shell.cyber-chrome .cyber-chrome-topbar::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(90deg, #ff3eec, #9b5cff 30%, #00efff 55%, #ff3eec 82%, #00efff);
+  box-shadow: 0 0 8px #ff3eec, 0 0 10px #00efff;
+  opacity: .72;
+}
+
+.game-shell.cyber-chrome .cyber-chrome-topbar > :not(.cyber-topbar-led) {
+  position: relative;
+  z-index: 1;
+}
+
+.game-shell.cyber-chrome .cyber-chrome-topbar .sidebar-mode-controls,
+.game-shell.cyber-chrome .cyber-chrome-topbar .wallet-chip,
+.game-shell.cyber-chrome .cyber-chrome-topbar .focus-pill,
+.game-shell.cyber-chrome .cyber-chrome-topbar .notification-button,
+.game-shell.cyber-chrome .cyber-chrome-topbar .profile-chip {
+  border: 1px solid #885ce5a6 !important;
+  background: linear-gradient(115deg, #07122bc7, #170d2bc0) !important;
+  box-shadow: inset 0 0 8px #9b5cff36, 0 0 8px #9b5cff2b;
+}
+
+.game-shell.cyber-chrome .cyber-chrome-topbar .wallet-chip {
+  min-height: 34px;
+  padding: 5px 9px;
+  color: #ffdd85;
+  clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px));
+}
+
+.game-shell.cyber-chrome .cyber-chrome-topbar .notification-button:hover,
+.game-shell.cyber-chrome .cyber-chrome-topbar .wallet-chip:hover,
+.game-shell.cyber-chrome .cyber-chrome-topbar .profile-chip:hover {
+  border-color: var(--hud-cyan) !important;
+  box-shadow: 0 0 10px #00efff70, inset 0 0 9px #00efff2d;
+}
+
+/* Dashboard header segments match the reference's joined cyan and magenta rails. */
+.game-shell.cyber-chrome.lobby-view .vref-header {
+  position: relative;
+  background: transparent !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.game-shell.cyber-chrome.lobby-view .vref-date,
+.game-shell.cyber-chrome.lobby-view .vref-quote,
+.game-shell.cyber-chrome.lobby-view .vref-search-wrap,
+.game-shell.cyber-chrome.lobby-view .vref-header-bell,
+.game-shell.cyber-chrome.lobby-view .vref-header-profile {
+  position: relative;
+  color: #f0f6ff;
+  border: 1px solid #995fffaa !important;
+  border-radius: 0 !important;
+  background: linear-gradient(112deg, #060b20ce, #101233ba 70%, #080e25cd) !important;
+  box-shadow: inset 0 0 0 1px #10111f, inset 0 -2px 0 #00efff72, 0 0 9px #9b5cff4c !important;
+  backdrop-filter: blur(5px) !important;
+}
+
+.game-shell.cyber-chrome.lobby-view .vref-date,
+.game-shell.cyber-chrome.lobby-view .vref-quote,
+.game-shell.cyber-chrome.lobby-view .vref-header-bell,
+.game-shell.cyber-chrome.lobby-view .vref-header-profile {
+  clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px));
+}
+
+.game-shell.cyber-chrome.lobby-view .vref-date::after,
+.game-shell.cyber-chrome.lobby-view .vref-quote::after,
+.game-shell.cyber-chrome.lobby-view .vref-search-wrap::after,
+.game-shell.cyber-chrome.lobby-view .vref-header-bell::after,
+.game-shell.cyber-chrome.lobby-view .vref-header-profile::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 14px;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #ff3eec, #9b5cff 50%, #00efff);
+  box-shadow: 0 0 6px #ff3eec;
+  pointer-events: none;
+}
+
+.game-shell.cyber-chrome.lobby-view .vref-search-wrap {
+  clip-path: none;
+  border-color: #00efffb9 !important;
+  z-index: 3;
+}
+
+.game-shell.cyber-chrome.lobby-view .vref-search-wrap:focus-within {
+  border-color: #bbfaff !important;
+  box-shadow: 0 0 12px #00efff7b, inset 0 -2px 0 #00efff !important;
+}
+
+.game-shell.cyber-chrome.lobby-view .vref-search-wrap input {
+  color: #f4f9ff !important;
+}
+
+.game-shell.cyber-chrome.lobby-view .vref-search-results {
+  border: 1px solid #00efff9c;
+  background: #081126ed;
+  box-shadow: 0 12px 25px #020514d9, 0 0 10px #00efff5c;
+}
+
+.game-shell.cyber-chrome.lobby-view .vref-header-bell:hover,
+.game-shell.cyber-chrome.lobby-view .vref-header-profile:hover {
+  border-color: #00efff !important;
+  filter: brightness(1.12);
+}
+
+@media (max-width: 1130px) {
+  .game-shell.cyber-chrome .cyber-sidebar-emitter { width: 31px; height: 31px; right: -10px; }
+  .game-shell.cyber-chrome .cyber-chrome-sidebar .cyber-nav-item { font-size: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-shell.cyber-chrome .cyber-nav-item,
+  .game-shell.cyber-chrome .vref-header-bell,
+  .game-shell.cyber-chrome .vref-header-profile { transition: none !important; }
+}
+
+.game-shell.cyber-chrome.reduce-motion .cyber-nav-item,
+.game-shell.cyber-chrome.reduce-motion .vref-header-bell,
+.game-shell.cyber-chrome.reduce-motion .vref-header-profile { transition: none !important; }
+
+/* Give the dashboard room to breathe before the three-column HUD becomes cramped. */
+.mobile-lobby-nav-toggle,
+.mobile-lobby-nav-scrim { display: none; }
+
+@media (max-width: 1360px) {
+  .game-shell.cyber-chrome.lobby-view .vref-header {
+    height: 76px;
+    grid-template-columns: minmax(190px, 240px) minmax(0, 1fr);
+    gap: 12px;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-quote { display: none; }
+  .game-shell.cyber-chrome.lobby-view .vref-header-right { grid-column: 2; }
+  .game-shell.cyber-chrome.lobby-view .vref-board {
+    height: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: 350px 420px 430px;
+    gap: 12px;
+    align-content: start;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 8px 12px 18px;
+    scrollbar-width: thin;
+    scrollbar-color: #39d5f18a transparent;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-today { grid-column: 1; grid-row: 1; }
+  .game-shell.cyber-chrome.lobby-view .vref-boss { grid-column: 2; grid-row: 1; }
+  .game-shell.cyber-chrome.lobby-view .vref-skill-preview { grid-column: 1; grid-row: 2; }
+  .game-shell.cyber-chrome.lobby-view .vref-butler { grid-column: 2; grid-row: 2; }
+  .game-shell.cyber-chrome.lobby-view .vref-mid-bottom { grid-column: 1; grid-row: 3; }
+  .game-shell.cyber-chrome.lobby-view .vref-rewards { grid-column: 2; grid-row: 3; }
+  .game-shell.cyber-chrome.lobby-view .vref-butler-art { max-height: none; }
+  .game-shell.cyber-chrome.lobby-view .vref-butler-list { min-height: 96px; }
+}
+
+/* The saved desktop sidebar preference stays intact while the mobile nav is a drawer. */
+@media (max-width: 1050px) {
+  .game-shell.cyber-chrome.lobby-view .main-shell {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-header { padding-left: 64px; }
+  .game-shell.cyber-chrome.lobby-view .cyber-chrome-sidebar { display: none !important; }
+  .game-shell.cyber-chrome.lobby-view.mobile-lobby-nav-open .cyber-chrome-sidebar {
+    display: flex !important;
+    width: min(300px, 84vw);
+    padding: 22px 14px 0;
+    z-index: 101;
+    background: #080d22ed !important;
+    box-shadow: 8px 0 30px #020612b8, inset -1px 0 #00efff88 !important;
+  }
+  .game-shell.cyber-chrome.lobby-view.mobile-lobby-nav-open .cyber-chrome-sidebar::before {
+    background: linear-gradient(180deg, #0c1737c9, #09112ddd),
+      linear-gradient(90deg, #ff3eec, #00efff) top / 100% 2px no-repeat;
+  }
+  .game-shell.cyber-chrome.lobby-view .mobile-lobby-nav-toggle {
+    position: fixed;
+    z-index: 102;
+    top: 16px;
+    left: 12px;
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    color: #d9fbff;
+    border: 1px solid #67e8f9 !important;
+    background: #081a37e8 !important;
+    box-shadow: 0 0 12px #00efff66;
+  }
+  .game-shell.cyber-chrome.lobby-view.mobile-lobby-nav-open .mobile-lobby-nav-toggle {
+    left: calc(min(300px, 84vw) + 8px);
+  }
+  .game-shell.cyber-chrome.lobby-view .mobile-lobby-nav-toggle:focus-visible,
+  .game-shell.cyber-chrome.lobby-view .mobile-lobby-nav-scrim:focus-visible {
+    outline: 2px solid #c0faff;
+    outline-offset: 2px;
+  }
+  .game-shell.cyber-chrome.lobby-view .mobile-lobby-nav-scrim {
+    position: fixed;
+    z-index: 100;
+    inset: 0;
+    display: block;
+    width: 100vw;
+    height: 100dvh;
+    background: #020715ad !important;
+  }
+  .game-shell.cyber-chrome.lobby-view .lobby-sidebar-restore { display: none; }
+}
+
+@media (min-width: 1051px) {
+  .game-shell.cyber-chrome.lobby-view.sidebar-hidden .cyber-chrome-sidebar { display: none; }
+}
+
+@media (max-width: 700px) {
+  .game-shell.cyber-chrome.lobby-view .vref-header {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    height: auto;
+    min-height: 106px;
+    padding: 9px 10px 8px;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-date {
+    align-self: flex-end;
+    width: calc(100% - 52px);
+    height: 40px;
+    padding: 0 10px;
+    gap: 8px;
+    font-size: 11px;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-date svg { width: 17px; }
+  .game-shell.cyber-chrome.lobby-view .vref-header-right {
+    width: 100%;
+    gap: 6px;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-search-wrap { height: 42px; }
+  .game-shell.cyber-chrome.lobby-view .vref-header-bell {
+    flex-basis: 42px;
+    height: 42px;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-header-profile {
+    min-width: 0;
+    width: 100px;
+    max-width: 100px;
+    height: 42px;
+    gap: 5px;
+    padding: 4px;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-header-profile > span {
+    width: 30px;
+    height: 30px;
+    flex-basis: 30px;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-header-profile strong { font-size: 9px; }
+  .game-shell.cyber-chrome.lobby-view .vref-header-profile svg { display: none; }
+  .game-shell.cyber-chrome.lobby-view .vref-board {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    grid-auto-rows: max-content;
+    gap: 12px;
+    padding: 8px 10px calc(18px + env(safe-area-inset-bottom, 0px));
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-board > * {
+    grid-column: 1;
+    grid-row: auto;
+    min-width: 0;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-today,
+  .game-shell.cyber-chrome.lobby-view .vref-boss,
+  .game-shell.cyber-chrome.lobby-view .vref-butler,
+  .game-shell.cyber-chrome.lobby-view .vref-skill-preview,
+  .game-shell.cyber-chrome.lobby-view .vref-rewards {
+    height: auto;
+    min-height: 0;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-today-content {
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    gap: 10px;
+    height: auto;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-hero-summary {
+    flex: none;
+    height: 235px;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-tasks { overflow: visible; }
+  .game-shell.cyber-chrome.lobby-view .vref-boss-main {
+    flex: none;
+    min-height: 250px;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-butler-art { height: 118px; }
+  .game-shell.cyber-chrome.lobby-view .vref-butler-list {
+    flex: none;
+    min-height: 0;
+    overflow: visible;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-skill-content {
+    flex: none;
+    min-height: 220px;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-mid-bottom {
+    grid-template-rows: 260px minmax(180px, auto);
+    min-height: 0;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-reward-grid {
+    flex: none;
+    min-height: 340px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: minmax(100px, 1fr);
+    overflow: visible;
+  }
+  .game-shell.cyber-chrome.lobby-view .vref-tasks h3,
+  .game-shell.cyber-chrome.lobby-view .vref-butler-list button,
+  .game-shell.cyber-chrome.lobby-view .vref-skill-branch,
+  .game-shell.cyber-chrome.lobby-view .vref-reward-tabs button { font-size: 11px; }
+}
+
+/* Keep the non-lobby modules within a phone viewport while preserving every destination. */
+@media (max-width: 640px) {
+  .game-shell.cyber-chrome:not(.lobby-view) {
+    min-width: 0;
+  }
+
+  .game-shell.cyber-chrome:not(.lobby-view) .main-shell {
+    width: 100%;
+    min-width: 0;
+    margin-left: 0;
+  }
+
+  .game-shell.cyber-chrome:not(.lobby-view) .cyber-chrome-sidebar {
+    position: relative;
+    inset: auto;
+    display: flex;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    padding: 6px 10px;
+    overflow: hidden;
+  }
+
+  .game-shell.cyber-chrome:not(.lobby-view) .cyber-chrome-sidebar[hidden] {
+    display: none;
+  }
+
+  .game-shell.cyber-chrome:not(.lobby-view) .cyber-chrome-sidebar > .brand,
+  .game-shell.cyber-chrome:not(.lobby-view) .cyber-chrome-sidebar > .sidebar-footer,
+  .game-shell.cyber-chrome:not(.lobby-view) .cyber-chrome-sidebar .nav-group > span,
+  .game-shell.cyber-chrome:not(.lobby-view):not(.sidebar-hidden) .sidebar-mode-controls {
+    display: none;
+  }
+
+  .game-shell.cyber-chrome:not(.lobby-view) .cyber-chrome-sidebar nav {
+    display: flex;
+    flex: none;
+    width: 100%;
+    margin: 0;
+    padding: 0 0 4px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+  }
+
+  .game-shell.cyber-chrome:not(.lobby-view) .cyber-chrome-sidebar .nav-group {
+    display: flex;
+    flex: none;
+    gap: 5px;
+    margin: 0 5px 0 0;
+  }
+
+  .game-shell.cyber-chrome:not(.lobby-view) .cyber-chrome-sidebar .nav-group button {
+    flex: none;
+    width: auto;
+    min-height: 42px;
+    padding: 7px 9px;
+    gap: 6px;
+    white-space: nowrap;
+  }
+
+  .game-shell.cyber-chrome:not(.lobby-view) .cyber-chrome-sidebar .nav-group button > span {
+    display: block;
+  }
+}
+
+/* Shared kit art on every tab. The full-size lobby crop supplies its own frame. */
+.game-shell.cyber-chrome .cyber-chrome-sidebar::before,
+.game-shell.cyber-chrome .cyber-chrome-sidebar::after,
+.game-shell.cyber-chrome .cyber-chrome-topbar::before { content: none !important; }
+.game-shell.cyber-chrome .cyber-sidebar-emitter { display: none !important; }
+.game-shell.cyber-chrome .cyber-sidebar-led,
+.game-shell.cyber-chrome .cyber-topbar-led {
+  z-index: 0;
+  pointer-events: none;
+}
+
+.game-shell.cyber-chrome:not(.lobby-view) {
+  --bg-glass: rgba(5, 10, 27, .9);
+  --surface-panel: linear-gradient(140deg, rgba(11, 18, 42, .96), rgba(6, 10, 27, .94));
+  --border-subtle: rgba(94, 133, 188, .3);
+  --border-highlight: rgba(0, 239, 255, .48);
+}
+
+.game-shell.cyber-chrome:not(.lobby-view) .cyber-chrome-sidebar {
+  background: linear-gradient(180deg, rgba(4, 8, 26, .88), rgba(6, 12, 34, .78) 68%, rgba(4, 8, 24, .9)) !important;
+}
+
+.game-shell.cyber-chrome:not(.lobby-view) .cyber-chrome-sidebar > .brand {
+  margin-top: 55px;
+}
+
+.game-shell.cyber-chrome:not(.lobby-view) .cyber-chrome-topbar {
+  padding-left: clamp(72px, 5vw, 92px);
+  border-bottom-color: transparent !important;
+  box-shadow: none;
+}
+
+.game-shell.cyber-chrome:not(.lobby-view) .content-main {
+  max-width: 1510px;
+  padding-top: 29px;
+}
+
+.game-shell.cyber-chrome:not(.lobby-view) .content-main .panel-title {
+  padding: 9px 0 19px;
+  border-bottom: 1px solid rgba(135, 92, 242, .38);
+}
+
+.game-shell.cyber-chrome:not(.lobby-view) .content-main .panel-title h1,
+.game-shell.cyber-chrome:not(.lobby-view) .content-main .feature-banner h2 {
+  color: #f4f7ff;
+  text-shadow: 0 0 18px rgba(127, 88, 224, .35);
+}
+
+.game-shell.cyber-chrome:not(.lobby-view) .content-main :is(.panel, .catalog-card, .feature-banner, .ref-panel, .ref-extras, .empty-state) {
+  background: var(--surface-panel);
+  border-color: rgba(121, 103, 214, .33);
+  box-shadow: inset 0 1px 0 rgba(180, 202, 255, .06), 0 12px 30px rgba(0, 0, 0, .24);
+  backdrop-filter: blur(8px);
+}
+
+/* Source-extracted chassis sits above panel paint; decorative pixels never take input. */
+.game-shell.cyber-chrome:not(.lobby-view) .cyber-panel-decorated.cyber-panel-fluid > .fluid-mechanical-frame,
+.construction-editor .cyber-panel-decorated.cyber-panel-fluid > .fluid-mechanical-frame {
+  z-index: 0 !important;
+  pointer-events: none !important;
+}
+
+.game-shell.cyber-chrome:not(.lobby-view) .content-main .cyber-panel-fluid > :is(h1, h2, h3, .section-head, .ref-heading),
+.game-shell.cyber-chrome:not(.lobby-view) .content-main .cyber-panel-fluid > .panel-title {
+  margin-left: clamp(37px, 4.5vw, 52px);
+}
+
+.game-shell.cyber-chrome:not(.lobby-view) .content-main .feature-banner.cyber-panel-fluid {
+  padding-left: 78px;
+}
+
+.game-shell.cyber-chrome:not(.lobby-view) .content-main :is(.btn, .tabs button, .catalog-card button, .text-link):focus-visible,
+.game-shell.cyber-chrome:not(.lobby-view) .cyber-nav-item:focus-visible {
+  outline: 2px solid #8cf8ff;
+  outline-offset: 2px;
+}
+
+@media (max-width: 1100px) {
+  .game-shell.cyber-chrome:not(.lobby-view) .cyber-chrome-sidebar > .brand { margin-top: 34px; }
+  .game-shell.cyber-chrome:not(.lobby-view) .cyber-chrome-topbar { padding-left: 58px; }
+}
+
+@media (max-width: 640px) {
+  .game-shell.cyber-chrome:not(.lobby-view) .cyber-chrome-sidebar > .brand { margin-top: 0; }
+  .game-shell.cyber-chrome:not(.lobby-view) .cyber-chrome-topbar { padding-left: 55px; }
+  .game-shell.cyber-chrome:not(.lobby-view) .content-main { padding-top: 20px; }
+  .game-shell.cyber-chrome:not(.lobby-view) .content-main .feature-banner.cyber-panel-fluid { padding-left: 60px; }
+}

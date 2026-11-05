@@ -1,0 +1,35 @@
+{
+  "id": "potted-palm",
+  "status": "ASSET PRODUCTION",
+  "description": "Arching palm with individually folded tapered leaflets in turned planter",
+  "units": "metres",
+  "axes": "X right, Y up, Z front; feet at Y=0",
+  "dimensions": [
+    1.885,
+    1.543,
+    1.767
+  ],
+  "bounds": {
+    "min": [
+      -0.995,
+      0.0,
+      -0.868
+    ],
+    "max": [
+      0.89,
+      1.543,
+      0.899
+    ]
+  },
+  "meshCount": 353,
+  "triangles": 5744,
+  "features": [
+    "13 curved fronds",
+    "338 modeled leaflets",
+    "soil surface",
+    "turned double wall planter"
+  ],
+  "runtime": "/assets/apartment/decor/potted-palm.glb",
+  "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+  "reference": "REF-D; authored approximation, requires in-game visual gate"
+}

@@ -2,10 +2,11 @@
 
 import { useId, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { ArrowRight, Boxes, Check, Coins, Crosshair, Gem, Heart, Lock, Search, Shield, Sparkles, Swords, Trophy, Zap } from "lucide-react";
-import { BALANCE, ITEMS, MATERIALS, PETS, PET_ACCESSORIES, RECIPES, SKILL_NODES } from "@/domain/catalog";
+import { BALANCE, ITEMS, MATERIALS, PETS, PET_ACCESSORIES, RECIPES } from "@/domain/catalog";
 import { levelProgress } from "@/domain/engine";
 import { EquipmentArtwork } from "@/components/equipment/EquipmentArtwork";
-import type { Action, EquipmentSlot, GameState, ItemDefinition, ItemInstance, Rarity, Skill } from "@/domain/types";
+import { SkillTreeManager } from "./SkillTreeManager";
+import type { Action, EquipmentSlot, GameState, ItemDefinition, ItemInstance, Rarity } from "@/domain/types";
 import "./reference-panels.css";
 import "../equipment/equipment-shop.css";
 import dynamic from "next/dynamic";
@@ -16,7 +17,6 @@ export type ReferencePanelProps = { state: GameState; act: (action: Action) => v
 const rarityColor: Record<Rarity, string> = { common: "#a7bed1", uncommon: "#69dcb1", rare: "#32e6f4", epic: "#9067ff", legendary: "#ffbc62", mythic: "#ee5acb" };
 const rarityNames: Record<Rarity, string> = { common: "Phổ thông", uncommon: "Khác thường", rare: "Hiếm", epic: "Sử thi", legendary: "Huyền thoại", mythic: "Thần thoại" };
 const slotNames: Record<EquipmentSlot, string> = { weapon: "Vũ khí", head: "Đầu", chest: "Giáp", gloves: "Găng tay", boots: "Giày", accessory1: "Phụ kiện I", accessory2: "Phụ kiện II", relic: "Di vật" };
-const skillNames: Record<Skill, string> = { health: "Sức khỏe", knowledge: "Tri thức", career: "Sự nghiệp", finance: "Tài chính", relationships: "Kết nối", creativity: "Sáng tạo" };
 const tint = (rarity: Rarity): CSSProperties => ({ "--item-accent": rarityColor[rarity] } as CSSProperties);
 const itemStats = (item: ItemDefinition, enhancement = 0) => ({ attack: Math.round(item.attack * (1 + enhancement * .1)), defense: Math.round(item.defense * (1 + enhancement * .1)), crit: Math.round(item.critRate * 100) });
 function ActionButton({ children, onClick, disabled = false, secondary = false }: { children: ReactNode; onClick: () => void; disabled?: boolean; secondary?: boolean }) { return <button className={`ref-action ${secondary ? "secondary" : ""}`} onClick={onClick} disabled={disabled}>{children}</button>; }
@@ -346,49 +346,10 @@ export function ReferenceLoot({state,act,busy,navigate}:ReferencePanelProps){
 </>:<Empty>Hoàn thành một thử thách trùm để lưu chiến thắng đầu tiên. Tiến độ đến từ việc bạn thực sự hoàn thành.</Empty>}</div>;
 }
 
-const branches=Object.keys(skillNames) as Skill[];
-const branchPoints=[[360,110],[580,175],[580,385],[360,450],[140,385],[140,175]];
-export function ReferenceSkills({state,act,busy,navigate}:ReferencePanelProps){
- const [selected,setSelected]=useState(SKILL_NODES[0].id),node=SKILL_NODES.find(n=>n.id===selected)||SKILL_NODES[0];const owned=state.character.skillNodes.includes(node.id),prereq=!node.prerequisite||state.character.skillNodes.includes(node.prerequisite),xp=state.character.skillXp[node.skill],canUnlock=!owned&&prereq&&xp>=node.requiredXp;
+export function ReferenceSkills({state}:ReferencePanelProps){
  return <div className="ref-panel">
-<Header title="Mạng lưới tiềm năng" detail="SÁU NHÁNH / MỘT HÀNH TRÌNH" state={state}/>
-<PanelSummary><span><Check size={16} aria-hidden="true"/><b>{state.character.skillNodes.length}</b> kỹ năng đã mở</span><span><Sparkles size={16} aria-hidden="true"/>Sẵn sàng mở</span><span><Lock size={16} aria-hidden="true"/>Cần thêm điều kiện</span></PanelSummary><div className="ref-skill-layout">
-<div className="ref-skill-map">
-<svg viewBox="0 0 720 560" preserveAspectRatio="none" aria-hidden="true">
-<defs>
-<radialGradient id="ref-skill-halo">
-<stop stopColor="#9067ff" stopOpacity=".28"/>
-<stop offset="1" stopColor="#080d18" stopOpacity="0"/>
-</radialGradient>
-</defs>
-<circle cx="360" cy="280" r="230" fill="url(#ref-skill-halo)"/>
-<circle cx="360" cy="280" r="171" fill="none" stroke="#283956" strokeDasharray="4 11"/>{branchPoints.map(([x,y],i)=>
-<path key={i} d={`M360 280 L${x} ${y}`} stroke={state.character.skillNodes.some(id=>SKILL_NODES.find(n=>n.id===id)?.skill===branches[i])?'#32e6f4':'#3b4262'} strokeWidth="2"/>)}<path d="M360 240 395 260 395 300 360 320 325 300 325 260Z" fill="#192541" stroke="#9067ff" strokeWidth="2"/>
-<text x="360" y="285" fill="#edf4ff" textAnchor="middle" fontSize="13">LIFE</text>
-</svg>{branches.map((skill,i)=>
-<div className="ref-skill-branch" key={skill} style={{left:`${branchPoints[i][0]/7.2}%`,top:`${branchPoints[i][1]/5.6}%`}}>
-<span>{skillNames[skill]}<small>{state.character.skillXp[skill]} XP</small></span>{SKILL_NODES.filter(n=>n.skill===skill).map(n=>{const isOwned=state.character.skillNodes.includes(n.id),isReady=!isOwned&&(!n.prerequisite||state.character.skillNodes.includes(n.prerequisite))&&state.character.skillXp[n.skill]>=n.requiredXp;return <button key={n.id} aria-pressed={n.id===node.id} aria-label={`${n.name}, ${isOwned?'đã mở':isReady?'sẵn sàng mở':'chưa đủ điều kiện'}`} className={`${isOwned?'unlocked':isReady?'available':'locked'} ${n.id===node.id?'selected':''}`} onClick={()=>setSelected(n.id)}>{isOwned?<Check size={18}/>:isReady?<Sparkles size={18}/>:<Lock size={16}/>}<small>{n.name}</small><span className="ref-node-status">{isOwned?'Đã mở':isReady?'Sẵn sàng':`${n.requiredXp} XP`}</span></button>;})}</div>)}</div>
-<aside className="ref-skill-detail">
-<span className="ref-kicker">{skillNames[node.skill]} / {owned?'ĐÃ MỞ':'TIỀM NĂNG'}</span>
-<h3>{node.name}</h3>
-<div className="ref-skill-icon">
-<Sparkles size={52}/>
-</div>
-<dl className="ref-stats">
-<div>
-<dt>Sức mạnh</dt>
-<dd>+{node.attack}</dd>
-</div>
-<div>
-<dt>Phòng thủ</dt>
-<dd>+{node.defense}</dd>
-</div>
-</dl>
-<p>{xp} / {node.requiredXp} XP {skillNames[node.skill]}</p>
-<progress aria-label={`Tiến độ ${node.name}`} value={Math.min(xp,node.requiredXp)} max={node.requiredXp}/>{node.prerequisite&&<p className="ref-note">Yêu cầu: {SKILL_NODES.find(n=>n.id===node.prerequisite)?.name} {prereq?'✓':''}</p>}<ActionButton disabled={busy||!canUnlock} onClick={()=>act({type:'skill.unlock',nodeId:node.id})}>{owned?'Đã mở kỹ năng':canUnlock?'Mở kỹ năng':'Chưa đủ điều kiện'}</ActionButton>
-<ActionButton secondary onClick={()=>navigate('quests')}>Tích lũy từ nhiệm vụ</ActionButton>
-</aside>
-</div>
+<Header title="Cây kỹ năng" detail="TIẾN TRÌNH & ĐẶC ĐIỂM" state={state}/>
+<SkillTreeManager />
 </div>;
 }
 
@@ -429,6 +390,7 @@ export function ReferencePets({state,act,busy,navigate}:ReferencePanelProps){
  const [selected,setSelected]=useState(state.activePetId||PETS[0].id),[confirm,setConfirm]=useState(false);const pet=PETS.find(p=>p.id===selected)||PETS[0],owned=state.pets.find(p=>p.id===pet.id),today=new Intl.DateTimeFormat('en-CA',{timeZone:state.settings.timezone,year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
  return <div className="ref-panel">
 <Header title="Không đi một mình" detail="MẠNG LƯỚI ĐỒNG HÀNH" state={state}/><PanelSummary><span><Heart size={16} aria-hidden="true"/><b>{state.pets.length}</b> người bạn đã đón về</span><span><Sparkles size={16} aria-hidden="true"/>Chăm sóc mỗi ngày để tăng gắn kết</span></PanelSummary>
+<div className="ref-pets-scroll">
 <div className="ref-pets-layout">
 <section className="ref-pet-stage">
 <span className="ref-kicker">{owned?'BẠN ĐỒNG HÀNH CỦA BẠN':'GẶP GỠ BẠN ĐỒNG HÀNH'}</span>
@@ -467,6 +429,7 @@ export function ReferencePets({state,act,busy,navigate}:ReferencePanelProps){
 <ActionButton secondary onClick={()=>navigate('home')}>Về căn hộ <ArrowRight size={16}/>
 </ActionButton>
 </aside>
+</div>
 </div>
 </div>;
 }

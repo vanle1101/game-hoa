@@ -1,0 +1,44 @@
+.cyber-panel-decorated {
+  isolation: isolate;
+}
+
+/* Only static surfaces need a new containing block. Sticky and fixed panels
+   retain the positioning supplied by their own screen styles. */
+.cyber-panel-decorated.cyber-panel-needs-position {
+  position: relative;
+}
+
+.cyber-panel-decorated > .cyber-led-border {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none !important;
+}
+
+/* A new stacking context keeps the extracted art above panel paint and below
+   all live controls.  It remains a decorative portal with no hit target. */
+.cyber-panel-decorated > .fluid-mechanical-frame {
+  z-index: -1;
+  pointer-events: none !important;
+}
+
+.game-shell:not(.lobby-view) .cyber-panel-decorated.cyber-panel-fluid,
+.construction-editor .cyber-panel-decorated.cyber-panel-fluid {
+  border-color: transparent !important;
+  border-image-source: none !important;
+  box-shadow: none !important;
+}
+
+/* The source reactor occupies the upper-left corner of compact boss cards. */
+.screen-bosses .catalog-grid > .catalog-card.cyber-panel-fluid > .eyebrow {
+  margin-left: 38px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cyber-panel-decorated > .cyber-led-border .cyber-led-border__train > * {
+    animation: none !important;
+  }
+}

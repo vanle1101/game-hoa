@@ -3,7 +3,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 vi.mock("server-only", () => ({}));
 const context = vi.hoisted(() => ({ token: "a".repeat(64), gameCommand: vi.fn(), cookieSet: vi.fn() }));
 vi.mock("next/headers", () => ({ cookies: async () => ({ get: () => ({ value: context.token }), set: context.cookieSet }) }));
+vi.mock("@/server/auth", async importOriginal => ({ ...(await importOriginal<typeof import("@/server/auth")>()), isClaimedGuest: async () => false }));
 vi.mock("@/server/store", () => ({ gameCommand: context.gameCommand, readGame: vi.fn() }));
+vi.mock("@/server/command-intents", () => ({ submitGameIntent: async (userId: string, key: string, action: unknown) => ({ status: "applied", result: await context.gameCommand(userId, key, action) }) }));
 import { POST } from "../../src/app/api/game/route";
 import { postGameCommand } from "../../src/components/game/command-client";
 
@@ -13,6 +15,7 @@ const action = { type: "character.rename", name: "Bound intent" };
 const request = (body: unknown) => new Request("https://game.example/api/game", { method: "POST", headers: { "Content-Type": "application/json", Origin: "https://game.example", Host: "game.example" }, body: JSON.stringify(body) });
 beforeEach(() => {
   vi.stubEnv("LOCAL_DEV_MODE", "false");
+  vi.stubEnv("APP_ORIGIN", "https://game.example");
   context.token = "a".repeat(64); context.gameCommand.mockReset(); context.cookieSet.mockReset();
   context.gameCommand.mockImplementation(async (userId: string) => ({ state: { userId, revision: 1, character: {}, inventory: [] }, message: "saved" }));
 });

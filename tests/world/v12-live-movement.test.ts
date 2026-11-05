@@ -192,15 +192,18 @@ describe("V12 finite-body building collisions", () => {
 });
 
 describe("V12 keyboard and mobile input lifecycle", () => {
-  it("maps physical WASD/arrows and tracks aliases without sticky release", () => {
+  it("maps only physical arrow codes and releases held directions", () => {
     const start = vi.fn(), controls = createLiveInputController(start);
-    expect(liveDirectionForCode("KeyW")).toBe("forward");
+    for (const code of ["KeyW", "KeyA", "KeyS", "KeyD"]) expect(liveDirectionForCode(code)).toBeUndefined();
+    expect(liveDirectionForCode("ArrowUp")).toBe("forward");
+    expect(liveDirectionForCode("ArrowDown")).toBe("backward");
+    expect(liveDirectionForCode("ArrowLeft")).toBe("left");
     expect(liveDirectionForCode("ArrowRight")).toBe("right");
     expect(liveDirectionForCode("KeyE")).toBeUndefined();
-    controls.press("KeyW"); controls.press("KeyW"); controls.press("ArrowUp");
+    controls.press("KeyW"); expect(controls.sample()).toEqual(zero);
+    controls.press("ArrowUp"); controls.press("ArrowUp");
     expect(start).toHaveBeenCalledTimes(1);
-    controls.release("KeyW"); expect(controls.sample().forward).toBe(1);
-    controls.press("KeyS"); expect(controls.sample().forward).toBe(0);
+    controls.press("ArrowDown"); expect(controls.sample().forward).toBe(0);
     controls.release("ArrowUp"); expect(controls.sample().forward).toBe(-1);
     controls.clear(); expect(controls.sample()).toEqual(zero);
   });
@@ -210,7 +213,7 @@ describe("V12 keyboard and mobile input lifecycle", () => {
     expect(controls.sample()).toEqual({ forward: 1, right: 1 });
     controls.releasePointer(1); expect(controls.sample()).toEqual({ forward: 0, right: 1 });
     controls.press("KeyW"); controls.releasePointer(2);
-    expect(controls.sample()).toEqual({ forward: 1, right: 0 });
+    expect(controls.sample()).toEqual(zero);
     controls.clear(); expect(controls.sample()).toEqual(zero);
   });
   it("blocks editable targets, hidden tabs, build mode and modal/menu gates", () => {
@@ -235,22 +238,22 @@ describe("V12 keyboard and mobile input lifecycle", () => {
     expect(move.defaultPrevented).toBe(true); expect(controls.sample().forward).toBe(1);
     target.dispatchEvent(Object.assign(new Event("keyup"), { code: "ArrowUp" }));
     expect(controls.sample()).toEqual(zero);
-    const modifier = keyboard("KeyW", { ctrlKey: true }); target.dispatchEvent(modifier);
+    const modifier = keyboard("ArrowUp", { ctrlKey: true }); target.dispatchEvent(modifier);
     expect(modifier.defaultPrevented).toBe(false); expect(controls.sample()).toEqual(zero);
     const composing = keyboard("KeyW", { isComposing: true }); target.dispatchEvent(composing);
-    expect(composing.defaultPrevented).toBe(true); expect(controls.sample().forward).toBe(1);
+    expect(composing.defaultPrevented).toBe(false); expect(controls.sample()).toEqual(zero);
     target.dispatchEvent(Object.assign(new Event("keyup"), { code: "KeyW" }));
-    gate = { enabled: false }; const build = keyboard("KeyW"); target.dispatchEvent(build);
+    gate = { enabled: false }; const build = keyboard("ArrowUp"); target.dispatchEvent(build);
     expect(build.defaultPrevented).toBe(false); expect(controls.sample()).toEqual(zero);
-    gate = { enabled: true }; target.dispatchEvent(keyboard("KeyW"));
+    gate = { enabled: true }; target.dispatchEvent(keyboard("ArrowUp"));
     target.dispatchEvent(new Event("blur")); expect(controls.sample()).toEqual(zero);
-    target.dispatchEvent(keyboard("KeyW")); doc.dispatchEvent(new Event("visibilitychange")); expect(controls.sample()).toEqual(zero);
+    target.dispatchEvent(keyboard("ArrowUp")); doc.dispatchEvent(new Event("visibilitychange")); expect(controls.sample()).toEqual(zero);
     controls.pressPointer(8, "left"); target.dispatchEvent(Object.assign(new Event("pointercancel"), { pointerId: 8 }));
     expect(controls.sample()).toEqual(zero);
-    controls.press("KeyD"); cleanup(); expect(controls.sample()).toEqual(zero);
+    controls.press("ArrowRight"); cleanup(); expect(controls.sample()).toEqual(zero);
     expect(detach.mock.calls).toEqual(attach.mock.calls);
     expect(docDetach.mock.calls).toEqual(docAttach.mock.calls);
-    const detached = keyboard("KeyW"); target.dispatchEvent(detached);
+    const detached = keyboard("ArrowUp"); target.dispatchEvent(detached);
     expect(detached.defaultPrevented).toBe(false); expect(controls.sample()).toEqual(zero);
   });
 });

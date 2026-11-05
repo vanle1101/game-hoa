@@ -1,0 +1,48 @@
+{
+  "captureTime": "2026-10-18T05:16:30.756Z",
+  "base": "http://127.0.0.1:3336",
+  "home": {
+    "route": "/",
+    "pageErrors": [],
+    "consoleErrors": [],
+    "failedRequests": [],
+    "badResponses": [],
+    "httpStatus": 200,
+    "webgl": {
+      "canvasWidth": 1060,
+      "canvasHeight": 664,
+      "clientWidth": 1060,
+      "clientHeight": 664,
+      "contextAvailable": true,
+      "contextLost": false,
+      "cameraMode": "follow"
+    },
+    "loadingText": [
+      "Không thể khởi tạo 3D"
+    ],
+    "title": "LIFE//LEVEL — Neon Haven"
+  },
+  "showcase": {
+    "route": "/showcase/apartment-v18",
+    "pageErrors": [],
+    "consoleErrors": [],
+    "failedRequests": [],
+    "badResponses": [],
+    "httpStatus": 200,
+    "webgl": {
+      "canvasWidth": 1280,
+      "canvasHeight": 720,
+      "clientWidth": 1280,
+      "clientHeight": 720,
+      "contextAvailable": true,
+      "contextLost": false,
+      "cameraMode": "free"
+    },
+    "loadingText": [
+      "Không thể khởi tạo 3D",
+      "Đang tải bộ nội thất 3D…"
+    ],
+    "title": "LIFE//LEVEL — Neon Haven"
+  },
+  "saveUnchanged": true
+}

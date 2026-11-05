@@ -3,7 +3,7 @@ import type { GameState, Task } from "@/domain/types";
 
 export type LobbyDestination = "calendar" | "character" | "finance" | "furniture" | "home" | "inventory" | "journal" | "lobby" | "quests" | "rewards" | "shop" | "butler";
 export type LobbySearchResult = { id: string; label: string; detail: string; screen: LobbyDestination; searchText?: string };
-export type LobbyRoom = "Phòng khách" | "Phòng ngủ" | "Góc làm việc" | "Nhà bếp";
+export type LobbyRoom = "Phòng khách" | "Phòng ngủ" | "Góc làm việc" | "Nhà bếp" | "Ban công";
 
 const navigation: LobbySearchResult[] = [
   { id: "lobby", label: "Hôm nay", detail: "Sảnh chờ", screen: "lobby" },
@@ -41,6 +41,14 @@ const roomCategories: Record<LobbyRoom, readonly string[]> = {
   "Phòng ngủ": ["bed", "storage"],
   "Góc làm việc": ["desk", "chair", "workshop"],
   "Nhà bếp": ["kitchen"],
+  "Ban công": ["plant", "decoration", "collectible", "decor"],
+};
+const roomIds: Record<LobbyRoom, readonly string[]> = {
+  "Phòng khách": ["living", "lounge", "Phòng khách"],
+  "Phòng ngủ": ["bedroom", "bed", "Phòng ngủ"],
+  "Góc làm việc": ["office", "study", "workspace", "Góc làm việc"],
+  "Nhà bếp": ["kitchen", "Nhà bếp"],
+  "Ban công": ["balcony", "terrace", "Ban công"],
 };
 
 export function lobbyRoomFurniture(state: GameState, room: LobbyRoom): string[] {
@@ -55,7 +63,7 @@ export function lobbyPlacedFurniture(state: GameState, room?: LobbyRoom): LobbyP
   return placed.flatMap(placement => {
     const item = FURNITURE.find(candidate => candidate.id === placement.furnitureId);
     const roomId = "roomId" in placement ? placement.roomId : undefined;
-    const matchesRoom = !room || (roomId ? roomId === room : roomCategories[room].includes(item?.category ?? ""));
+    const matchesRoom = !room || (roomId && roomIds[room].includes(roomId)) || (!roomId && roomCategories[room].includes(item?.category ?? ""));
     return item && matchesRoom ? [{ id: placement.id, name: item.name, category: item.category, x: placement.x, z: placement.z, rotation: placement.rotation }] : [];
   });
 }

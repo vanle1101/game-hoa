@@ -1,0 +1,37 @@
+{
+  "id": "premium-bed",
+  "status": "ASSET PRODUCTION",
+  "description": "Premium low walnut platform bed with sculpted bedding, integrated nightstands, opal lamps and offset upholstered foot bench.",
+  "units": "metres",
+  "axes": "X right, Y up, Z front; feet at Y=0",
+  "dimensions": [
+    3.42,
+    1.24,
+    3.147
+  ],
+  "bounds": {
+    "min": [
+      -1.71,
+      0.0,
+      -1.275
+    ],
+    "max": [
+      1.71,
+      1.24,
+      1.872
+    ]
+  },
+  "meshCount": 86,
+  "triangles": 156636,
+  "features": [
+    "Beveled walnut joinery and recessed feet",
+    "Subdivided sculpted pillows and draped bedding",
+    "Tailored headboard and mattress piping",
+    "Embedded woven fabric and walnut PBR textures",
+    "Offset upholstered foot bench with stitched seams and draped throw",
+    "Two bedside drawer units and opal practical lamps"
+  ],
+  "runtime": "/assets/apartment/bed/premium-bed.glb",
+  "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+  "reference": "REF-D; authored approximation, requires in-game visual gate"
+}

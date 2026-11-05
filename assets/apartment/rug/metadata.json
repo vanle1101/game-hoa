@@ -1,0 +1,35 @@
+{
+  "id": "wool-rug",
+  "status": "ASSET PRODUCTION",
+  "description": "Large dark taupe hand-tufted wool rug with mottled woven PBR texture, uneven pile mesh and soft binding.",
+  "units": "metres",
+  "axes": "X right, Y up, Z front; feet at Y=0",
+  "dimensions": [
+    4.189,
+    0.057,
+    3.059
+  ],
+  "bounds": {
+    "min": [
+      -2.095,
+      0.003,
+      -1.53
+    ],
+    "max": [
+      2.095,
+      0.06,
+      1.53
+    ]
+  },
+  "meshCount": 6,
+  "triangles": 45540,
+  "features": [
+    "Physically uneven 120 by 90 pile mesh",
+    "1024-pixel mottled wool base colour",
+    "Tangent-space micro normal map",
+    "Woven backing and bound edges"
+  ],
+  "runtime": "/assets/apartment/rug/wool-rug.glb",
+  "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+  "reference": "REF-D; authored approximation, requires in-game visual gate"
+}

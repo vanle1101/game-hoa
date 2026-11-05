@@ -9,7 +9,8 @@ import "./reference-ui.css";
 import "./butler-panel.css";
 const NovaHologram = dynamic(() => import("../world/NovaHologram"), { ssr: false, loading: () => <div className="nova-hologram-loading" role="status"><LoaderCircle className="spin" size={24}/><span>Đang tải NOVA…</span></div> });
 type Provider = { name: string; configured: boolean; demo: boolean };
-type History = { proposals: Proposal[]; provider: Provider };
+type AiJob = { id: string; type: string; status: string; error: string | null; result: { proposalId: string } | null };
+type History = { proposals: Proposal[]; provider: Provider; jobs?: AiJob[] };
 const statusLabels: Record<Proposal["status"], string> = { pending: "Chờ bạn duyệt", applying: "Đang áp dụng · có thể thử lại", approved: "Đã áp dụng", rejected: "Đã từ chối" };
 const skills: Record<string, string> = { health: "Sức khỏe", knowledge: "Tri thức", career: "Sự nghiệp", finance: "Kỹ năng tài chính", relationships: "Kết nối", creativity: "Sáng tạo" };
 async function fetchHistory(): Promise<History> {
@@ -26,28 +27,64 @@ export function ButlerPanel({ onApplied }: { onApplied: () => void }) {
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [activeJob, setActiveJob] = useState<string | null>(null);
   const [permissions, setPermissions] = useState(false);
   const load = useCallback(async () => {
     try {
-      setHistory(await fetchHistory()); setError("");
+      const result = await fetchHistory();
+      setHistory(result); setError("");
+      setActiveJob(result.jobs?.find(job => job.type === "ai.propose" && ["queued", "running"].includes(job.status))?.id ?? null);
     } catch (cause) { setError(cause instanceof Error ? cause.message : "Không tải được Quản gia NOVA."); }
   }, []);
   useEffect(() => {
     let mounted = true;
-    fetchHistory().then(result => { if (mounted) setHistory(result); })
+    fetchHistory().then(result => { if (mounted) { setHistory(result); setActiveJob(result.jobs?.find(job => job.type === "ai.propose" && ["queued", "running"].includes(job.status))?.id ?? null); } })
       .catch(cause => { if (mounted) setError(cause instanceof Error ? cause.message : "Không tải được Quản gia NOVA."); });
     return () => { mounted = false; };
   }, []);
+
+  useEffect(() => {
+    if (!activeJob) return;
+    let mounted = true;
+    const poll = async () => {
+      try {
+        const response = await fetch(`/api/jobs/${encodeURIComponent(activeJob)}`, { cache: "no-store" });
+        const body = await response.json();
+        if (!response.ok) throw new Error(body.error || "Không đọc được trạng thái tác vụ.");
+        if (!mounted) return;
+        const job = body.job as AiJob;
+        if (job.status === "succeeded") {
+          setActiveJob(null);
+          setNotice("NOVA đã tạo đề xuất. Hãy xem và duyệt trước khi áp dụng.");
+          await load();
+        } else if (job.status === "failed") {
+          setActiveJob(null);
+          setError(job.error || "NOVA chưa thể lập kế hoạch. Bạn có thể thử lại.");
+        }
+      } catch (cause) {
+        if (mounted) setError(cause instanceof Error ? cause.message : "Không đọc được trạng thái tác vụ.");
+      }
+    };
+    void poll();
+    const timer = window.setInterval(() => { void poll(); }, 2_500);
+    return () => { mounted = false; window.clearInterval(timer); };
+  }, [activeJob, load]);
 
   async function act(input: { mode: "propose"; prompt: string } | { mode: "approve" | "reject"; id: string }) {
     if (busy) return;
     if (!navigator.onLine) { setError("Kết nối mạng để tạo hoặc duyệt kế hoạch. Không có thay đổi ngoại tuyến."); return; }
     setBusy(input.mode === "propose" ? "propose" : input.id); setError(""); setNotice("");
     try {
-      const response = await fetch("/api/ai", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(input) });
+      const response = await fetch("/api/ai", { method: "POST", headers: { "Content-Type": "application/json", ...(input.mode === "propose" ? { "Idempotency-Key": crypto.randomUUID() } : {}) }, body: JSON.stringify(input) });
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || "Không thể xử lý kế hoạch.");
-      setHistory(previous => previous ? { provider: result.provider || previous.provider, proposals: [result.proposal, ...previous.proposals.filter(proposal => proposal.id !== result.proposal.id)] } : null);
+      if (response.status === 202 && input.mode === "propose") {
+        setActiveJob(result.job.id);
+        setPrompt("");
+        setNotice("Máy chủ đã tiếp nhận kế hoạch. Tác vụ tiếp tục khi bạn đóng ứng dụng.");
+        return;
+      }
+      setHistory(previous => previous ? { ...previous, provider: result.provider || previous.provider, proposals: [result.proposal, ...previous.proposals.filter(proposal => proposal.id !== result.proposal.id)] } : null);
       setSelectedId(result.proposal.id);
       if (input.mode === "approve") { onApplied(); setNotice("Chiến dịch và nhiệm vụ đã được tạo. Bạn sẽ nhận phần thưởng khi hoàn thành việc ngoài đời."); }
       if (input.mode === "reject") setNotice("Đã từ chối. Không tạo nhiệm vụ hay thay đổi game.");
@@ -75,8 +112,8 @@ export function ButlerPanel({ onApplied }: { onApplied: () => void }) {
       {provider?.demo && <p className="footnote">Chế độ thử nghiệm cục bộ: kế hoạch mẫu giúp kiểm tra luồng duyệt, không phải câu trả lời từ mô hình AI.</p>}
       <form className="panel nova-composer" onSubmit={submit}>
         <label htmlFor="nova-prompt"><strong>Bạn muốn tiến tới điều gì?</strong></label>
-        <textarea id="nova-prompt" value={prompt} onChange={event => setPrompt(event.target.value)} maxLength={2000} rows={4} required minLength={3} disabled={!!busy || !provider?.configured} placeholder="Ví dụ: Trong tháng này, tôi muốn xây thói quen đọc sách 20 phút mỗi ngày…" className="nova-prompt"/>
-        <div className="nova-composer-footer"><small className="muted">{prompt.length}/2000 · Duyệt trước khi áp dụng</small><button className="btn primary" type="submit" disabled={!!busy || !provider?.configured || prompt.trim().length < 3}>{busy === "propose" ? <LoaderCircle className="spin" size={17}/> : <Send size={17}/>} {busy === "propose" ? "NOVA đang lập kế hoạch…" : "Tạo đề xuất"}</button></div>
+        <textarea id="nova-prompt" value={prompt} onChange={event => setPrompt(event.target.value)} maxLength={2000} rows={4} required minLength={3} disabled={!!busy || !!activeJob || !provider?.configured} placeholder="Ví dụ: Trong tháng này, tôi muốn xây thói quen đọc sách 20 phút mỗi ngày…" className="nova-prompt"/>
+        <div className="nova-composer-footer"><small className="muted">{activeJob ? "Máy chủ đang xử lý; có thể đóng ứng dụng và mở lại" : `${prompt.length}/2000 · Duyệt trước khi áp dụng`}</small><button className="btn primary" type="submit" disabled={!!busy || !!activeJob || !provider?.configured || prompt.trim().length < 3}>{busy === "propose" || activeJob ? <LoaderCircle className="spin" size={17}/> : <Send size={17}/>} {activeJob ? "Đang xử lý trên máy chủ…" : busy === "propose" ? "Đang tiếp nhận…" : "Tạo đề xuất"}</button></div>
       </form>
 
       {selected ? <section className="panel nova-proposal">

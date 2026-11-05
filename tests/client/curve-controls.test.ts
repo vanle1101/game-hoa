@@ -14,6 +14,15 @@ vi.mock("@/components/construction/apartment-store", () => ({
   useApartmentPlan: () => null,
   useApartmentStore: { getState: () => ({ edit: () => {}, discard: () => {} }) },
 }));
+vi.mock("@/components/construction/draft-sync-client", async importOriginal => {
+  const actual = await importOriginal<typeof import("@/components/construction/draft-sync-client")>();
+  return { ...actual,
+    readServerDraft: vi.fn(async () => null),
+    saveServerDraft: vi.fn(async (_ownerId: string, plan: BuildingPlan, baseRevision: number, expectedDraftRevision: number | null) =>
+      ({ plan, baseRevision, draftRevision: (expectedDraftRevision ?? 0) + 1 })),
+    clearServerDraft: vi.fn(async () => {}),
+  };
+});
 
 const hooks = vi.hoisted(() => ({ values: [] as unknown[], cursor: 0, effects: [] as (() => void)[] }));
 vi.mock("react", async importOriginal => {
@@ -49,6 +58,12 @@ vi.mock("react", async importOriginal => {
       if (!previous || !previous.deps.every((value, i) => Object.is(value, deps[i]))) hooks.values[index] = { callback, deps };
       return (hooks.values[index] as { callback: unknown }).callback;
     },
+    useMemo: (factory: () => unknown, deps: unknown[]) => {
+      const index = hooks.cursor++;
+      const previous = hooks.values[index] as { value: unknown; deps: unknown[] } | undefined;
+      if (!previous || !previous.deps.every((value, i) => Object.is(value, deps[i]))) hooks.values[index] = { value: factory(), deps };
+      return (hooks.values[index] as { value: unknown }).value;
+    },
     useEffect: effect,
     useLayoutEffect: effect,
   };
@@ -81,13 +96,18 @@ beforeEach(() => {
   storage = memory(); listeners = new Map();
   vi.stubGlobal("window", {
     localStorage: storage, sessionStorage: memory(),
+    setTimeout: (callback: () => void) => setTimeout(callback, 0),
+    clearTimeout: (id: ReturnType<typeof setTimeout>) => clearTimeout(id),
     addEventListener: (name: string, callback: (event: unknown) => void) => { if (!listeners.has(name)) listeners.set(name, new Set()); listeners.get(name)!.add(callback); },
     removeEventListener: (name: string, callback: (event: unknown) => void) => listeners.get(name)?.delete(callback),
   });
   vi.stubGlobal("navigator", { locks: { request: async (name: string, _options: unknown, callback: (lock: { name: string }) => unknown) => callback({ name }) } });
   vi.stubGlobal("HTMLElement", class {});
   vi.stubGlobal("FormData", class { constructor(private values: Record<string, string>) {} get(key: string) { return this.values[key] ?? null; } });
-  vi.stubGlobal("fetch", vi.fn());
+  vi.stubGlobal("fetch", vi.fn(async (url: unknown) => {
+    if (String(url).startsWith("/api/game/intent")) return new Response(JSON.stringify({ ownerId: "curve-controls-owner", mode: "local", intent: null }));
+    throw new Error("Other endpoints are not available in the hook harness.");
+  }));
 });
 afterEach(() => {
   for (const entry of hooks.values) if (entry && typeof entry === "object" && "cleanup" in entry) (entry as { cleanup?: () => void }).cleanup?.();
@@ -134,7 +154,9 @@ async function editor(options: { pending?: boolean; startMode?: "build" | "buy";
     const footer = all().find(node => node.props.className === "construction-cost")!;
     return text(elements(footer.props.children).find(node => node.type === "strong")!.props.children);
   };
-  return { state, onState, render, all, world, plan, button, field, click, edit, key, select, quote };
+  const syncDraft = async () => { await new Promise(resolve => setTimeout(resolve, 20)); render(); await flush(); render(); };
+  const gamePosts = () => vi.mocked(fetch).mock.calls.filter(([url, init]) => String(url) === "/api/game" && init?.method === "POST");
+  return { state, onState, render, all, world, plan, button, field, click, edit, key, select, quote, syncDraft, gamePosts };
 }
 const numeric = [["Bán kính kính cong", "radius", "2"], ["Góc cung kính cong", "angle", "120"], ["Chiều cao kính cong", "height", "2.4"], ["Độ dày kính cong", "thickness", "0.08"]] as const;
 
@@ -150,7 +172,8 @@ describe("selected curved-glass editor controls", () => {
       expect(ui.quote()).toBe(`${quoteConstruction(getBuilding(ui.state), ui.plan(), ui.state.gold).netCost} G`);
     }
     expect(ui.plan().curves![0]).toMatchObject({ radius: 2, angle: 120, height: 2.4, thickness: 0.08 });
-    expect(ui.state).toEqual(before); expect(ui.onState).not.toHaveBeenCalled(); expect(fetch).not.toHaveBeenCalled();
+    expect(ui.state).toEqual(before); expect(ui.onState).not.toHaveBeenCalled(); expect(ui.gamePosts()).toHaveLength(0);
+    await ui.syncDraft();
     expect(ui.button("Lưu công trình").props.disabled).toBe(false);
   });
 
@@ -162,7 +185,7 @@ describe("selected curved-glass editor controls", () => {
       const before = structuredClone(ui.plan()); ui.edit(label, "invalid-choice"); expect(ui.plan()).toEqual(before);
     }
     expect(ui.plan().curves![0]).toMatchObject({ id: "selected-curve", catalogId: "curve-bay", x: 0, z: 0, level: 0, rotation: 0 });
-    expect(fetch).not.toHaveBeenCalled();
+    expect(ui.gamePosts()).toHaveLength(0);
   });
 
   it.each(["", "NaN", "Infinity", "-1", "999"])("keeps invalid radius %j out of the plan and blocks save until corrected", async value => {
@@ -173,7 +196,8 @@ describe("selected curved-glass editor controls", () => {
     expect(ui.button("Lưu công trình").props.disabled).toBe(true);
     ui.edit("Bán kính kính cong", "2");
     expect(ui.field("Bán kính kính cong").props["aria-invalid"]).toBe(false);
-    expect(ui.button("Lưu công trình").props.disabled).toBe(false); expect(fetch).not.toHaveBeenCalled();
+    await ui.syncDraft();
+    expect(ui.button("Lưu công trình").props.disabled).toBe(false); expect(ui.gamePosts()).toHaveLength(0);
   });
 
   it("rejects off-step angles and unsupported thickness and recalculates footprint validation", async () => {
@@ -185,31 +209,33 @@ describe("selected curved-glass editor controls", () => {
     expect(ui.plan().curves![0].radius).toBe(4);
     expect(ui.button("Lưu công trình").props.disabled).toBe(true);
     expect(ui.all().some(node => node.props.role === "status")).toBe(true);
-    ui.edit("Bán kính kính cong", "2"); expect(ui.button("Lưu công trình").props.disabled).toBe(false);
+    ui.edit("Bán kính kính cong", "2"); await ui.syncDraft(); expect(ui.button("Lưu công trình").props.disabled).toBe(false);
   });
 
   it("supports undo, redo and selected rotation without touching persisted state", async () => {
     const ui = await editor(); ui.click("Chọn"); ui.select(); const before = structuredClone(ui.state);
-    ui.edit("Bán kính kính cong", "2"); ui.key("z", { ctrlKey: true });
+    ui.edit("Bán kính kính cong", "2"); await ui.syncDraft(); ui.click("Hoàn tác bản nháp");
     expect(ui.plan().curves![0].radius).toBe(before.building!.plan.curves![0].radius);
-    ui.key("y", { ctrlKey: true }); expect(ui.plan().curves![0].radius).toBe(2);
-    ui.key("r"); expect(ui.plan().curves![0].rotation).toBe(15);
+    ui.click("Làm lại bản nháp"); expect(ui.plan().curves![0].radius).toBe(2);
+    await ui.syncDraft(); ui.click("Xoay kính đã chọn tiến 15 độ"); expect(ui.plan().curves![0].rotation).toBe(15);
     ui.click("Hoàn tác bản nháp"); expect(ui.plan().curves![0].rotation).toBe(0);
     ui.click("Làm lại bản nháp"); expect(ui.plan().curves![0].rotation).toBe(15);
-    expect(ui.state).toEqual(before); expect(fetch).not.toHaveBeenCalled();
+    expect(ui.state).toEqual(before); expect(ui.gamePosts()).toHaveLength(0);
   });
 
   it("sends the edited snapshot only after confirmation and reconciles the canonical response", async () => {
     const ui = await editor(); ui.select();
     for (const [label, , value] of numeric) ui.edit(label, value);
+    await ui.syncDraft();
     const submitted = structuredClone(ui.plan());
-    vi.mocked(fetch).mockImplementation(async (_url, init) => {
+    vi.mocked(fetch).mockImplementation(async (url, init) => {
+      if (String(url).startsWith("/api/game/intent")) return new Response(JSON.stringify({ ownerId: ui.state.userId, mode: "local", intent: null }));
       if (init?.method !== "POST") return new Response(JSON.stringify({ state: ui.state }));
       const { action } = JSON.parse(String(init.body)) as { action: Action };
       const result = applyAction(ui.state, action, { userId: ui.state.userId, now: "2026-10-16T08:00:00.000Z", random: () => 0.5, eventId: "curve-commit" });
       return new Response(JSON.stringify(result));
     });
-    ui.click("Lưu công trình"); expect(fetch).not.toHaveBeenCalled();
+    ui.click("Lưu công trình"); expect(ui.gamePosts()).toHaveLength(0);
     await ui.click("Xác nhận lưu"); ui.render();
     const posts = vi.mocked(fetch).mock.calls.filter(([, init]) => init?.method === "POST");
     expect(posts).toHaveLength(1);
@@ -221,8 +247,12 @@ describe("selected curved-glass editor controls", () => {
   it("locks mutations, forms, undo/redo and R during flight and after an uncertain saved receipt", async () => {
     const ui = await editor(); ui.click("Chọn"); ui.select(); ui.click("Nhập tọa độ chính xác");
     ui.edit("Bán kính kính cong", "2");
+    await ui.syncDraft();
     let rejectPost!: (reason: Error) => void;
-    vi.mocked(fetch).mockImplementation(async (_url, init) => init?.method !== "POST" ? new Response(JSON.stringify({ state: ui.state })) : new Promise((_resolve, reject) => { rejectPost = reject; }));
+    vi.mocked(fetch).mockImplementation(async (url, init) => String(url).startsWith("/api/game/intent")
+      ? new Response(JSON.stringify({ ownerId: ui.state.userId, mode: "local", intent: null }))
+      : init?.method !== "POST" ? new Response(JSON.stringify({ state: ui.state }))
+      : new Promise((_resolve, reject) => { rejectPost = reject; }));
     ui.click("Lưu công trình"); const saving = ui.click("Xác nhận lưu"); await flush(); ui.render();
     const before = structuredClone(ui.plan());
     const attemptEdits = () => {
@@ -251,6 +281,6 @@ describe("selected curved-glass editor controls", () => {
     ui.click("Kính cong"); ui.key("r"); ui.key("z", { ctrlKey: true });
     ui.world().props.onGesture!({ x: 0, z: 0, level: 0 }, { x: 0, z: 0, level: 0 }); ui.render();
     expect(ui.plan()).toEqual(before); expect(storage.getItem(`lifelevel-pending-command:${ui.state.userId}`)).toBe(receipt);
-    expect(fetch).not.toHaveBeenCalled();
+    expect(ui.gamePosts()).toHaveLength(0);
   });
 });

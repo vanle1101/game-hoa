@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 const state = vi.hoisted(() => ({ proposals: {} as Record<string, unknown>, applied: new Map<string, unknown>(), count: 0 }));
 vi.mock("server-only", () => ({}));
-vi.mock("@/server/identity", () => {
-  class HttpError extends Error { constructor(public status: number, message: string) { super(message); } }
+vi.mock("@/server/identity", async () => {
+  const { HttpError } = await import("@/server/errors");
   return { HttpError, requireUser: async () => "owner", checkOrigin: (request: Request) => {
     if (request.headers.get("origin") !== "https://app.example.com") throw new HttpError(403, "Origin");
   }, errorResponse: (error: unknown) => Response.json({ error: error instanceof Error ? error.message : "Error" }, { status: error instanceof HttpError ? error.status : 500 }) };

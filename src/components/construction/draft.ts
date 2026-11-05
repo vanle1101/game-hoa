@@ -69,12 +69,13 @@ export function demolishWallEdges(source: BuildingPlan, edges: readonly WallEdge
 }
 export function areaCells(a:GridPoint,b:GridPoint):GridPoint[]{const out:GridPoint[]=[];if(Math.abs(b.x-a.x)>32||Math.abs(b.z-a.z)>32)throw new Error("Vùng kéo quá lớn.");for(let x=Math.min(a.x,b.x);x<=Math.max(a.x,b.x);x++)for(let z=Math.min(a.z,b.z);z<=Math.max(a.z,b.z);z++)out.push({x,z,level:a.level});return out;}
 export function toolDraft(source:BuildingPlan,tool:EditorTool,a:GridPoint,b:GridPoint,material:string,edge?:EdgeRef,wallMaterial="wall-basic"):BuildingPlan{
+ if(tool==="wall"&&wallEdgesBetweenVertices(a,b).length===0)return source;
  const p=structuredClone(source);const cells=areaCells(a,b);const mergeFloor=(cell:GridPoint)=>{const i=p.floors.findIndex(f=>cellId(f)===cellId(cell));if(i<0)p.floors.push({...cell,materialId:material.startsWith("floor-")?material:"floor-concrete"});else if(tool==="floor")p.floors[i].materialId=material;};
  const wall=(e:EdgeRef)=>{if(!p.walls.some(w=>edgeId(w)===edgeId(e)))p.walls.push({...e,materialId:wallMaterial});};
  if(tool==="room"){
    return rectangleRoom(source,a,b,material.startsWith("floor-")?material:"floor-concrete",wallMaterial);
  }else if(tool==="wall"){
-   for(const segment of wallEdgesBetweenVertices(a,b,edge)) wall(segment);
+   for(const segment of wallEdgesBetweenVertices(a,b)) wall(segment);
  }else if(tool==="floor")cells.forEach(mergeFloor);
  else if(tool==="door"||tool==="window"){
    if(!edge)throw new Error("Chọn cạnh tường để gắn cửa.");const w=p.walls.find(w=>edgeId(w)===edgeId(edge));if(!w)throw new Error("Cửa cần một đoạn tường đã dựng.");w.opening={kind:tool,catalogId:material};

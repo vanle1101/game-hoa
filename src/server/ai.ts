@@ -1,10 +1,9 @@
-import "server-only";
 import { randomUUID } from "node:crypto";
 import { lookup } from "node:dns/promises";
 import { isIP } from "node:net";
 import { request as httpsRequest } from "node:https";
 import { z } from "zod";
-import { HttpError } from "./identity";
+import { HttpError } from "./errors";
 import type { Action } from "@/domain/types";
 
 // An intentionally narrow contract: no rewards, balances, commitments or mutation tools.

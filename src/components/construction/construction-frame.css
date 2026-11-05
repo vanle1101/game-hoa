@@ -1,0 +1,229 @@
+/* Kit-derived mechanical chassis for the full-screen construction route. */
+.construction-editor .fluid-mechanical-frame {
+  --fluid-top: 18px !important;
+  --fluid-right: 18px !important;
+  --fluid-bottom: 18px !important;
+  --fluid-left: 18px !important;
+  --fluid-reactor-size: 46px !important;
+  --fluid-reactor-left: -1px !important;
+  z-index: 2;
+  opacity: .92;
+}
+
+.construction-editor .fluid-mechanical-frame__chassis {
+  filter: saturate(1.08) brightness(1.04);
+}
+
+.construction-editor :is(.construction-top, .construction-palette, .construction-toolbar, .construction-cost, .construction-live-panel)::before {
+  content: none !important;
+}
+
+.construction-editor :is(.construction-top, .construction-palette, .construction-toolbar, .construction-cost, .construction-live-panel) {
+  border: 0 !important;
+  border-image: none !important;
+  border-radius: 12px !important;
+  background: rgba(8, 13, 29, .9) !important;
+}
+
+.construction-editor .construction-back > span > span {
+  color: #ff4cf0;
+}
+
+.construction-editor .construction-top {
+  isolation: isolate;
+  height: 64px;
+  padding-inline: 24px;
+}
+
+.construction-editor .construction-top > :not(.fluid-mechanical-frame) {
+  position: relative;
+  z-index: 3;
+}
+
+.construction-editor .construction-top > .fluid-mechanical-frame {
+  --fluid-top: 12px !important;
+  --fluid-right: 16px !important;
+  --fluid-bottom: 12px !important;
+  --fluid-left: 16px !important;
+  opacity: .91;
+}
+
+.construction-editor .construction-top .fluid-mechanical-frame__reactor,
+.construction-editor .construction-toolbar-shell .fluid-mechanical-frame__reactor,
+.construction-editor .construction-cost .fluid-mechanical-frame__reactor {
+  display: none;
+}
+
+.construction-editor .construction-palette-shell {
+  position: absolute;
+  top: 82px;
+  right: 20px;
+  bottom: 165px;
+  width: 360px;
+  max-width: calc(100vw - 40px);
+  z-index: 20;
+  isolation: isolate;
+  border-radius: 14px;
+  box-shadow: var(--studio-shadow);
+}
+
+.construction-editor .construction-palette-shell > .fluid-mechanical-frame {
+  --fluid-top: 24px !important;
+  --fluid-right: 22px !important;
+  --fluid-bottom: 22px !important;
+  --fluid-left: 22px !important;
+}
+
+.construction-editor .construction-palette-shell > .construction-palette {
+  position: relative;
+  inset: auto;
+  z-index: 1;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  margin: 0;
+  padding: 28px 26px 24px;
+  box-shadow: none !important;
+}
+
+.construction-editor .construction-palette .palette-heading {
+  min-height: 56px;
+  padding-left: 62px;
+}
+
+.construction-editor .construction-toolbar-shell {
+  position: relative;
+  min-width: 0;
+  width: 100%;
+  isolation: isolate;
+  border-radius: 14px;
+  box-shadow: var(--studio-shadow);
+}
+
+.construction-editor .construction-toolbar-shell > .fluid-mechanical-frame {
+  --fluid-top: 12px !important;
+  --fluid-right: 16px !important;
+  --fluid-bottom: 12px !important;
+  --fluid-left: 16px !important;
+  opacity: .84;
+}
+
+.construction-editor .construction-toolbar-shell > .construction-toolbar {
+  position: relative;
+  z-index: 1;
+  padding: 12px 18px;
+  box-shadow: none !important;
+}
+
+.construction-editor .construction-cost {
+  isolation: isolate;
+  padding: 20px 22px 17px;
+}
+
+.construction-editor .construction-cost > .fluid-mechanical-frame {
+  --fluid-top: 15px !important;
+  --fluid-right: 18px !important;
+  --fluid-bottom: 16px !important;
+  --fluid-left: 18px !important;
+  opacity: .82;
+}
+
+.construction-editor .construction-cost > :not(.fluid-mechanical-frame) {
+  position: relative;
+  z-index: 3;
+}
+
+.construction-editor .construction-live-shell {
+  position: absolute;
+  top: 82px;
+  right: 20px;
+  width: 320px;
+  z-index: 20;
+  isolation: isolate;
+  border-radius: 14px;
+  box-shadow: var(--studio-shadow);
+}
+
+.construction-editor .construction-live-shell > .construction-live-panel {
+  position: relative;
+  inset: auto;
+  z-index: 1;
+  width: 100%;
+  padding: 29px 26px 24px;
+  box-shadow: none !important;
+}
+
+.construction-editor .construction-live-panel > .eyebrow {
+  display: block;
+  min-height: 48px;
+  padding-left: 62px;
+}
+
+@media (max-width: 820px) {
+  .construction-editor .construction-top {
+    height: auto;
+    min-height: 64px;
+  }
+
+  .construction-editor .construction-palette-shell,
+  .construction-editor .construction-live-shell {
+    position: relative;
+    inset: auto;
+    width: calc(100% - 20px);
+    max-width: none;
+    margin: 10px;
+  }
+
+  .construction-editor .construction-palette-shell {
+    height: min(54vh, 540px);
+    min-height: 320px;
+  }
+
+  .construction-editor .construction-palette-shell > .construction-palette {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    overflow-y: auto;
+  }
+
+  .construction-editor .construction-live-shell > .construction-live-panel {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    margin: 0;
+  }
+}
+
+@media (max-width: 500px) {
+  .construction-editor :is(.construction-top, .construction-palette-shell, .construction-toolbar-shell, .construction-cost, .construction-live-shell) > .fluid-mechanical-frame {
+    --fluid-top: 14px !important;
+    --fluid-right: 14px !important;
+    --fluid-bottom: 14px !important;
+    --fluid-left: 14px !important;
+  }
+
+  .construction-editor .construction-palette-shell .fluid-mechanical-frame__reactor,
+  .construction-editor .construction-live-shell .fluid-mechanical-frame__reactor {
+    display: none;
+  }
+
+  .construction-editor .construction-palette-shell > .construction-palette,
+  .construction-editor .construction-live-shell > .construction-live-panel {
+    padding: 22px 20px;
+  }
+
+  .construction-editor .construction-palette .palette-heading,
+  .construction-editor .construction-live-panel > .eyebrow {
+    min-height: 0;
+    padding-left: 0;
+  }
+
+  .construction-editor .construction-toolbar-shell > .construction-toolbar {
+    padding: 12px 16px;
+  }
+}

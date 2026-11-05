@@ -1,0 +1,36 @@
+{
+  "id": "dome-floor-lamp",
+  "status": "ASSET PRODUCTION",
+  "description": "1.82 m sculptural floor lamp with weighted stone foot, curved blackened-brass stem, tailored amber dome shade and emissive warm bulb.",
+  "units": "metres",
+  "axes": "X right, Y up, Z front; feet at Y=0",
+  "dimensions": [
+    1.14,
+    2.17,
+    0.62
+  ],
+  "bounds": {
+    "min": [
+      -0.3,
+      0.0,
+      -0.3
+    ],
+    "max": [
+      0.84,
+      2.17,
+      0.32
+    ]
+  },
+  "meshCount": 7,
+  "triangles": 7680,
+  "features": [
+    "Weighted stone base",
+    "Curved metal stem",
+    "UV dome shade mesh",
+    "Brass trim",
+    "Warm emissive bulb"
+  ],
+  "runtime": "/assets/apartment/lamp/dome-floor-lamp.glb",
+  "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+  "reference": "REF-D; authored approximation, requires in-game visual gate"
+}

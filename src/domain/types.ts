@@ -9,6 +9,7 @@ export type EquipmentSlot = "weapon" | "head" | "chest" | "gloves" | "boots" | "
 export type TaskKind = "once" | "daily" | "weekly" | "habit" | "negative-habit" | "campaign" | "farming" | "recovery";
 export interface Task {
   id: string; title: string; description: string; kind: TaskKind; difficulty: Difficulty; skill: Skill;
+  targetSkillId?: string | null; xpReward?: number;
   duration: number; priority: "low" | "normal" | "high"; dueDate: string; timezone: string;
   committed: boolean; campaignId?: string; bossId?: string; checklist: { id: string; title: string; done: boolean }[];
   archived: boolean; createdAt: string; exceptions: string[];
@@ -36,6 +37,7 @@ export interface GameState {
   residence?: Residence;
   housingStarterEligible?: boolean;
   starterCosmeticsVersion?: number;
+  starterTasksVersion?: number;
   version: 1; userId: string; revision: number; createdAt: string;
   character: Character; gold: number; tasks: Task[]; occurrences: TaskOccurrence[]; campaigns: Campaign[];
   bosses: BossEncounter[]; activeBossId: string; inventory: ItemInstance[]; equipment: Partial<Record<EquipmentSlot, string>>;
@@ -48,8 +50,8 @@ export interface GameState {
   rewardBudgets: Record<string, { xp: number; gold: number; completed: number }>;
   settings: GameSettings; undo?: { eventId: string; at: string; revision: number; before: Omit<GameState, "undo"> };
 }
-export interface ActionContext { userId: string; now: string; random: () => number; eventId: string; }
-export interface TaskInput { title: string; description?: string; kind?: TaskKind; difficulty?: Difficulty; skill?: Skill; duration?: number; dueDate?: string; timezone?: string; committed?: boolean; campaignId?: string; bossId?: string; priority?: Task["priority"]; checklist?: string[]; }
+export interface ActionContext { userId: string; now: string; random: () => number; eventId: string; seedStarterTasks?: boolean; }
+export interface TaskInput { title: string; description?: string; kind?: TaskKind; difficulty?: Difficulty; skill?: Skill; targetSkillId?: string | null; xpReward?: number; duration?: number; dueDate?: string; timezone?: string; committed?: boolean; campaignId?: string; bossId?: string; priority?: Task["priority"]; checklist?: string[]; }
 export type Action = MeaningfulBossAction | CharacterAction | HousingAction
   | { type: "focus.start"; occurrenceId: string }
   | { type: "focus.end"; sessionId: string }

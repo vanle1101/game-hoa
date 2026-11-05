@@ -1,0 +1,38 @@
+{
+  "id": "ergonomic-chair",
+  "status": "ASSET PRODUCTION",
+  "description": "Contoured upholstered task chair with swept lumbar shell and five spoke caster base",
+  "units": "metres",
+  "axes": "X right, Y up, Z front; feet at Y=0",
+  "dimensions": [
+    0.726,
+    1.274,
+    0.76
+  ],
+  "bounds": {
+    "min": [
+      -0.352,
+      0.006,
+      -0.389
+    ],
+    "max": [
+      0.373,
+      1.28,
+      0.371
+    ]
+  },
+  "meshCount": 27,
+  "triangles": 38132,
+  "features": [
+    "curved mesh backrest",
+    "waterfall cushion",
+    "welt seam",
+    "adjustable arm pads",
+    "five spoke base",
+    "10 casters",
+    "headrest"
+  ],
+  "runtime": "/assets/apartment/chair/ergonomic-chair.glb",
+  "license": "Original procedural mesh and texture authorship for this project; no third-party model inputs",
+  "reference": "REF-D; authored approximation, requires in-game visual gate"
+}
