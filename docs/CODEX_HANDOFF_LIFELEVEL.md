@@ -105,3 +105,90 @@ Counts sum to 72. Catalog/layout/source-shape mismatches are not declared harmle
 1. Gameplay follow-up should re-read the feature matrix and acceptance sources, reconcile screen states with source/tests, then implement and verify one persisted end-to-end vertical slice at a time.
 2. Existing unresolved baseline gates remain: 72 Vitest failures, incomplete full E2E (focused Construction locator failure), P1 shared-rate-limit gap, and PostgreSQL-dependent migration/concurrency/restore checks BLOCKED.
 3. Baseline `727b1e8` and localhost cache fix `595a5e2` are local commits on `codex/baseline-repro-20261106`; neither is pushed. `.tmp/` is ignored and the pre-existing `BossArena.tsx` edit remains unstaged.
+
+## Gameplay vertical slice update (2026-11-06)
+
+### Checkpoint
+
+- Branch: `codex/gameplay-vertical-slice-20261106`.
+- Source HEAD before implementation commit: `df69416020a5893ceb2fb2e1f6a6740e7521f15d`.
+- Runtime used for final checks: Node `v22.23.4`, npm `10.9.9` from `.tmp/node22-runtime/node-v22.23.4-win-x64`.
+- Implementation commit: `1bd6755` (`feat: persist focus quest gameplay slice`), local only. No push, deploy, production migration, paid service, or production save access.
+
+### Implemented slice
+
+Lobby → keyboard-accessible focus screen → persisted Pomodoro work/rest settings and session → server-time eligibility → explicit confirmation of real work → existing task XP/Gold and boss damage → exactly-once loot → equip earned item.
+
+- Focus preferences and planned duration are part of validated game state and backup data. A running/ended session restores after reload; cancellation grants nothing. The timer itself never completes tasks or grants rewards.
+- Backup checks focus-session/task ownership and status consistency without requiring `duration` on legacy tasks that have no focus-session data.
+- Boss defeat journal events now include `bossId`.
+- `eslint.config.mjs` ignores generated `.next-*` build folders so `eslint .` checks real files instead of compiled Next output.
+- Relevant screens: Home/Lobby quick action and Focus workflow; existing Quest Journal, Boss Arena, Loot/Inventory and Equipment integrations remain PARTIAL. No screen or cross-system row is marked DONE.
+
+### Changed files
+
+- `eslint.config.mjs`, `docs/FEATURE_MATRIX.md`
+- `src/backup/index.ts`
+- `src/components/combat/BossArena.tsx` focus timer hunk only. Keep the separate pre-existing `<i>` JSX change out of the implementation commit.
+- `src/components/game/FocusSessionPanel.tsx`, `GameApp.tsx`, `LobbyDashboard.tsx`, `game.css`, `lobby.css`
+- `src/domain/engine.ts`, `types.ts`, `validation.ts`
+- `tests/backup/v7-backup.test.ts`, `tests/domain/meaningful-boss.test.ts`, `tests/e2e/focus-session.spec.ts`
+
+### Final checks on the pinned runtime
+
+| Command | Result |
+| --- | --- |
+| `npm run typecheck` | PASS, exit 0 |
+| `npm run lint` | PASS, exit 0; 10 existing warnings, 0 errors |
+| `npm test -- --reporter=dot tests/domain/meaningful-boss.test.ts tests/backup/v7-backup.test.ts` | PASS, exit 0; 35/35 |
+| `npm audit --omit=dev` | PASS, exit 0; 0 prod vulnerabilities |
+| `node --test desktop/*.test.cjs` | PASS, exit 0; 3/3 |
+| `npm run build` | PASS, exit 0; Next production output and worker bundle |
+| `npm run test:e2e:full -- tests/e2e/focus-session.spec.ts --project=desktop-chromium --project=mobile-chromium --forbid-only` | PASS, exit 0; 2/2 on an isolated loopback server and temp save |
+| `npm test -- --reporter=dot` | FAIL, exit 1; 4,715 passed / 71 failed, 23/145 files fail |
+| `git diff --check` | PASS, exit 0 |
+
+Full-suite failures on this runtime (same failure groups, current counts):
+
+| Count | File | Current mismatch |
+| ---: | --- | --- |
+| 1 | `src/furniture/catalog.test.ts` | Expects `ceiling-neon` not to have a procedural recipe. |
+| 5 | `tests/client/construction-localization.test.ts` | Legacy copy/source expectations do not match current localized editor. |
+| 2 | `tests/client/furniture-shop.test.ts` | Catalog count and old component-shape expectations. |
+| 1 | `tests/client/v12-build-ui.test.ts` | Browser screenshot test timeout. |
+| 1 | `tests/client/vietnamese-panels.test.ts` | Legacy header copy expectation. |
+| 1 | `tests/construction/curve-customization.test.ts` | Custom collision case does not throw; source collision behavior needs isolated review. |
+| 2 | `tests/domain/v7-catalog-economy.test.ts` | Catalog IDs/counts differ from older expectation. |
+| 9 | `tests/domain/v7-character-housing.test.ts` | Starter layout placement count differs. |
+| 2 | `tests/housing/v12-repair.test.ts` | Legacy full-state assertions differ after additive repair/reconcile. |
+| 9 | `tests/world/avatar-surface.test.ts` | Surface geometry/tolerance mismatch and timing-sensitive cases. |
+| 1 | `tests/world/boss-visual.test.ts` | Older component wrapper/source shape expected. |
+| 1 | `tests/world/developed-showcase.test.ts` | Starter furniture placements differ. |
+| 1 | `tests/world/fashion-accessory-v7.test.ts` | Geometry stress test timeout. |
+| 20 | `tests/world/furniture-interactions.test.ts` | Tests expect an older scene tree/callback path; real interaction path remains unverified. |
+| 2 | `tests/world/furniture-projection.test.ts` | SVG/canonical catalog size and temporary geometry disposal expectations. |
+| 3 | `tests/world/furniture-v7-integration.test.ts` | Catalog totals and collection sizes differ. |
+| 4 | `tests/world/premium-catalog.test.ts` | Expected shared apartment GLB paths differ from catalog paths. |
+| 1 | `tests/world/preview-framing.test.ts` | Expected catalog count 123; runtime catalog is 129. |
+| 1 | `tests/world/terminal-screen-contact.test.ts` | Frozen catalog digest differs. |
+| 1 | `tests/world/v12-architecture.test.ts` | Expected background color differs. |
+| 1 | `tests/world/v12-furniture.test.ts` | Test expects a component function; scene returns a group. |
+| 1 | `tests/world/v12-panorama-integration.test.tsx` | Panorama wall selection callback was not observed. |
+| 1 | `tests/world/v16-building-envelope.test.ts` | Skyline sector coverage requirement fails. |
+
+Focus/backup tests add regression coverage but have no failures in the full run. Do not modify assertions/tolerances merely to reduce the red count.
+
+### Browser evidence
+
+E2E run folder: `%TEMP%\lifelevel-playwright-evidence\run-1793977754715-2677a2f6-5d77-42e6-9fa8-a142f4d266e1\`
+
+- Desktop screenshot: `artifacts/focus-session-local-save-r-e88bc-and-cancels-without-rewards-desktop-chromium/focus-session-running.png`
+- Mobile screenshot: `artifacts/focus-session-local-save-r-e88bc-and-cancels-without-rewards-mobile-chromium/focus-session-running.png`
+- Results: `results.json`; screenshots show actual running UI, not a static mock. These are not a pixel comparison against a separate focus-screen reference.
+
+### Blockers and next step
+
+- The task → rewards → boss → loot → equip link passes deterministic domain assertions, but its complete mutation/persistence chain was not exercised through the real API/PostgreSQL. The Feature Matrix cross-system row remains Pending verification.
+- Only the focus spec was run in Playwright; the full 306-test suite is still open. PostgreSQL migrations/races/restore, worker recovery, and distributed auth rate limiting remain BLOCKED; P1 shared authentication rate limiting still blocks production exposure.
+- The other 26-screen acceptance rows remain PARTIAL/Pending. This slice does not implement Welcome/new-game journey, daily 3-priority and weekly planning, or the remaining gameplay workflows.
+- This handoff is a documentation-only follow-up to implementation commit `1bd6755`; the pre-existing Arena JSX edit remains unstaged. Continue from this branch. Never claim whole-game acceptance from this slice.
