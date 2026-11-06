@@ -54,6 +54,12 @@ Every row additionally requires desktop/mobile design; loading, error and empty 
 
 All global overlays in the implementation plan remain subject to behavior and visual verification. A completed navigation map must not be counted as completed feature coverage.
 
+## Current gameplay slice evidence (2026-11-06)
+
+- The Lobby now links to a persisted Pomodoro session. The isolated local-server Playwright flow verified keyboard entry, desktop/mobile rendering, reload recovery, explicit cancellation, and unchanged XP/Gold on cancellation.
+- Deterministic domain tests verify server-time gating and explicit real-work confirmation, one-time task XP/Gold, boss damage/defeat, exactly-once loot, inventory ownership, and equipping the earned item. Boss defeat events now include their encounter ID for journal traceability.
+- These checks do not prove the entire task → reward → boss → loot → equip journey through a real PostgreSQL-backed save. The cross-system row above remains **Pending verification** until that persisted journey is exercised against an isolated database. Screen rows remain PARTIAL; no screen was promoted to DONE.
+
 ## Additive construction expansion
 
 The new modular house editor expands screens 03, 15, 16 and 17 plus gameplay progression; it does not replace the original 26 screens. Prior furniture-placement behavior is not a completed wall/floor/opening construction system. All 61 required construction scenarios are tracked separately in [CONSTRUCTION_ACCEPTANCE.md](CONSTRUCTION_ACCEPTANCE.md). BUILD-0–8 are integrated into the original implementation plan. Current expansion status: **IN DEVELOPMENT / ACCEPTANCE PENDING**.

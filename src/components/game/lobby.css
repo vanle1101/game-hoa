@@ -53,6 +53,7 @@
 .vref-apartment-live .vref-live-sky{z-index:5;pointer-events:none;background:#061536b8;padding:5px 7px;border:1px solid #2c82d7aa;}
 .vref-apartment-live .vref-live-caption{z-index:6;}
 .vref-apartment-loading{position:absolute;inset:0;z-index:3;display:grid;place-items:center;color:#a6ddff;background:#07132ce8;font-size:11px;}
+.vref-header-focus{display:flex;align-items:center;justify-content:center;gap:6px;flex:0 0 auto;height:clamp(43px,3vw,56px);padding:0 10px;border:1px solid #319fc7b8!important;border-radius:7px!important;background:#062148df!important;box-shadow:inset 0 0 13px #0b8dbb35,0 0 12px #05c5f339!important;color:#c5f6ff;font-size:clamp(8px,.56vw,11px);font-weight:750;letter-spacing:.06em;white-space:nowrap}.vref-header-focus svg{flex-shrink:0;color:#67eeff;filter:drop-shadow(0 0 5px #13ddff)}.vref-header-focus:hover{border-color:#63f1ff!important;background:#082b55f2!important;box-shadow:0 0 18px #13d8ff85!important}
 
 .vref-today-character,.vref-character-art{overflow:hidden;position:relative;background:radial-gradient(ellipse at 50% 65%,#1d4d84,#0a1530 58%,#05091b);}
 .vref-today-character canvas,.vref-character-art canvas{position:absolute!important;inset:0;width:100%!important;height:100%!important;}

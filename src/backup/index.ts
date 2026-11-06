@@ -19,7 +19,7 @@ const gameSchema = z.object({
   version: z.literal(1), userId: id, revision: nonnegative, createdAt: z.iso.datetime(),
   character: z.object({ name: text, title: text, xp: nonnegative, hp: z.number().min(0).max(100), energy: z.number().min(0).max(100), mood: z.number().min(0).max(100), social: z.number().min(0).max(100), career: text, skillXp: z.record(z.string(), nonnegative), skillNodes: z.array(text), careerRank: nonnegative, skin: text, outfit: text, hair: text, hairstyle: z.enum(["short", "swept", "mohawk"]), appearance: appearanceSchema.optional() }).passthrough(),
   meaningfulBosses: z.array(meaningfulBossSchema).optional(), activeMeaningfulBossId: id.optional(), ownedCosmetics: z.array(id).optional(), equippedCosmetics: z.partialRecord(cosmeticSlotSchema, id).optional(),
-  focusSessions: z.array(z.object({ id, occurrenceId: id, startedAt: z.iso.datetime(), endedAt: z.iso.datetime().optional(), confirmedAt: z.iso.datetime().optional(), status: z.enum(["running", "ended", "confirmed"]) }).strict()).optional(),
+  focusSessions: z.array(z.object({ id, occurrenceId: id, startedAt: z.iso.datetime(), plannedMinutes: z.number().int().min(1).max(240).optional(), endedAt: z.iso.datetime().optional(), confirmedAt: z.iso.datetime().optional(), status: z.enum(["running", "ended", "confirmed", "canceled"]) }).strict()).optional(),
   gold: nonnegative, tasks: z.array(identified.extend({ title: text, archived: z.boolean() })), occurrences: z.array(identified.extend({ taskId: id, status: z.enum(["open", "completed", "missed", "canceled"]) })), campaigns: z.array(identified),
   bosses: z.array(identified.extend({ definitionId: id, hp: nonnegative, phase: z.union([z.literal(1), z.literal(2), z.literal(3)]) })), activeBossId: text,
   inventory: z.array(identified.extend({ definitionId: id, enhancement: integer.min(0).max(10) })), equipment: z.record(z.string(), id),
@@ -29,7 +29,7 @@ const gameSchema = z.object({
   realLifeRewards: z.array(z.object({ id, name: text, description: text, cost: nonnegative, redemptions: nonnegative, archived: z.boolean(), lastRedeemedAt: z.iso.datetime().optional() })).optional(),
   activePetId: id.optional(), ownedPetAccessories: z.array(id).optional(), petAccessories: z.record(z.string(), id).optional(), undoUnavailableReason: text.optional(),
   rewardBudgets: z.record(z.string(), z.object({ xp: nonnegative, gold: nonnegative, completed: nonnegative })),
-  settings: z.object({ hardcore: z.boolean(), equipmentLossAccepted: z.boolean(), timezone: text, restDays: z.array(text), graphics: z.enum(["ultra", "high", "balanced", "performance"]), reducedMotion: z.boolean() }),
+  settings: z.object({ hardcore: z.boolean(), equipmentLossAccepted: z.boolean(), timezone: text, restDays: z.array(text), graphics: z.enum(["ultra", "high", "balanced", "performance"]), reducedMotion: z.boolean(), focusWorkMinutes: z.union([z.literal(15), z.literal(25), z.literal(45), z.literal(60)]).optional(), focusBreakMinutes: z.union([z.literal(3), z.literal(5), z.literal(10), z.literal(15)]).optional() }),
   undo: z.unknown().optional(),
   building: buildingStateSchema.optional(),
   residence: z.object({ districtId: z.literal("district07"), buildingId: id, floor: z.union([z.literal(8), z.literal(16), z.literal(24)]), layoutId: z.enum(["studio", "one-bedroom", "open-plan"]), completedAt: z.iso.datetime() }).strict().refine(value => HOUSING_BUILDINGS.some(building => building.id === value.buildingId && building.districtId === value.districtId), "Nơi ở không thuộc danh mục hợp lệ.").optional(),
@@ -74,6 +74,18 @@ export function validateBackup(input: unknown): BackupEnvelope {
   if (new Set(ownedCosmetics).size !== ownedCosmetics.length || ownedCosmetics.some((id) => !COSMETICS.some((item) => item.id === id))) throw new BackupError("Bộ sưu tập trang phục không hợp lệ.");
   for (const [slot, id] of Object.entries(data.game.equippedCosmetics ?? {})) if (!ownedCosmetics.includes(id!) || !COSMETICS.some((item) => item.id === id && item.slot === slot)) throw new BackupError("Trang phục chưa sở hữu hoặc sai vị trí.");
   for (const occurrence of data.game.occurrences) if (!taskIds.has(occurrence.taskId)) throw new BackupError("Lần thực hiện tham chiếu nhiệm vụ không tồn tại.");
+  const occurrenceById = new Map(data.game.occurrences.map(occurrence => [occurrence.id, occurrence]));
+  for (const session of data.game.focusSessions ?? []) {
+    const occurrence = occurrenceById.get(session.occurrenceId);
+    const task = occurrence && data.game.tasks.find(row => row.id === occurrence.taskId);
+    const taskDuration = task?.duration;
+    if (!occurrence || !task || typeof taskDuration !== "number" || !Number.isInteger(taskDuration) || taskDuration < 1 || taskDuration > 240) throw new BackupError("Phiên tập trung tham chiếu nhiệm vụ không tồn tại hoặc có thời lượng không hợp lệ.");
+    if (session.plannedMinutes !== undefined && session.plannedMinutes < taskDuration) throw new BackupError("Thời lượng phiên tập trung thấp hơn thời lượng nhiệm vụ.");
+    if (session.status === "running" && (session.endedAt || session.confirmedAt || occurrence.status !== "open")) throw new BackupError("Phiên tập trung đang chạy không khớp với lần nhiệm vụ.");
+    if (session.status === "ended" && (!session.endedAt || session.confirmedAt || occurrence.status !== "open")) throw new BackupError("Phiên tập trung đã kết thúc không hợp lệ.");
+    if (session.status === "confirmed" && (!session.endedAt || !session.confirmedAt || Date.parse(session.confirmedAt) < Date.parse(session.endedAt) || occurrence.status !== "completed")) throw new BackupError("Phiên tập trung đã xác nhận không khớp với lần hoàn thành nhiệm vụ.");
+    if (session.status === "canceled" && session.confirmedAt) throw new BackupError("Phiên tập trung đã hủy không thể có thời điểm xác nhận.");
+  }
   // Export preserves legitimately acquired structures after a later Hardcore level loss;
   // validate ownership/topology here, while new construction still checks unlocks on commit.
   if(data.game.building){try{const game=data.game as unknown as GameState;const context=constructionContext(game);validateConstruction(data.game.building,data.game.building.plan,{...context,characterLevel:Math.max(100,context.characterLevel),defeatedCampaign:true});}catch(error){throw new BackupError(`Công trình không hợp lệ: ${error instanceof Error?error.message:"validation failed"}`);}}

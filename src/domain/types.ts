@@ -25,12 +25,12 @@ export interface Campaign { id: string; title: string; description: string; boss
 export interface JournalEvent { id: string; type: string; title: string; at: string; data: Record<string, string | number | boolean | string[]>; }
 export interface LedgerEntry { id: string; eventId: string; amount: number; balance: number; reason: string; at: string; }
 export interface Character { name: string; title: string; xp: number; hp: number; energy: number; mood: number; social: number; career: string; skillXp: Record<Skill, number>; skillNodes: string[]; careerRank: number; skin: string; outfit: string; hair: string; hairstyle: "short" | "swept" | "mohawk"; appearance?: ModularAppearance; }
-export interface GameSettings { hardcore: boolean; equipmentLossAccepted: boolean; timezone: string; restDays: string[]; graphics: "ultra" | "high" | "balanced" | "performance"; reducedMotion: boolean; }
+export interface GameSettings { hardcore: boolean; equipmentLossAccepted: boolean; timezone: string; restDays: string[]; graphics: "ultra" | "high" | "balanced" | "performance"; reducedMotion: boolean; focusWorkMinutes?: 15 | 25 | 45 | 60; focusBreakMinutes?: 3 | 5 | 10 | 15; }
 export interface ConsumableDefinition { id: string; name: string; description: string; price: number; effect: "hp" | "energy" | "focus"; amount: number; charges?: number; }
 export interface RealLifeReward { id: string; name: string; description: string; cost: number; redemptions: number; archived: boolean; lastRedeemedAt?: string; }
 export interface PetAccessoryDefinition { id: string; name: string; description: string; price: number; color: string; }
 export interface GameState {
-  focusSessions?: { id: string; occurrenceId: string; startedAt: string; endedAt?: string; confirmedAt?: string; status: "running" | "ended" | "confirmed" }[];
+  focusSessions?: { id: string; occurrenceId: string; startedAt: string; plannedMinutes?: number; endedAt?: string; confirmedAt?: string; status: "running" | "ended" | "confirmed" | "canceled" }[];
   meaningfulBosses?: MeaningfulBoss[]; activeMeaningfulBossId?: string;
   ownedCosmetics?: string[]; equippedCosmetics?: Partial<Record<CosmeticSlot, string>>;
   building?: BuildingState;
@@ -53,9 +53,10 @@ export interface GameState {
 export interface ActionContext { userId: string; now: string; random: () => number; eventId: string; seedStarterTasks?: boolean; }
 export interface TaskInput { title: string; description?: string; kind?: TaskKind; difficulty?: Difficulty; skill?: Skill; targetSkillId?: string | null; xpReward?: number; duration?: number; dueDate?: string; timezone?: string; committed?: boolean; campaignId?: string; bossId?: string; priority?: Task["priority"]; checklist?: string[]; }
 export type Action = MeaningfulBossAction | CharacterAction | HousingAction
-  | { type: "focus.start"; occurrenceId: string }
+  | { type: "focus.start"; occurrenceId: string; plannedMinutes?: number }
   | { type: "focus.end"; sessionId: string }
   | { type: "focus.confirm"; sessionId: string; confirmed: true }
+  | { type: "focus.cancel"; sessionId: string }
   | { type: "construction.commit"; expectedRevision: number; plan: BuildingPlan }
   | { type: "task.create"; task: TaskInput }
   | { type: "task.edit"; taskId: string; task: Partial<TaskInput> }

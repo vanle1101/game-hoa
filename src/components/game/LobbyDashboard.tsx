@@ -2,7 +2,7 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 import dynamic from "next/dynamic";
-import { ArrowRight, Bell, Brain, CalendarDays, Check, ChevronDown, ChevronRight, CircleDollarSign, Footprints, Gift, Headphones, Heart, Home, Laptop, Plus, Search, Shirt, Sparkles, Sun, Sword, Target, UserRound, Zap } from "lucide-react";
+import { ArrowRight, Bell, Brain, CalendarDays, Check, ChevronDown, ChevronRight, CircleDollarSign, Footprints, Gift, Headphones, Heart, Home, Laptop, Plus, Search, Shirt, Sparkles, Sun, Sword, Target, Timer, UserRound, Zap } from "lucide-react";
 import { ACHIEVEMENTS, ITEMS, REWARDS } from "@/domain/catalog";
 import { COSMETICS } from "@/character/catalog";
 import type { BossDefinition, BossEncounter, GameState, Task } from "@/domain/types";
@@ -61,6 +61,7 @@ export default function LobbyDashboard({ state, level, open, completedToday, tas
   const [characterTab, setCharacterTab] = useState<"stats" | "equipment">("stats");
   const activeTasks = lobbyPriorityTasks(tasks, open);
   const todayTotal = completedToday + open.length;
+  const focusActive = Boolean(state.focusSessions?.some(session => session.status === "running" || session.status === "ended"));
   const bossTasks = tasks.filter(task => !task.archived && task.bossId === boss?.id && open.some(item => item.taskId === task.id)).slice(0, 3);
   const bossHpPercent = Math.max(0, Math.min(100, (boss?.hp ?? 0) / Math.max(1, bossDef?.maxHp ?? 1) * 100));
   const equipment = Object.entries(state.equipment).flatMap(([slot, instanceId]) => {
@@ -102,6 +103,7 @@ export default function LobbyDashboard({ state, level, open, completedToday, tas
       <div className="vref-quote">“Cuộc sống tốt hơn đến từ những hành động nhỏ mỗi ngày.”</div>
       <div className="vref-header-right">
         <div className="vref-search-wrap"><Search size={19}/><input value={search} onChange={event => setSearch(event.target.value)} onKeyDown={event => { if (event.code === "Enter" && results[0]) openResult(results[0]); }} placeholder="Tìm nhiệm vụ, ghi chú, vật phẩm..." aria-label="Tìm trong sảnh chờ"/>{search && <button onClick={() => setSearch("")} aria-label="Xóa tìm kiếm">×</button>}{results.length > 0 && <div className="vref-search-results">{results.map(result => <button key={result.id} onClick={() => openResult(result)}><Search size={14}/><span>{result.label}<small>{result.detail}</small></span></button>)}</div>}</div>
+        <button className="vref-header-focus" type="button" onClick={() => onNavigate("focus")} aria-label={focusActive ? "Mở phiên tập trung đang lưu" : "Mở bộ tập trung"} title={focusActive ? "Mở phiên đang lưu" : "Tập trung"}><Timer size={18} aria-hidden="true"/><span>{focusActive ? "ĐANG TẬP TRUNG" : "TẬP TRUNG"}</span></button>
         <button className="vref-header-bell" onClick={onNotifications} aria-label="Thông báo"><Bell size={21}/><i/></button>
         <button className="vref-header-profile" onClick={() => onNavigate("character")}><CharacterAvatar ownerId={state.userId} fallbackName={state.character.name}/><strong>{activeIdentity?.name ?? state.character.name}<small>Level {activeIdentity?.level ?? level.level}</small></strong><ChevronRight size={15}/></button>
       </div>

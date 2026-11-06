@@ -25,6 +25,25 @@ describe("V7 validated backups", () => {
     const restored = validateBackup(data);
     expect(restored.game.residence).toBeUndefined(); expect(restored.game.housingStarterEligible).toBeUndefined(); expect(restored.game.gold).toBe(0);
   });
+  it("roundtrips saved Pomodoro preferences and focus-session state", () => {
+    let state = createInitialState("owner", now);
+    state.settings.focusWorkMinutes = 45;
+    state.settings.focusBreakMinutes = 10;
+    state = applyAction(state, { type: "task.create", task: { title: "Saved focus task", duration: 25 } }, { ...context, eventId: "backup-focus-task" }).state;
+    const occurrenceId = state.occurrences[0].id;
+    state = applyAction(state, { type: "focus.start", occurrenceId, plannedMinutes: 45 }, { ...context, eventId: "backup-focus-session" }).state;
+    const backup = createBackup("owner", state, null, {}, now);
+    expect(parseBackup(JSON.stringify(backup)).game.focusSessions).toEqual(state.focusSessions);
+    expect(parseBackup(JSON.stringify(backup)).game.settings).toMatchObject({ focusWorkMinutes: 45, focusBreakMinutes: 10 });
+    expect(() => createBackup("owner", { ...state, focusSessions: [{ ...state.focusSessions![0], occurrenceId: "missing-occurrence" }] }, null, {}, now)).toThrow(/tham chiếu nhiệm vụ không tồn tại/);
+    const legacyBackup = structuredClone(backup) as unknown as { game: { focusSessions?: unknown; tasks: Array<{ duration?: number }> } };
+    delete legacyBackup.game.focusSessions;
+    delete legacyBackup.game.tasks[0].duration;
+    expect(() => validateBackup(legacyBackup)).not.toThrow();
+    const invalidFocusBackup = structuredClone(backup) as unknown as { game: { tasks: Array<{ duration?: number }> } };
+    delete invalidFocusBackup.game.tasks[0].duration;
+    expect(() => validateBackup(invalidFocusBackup)).toThrow(/thời lượng không hợp lệ/);
+  });
   it.each([{ floor: 0 }, { floor: 25 }, { floor: "8" }, { layoutId: "penthouse" }, { districtId: "district99" }, { buildingId: "forged" }, { completedAt: "not-a-date" }, { grant: 500 }])("rejects malformed or forged residence %j", patch => {
     const data = createBackup("owner", settled(), null, {}, now);
     expect(() => validateBackup({ ...data, game: { ...data.game, residence: { ...data.game.residence, ...patch } } })).toThrow();
