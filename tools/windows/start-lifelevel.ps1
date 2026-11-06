@@ -6,6 +6,7 @@ $ErrorActionPreference = "Stop"
 $projectRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
 $nextCli = Join-Path $projectRoot "node_modules\next\dist\bin\next"
 $node = (Get-Command node.exe -ErrorAction Stop).Source
+$env:LIFELEVEL_BUILD_DIR = ".next-local-dev"
 $logRoot = Join-Path $env:LOCALAPPDATA "LIFELEVEL\logs"
 $stdoutLog = Join-Path $logRoot "next-dev.out.log"
 $stderrLog = Join-Path $logRoot "next-dev.err.log"
