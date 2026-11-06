@@ -4,9 +4,9 @@ Updated: 2026-11-06 (Asia/Saigon)
 
 ## Checkpoint and scope
 
-- Source checkpoint: `89390d744c8630eb94034f8755d49cf8c4ff3ae3` (`origin/master`). Working branch: `codex/baseline-repro-20261106`.
-- This work has not been committed or pushed yet. No reset, rebase, force-push, deployment, or migration was run. `.tmp/` contains ignored local evidence and is not to be staged.
-- A pre-existing one-line `src/components/combat/BossArena.tsx` JSX edit was present before this audit work; preserve it during staging/review.
+- Source base: `89390d744c8630eb94034f8755d49cf8c4ff3ae3` (`origin/master`). Baseline implementation commit: `727b1e8` (`chore: establish reproducible test baseline`) on `codex/baseline-repro-20261106`.
+- Baseline is committed locally and not pushed. No reset, rebase, force-push, deployment, or migration was run. `.tmp/` contains ignored local evidence and was not staged.
+- A pre-existing one-line `src/components/combat/BossArena.tsx` JSX edit was present before this audit work. It remains unstaged and outside the baseline commit; preserve it during later staging/review.
 - Next.js 16.4.1 is installed. The repository instruction requires consulting its bundled docs before changing Next APIs; no application Next API was changed here.
 
 ## Repository map recorded
@@ -32,6 +32,7 @@ Updated: 2026-11-06 (Asia/Saigon)
 - Audit/full-suite run `42160404277` reported install repair, typecheck, lint, unit, audit, build and desktop steps successful, then was cancelled while full E2E was running. Its install step used a generated lock repair, so it does not prove the current committed-lock install. Artifact logs were not downloadable (HTTP 403); API step outcomes were available.
 - Neither historical run tested this branch's final lock/workflows. The new GitHub Linux runner has not been triggered; no remote workflow push was made.
 - Branch protection required-check settings cannot be verified from this local checkout and remain an external repository setting.
+- Workflow YAML parsing passed on Node 22 / npm 10; the release workflow was checked for and contains no `continue-on-error`.
 
 ## Verification results on Windows, Node 22.23.4 / npm 10.9.9
 
@@ -94,5 +95,5 @@ Counts sum to 72. Catalog/layout/source-shape mismatches are not declared harmle
 
 1. The focused Construction browser rerun completed but failed at the `#curve-angle` lookup after the radius edit; inspect its trace if continuing this browser issue. Full E2E remains incomplete and must not be reported PASS.
 2. Review the 72 Vitest failures against source owners; fix only proven source defects or correct stale selectors/contracts without weakening expected behavior.
-3. `git diff --check` is clean. Restore generated `next-env.d.ts` to the checkpoint version, stage only reviewed files, keep the pre-existing `BossArena.tsx` JSX edit unstaged, and keep `.tmp/` out of Git.
-4. Commit the baseline on `codex/baseline-repro-20261106`. A commit is a reproducible checkpoint, not release acceptance: Vitest, full E2E, shared rate limiting and PostgreSQL gates remain red/BLOCKED until independently resolved.
+3. Baseline `727b1e8` is the code checkpoint. `next-env.d.ts` is restored; `.tmp/` is ignored; the pre-existing `BossArena.tsx` edit remains unstaged.
+4. Continue only after the handoff and blockers are reviewed. This commit is a reproducible checkpoint, not release acceptance: Vitest, full E2E, shared rate limiting and PostgreSQL gates remain red/BLOCKED until independently resolved.
