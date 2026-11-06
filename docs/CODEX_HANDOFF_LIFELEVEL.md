@@ -8,6 +8,7 @@ Updated: 2026-11-06 (Asia/Saigon)
 - Baseline is committed locally and not pushed. No reset, rebase, force-push, deployment, or migration was run. `.tmp/` contains ignored local evidence and was not staged.
 - A pre-existing one-line `src/components/combat/BossArena.tsx` JSX edit was present before this audit work. It remains unstaged and outside the baseline commit; preserve it during later staging/review.
 - Next.js 16.4.1 is installed. The repository instruction requires consulting its bundled docs before changing Next APIs; no application Next API was changed here.
+- Localhost recovery code checkpoint: `595a5e2` (`fix: isolate localhost webpack dev cache`) on `codex/baseline-repro-20261106`. The handoff evidence update is pending its own docs checkpoint. Local app data, migrations, assets and save files were not changed.
 
 ## Repository map recorded
 
@@ -25,6 +26,14 @@ Updated: 2026-11-06 (Asia/Saigon)
 - Playwright now discovers all `tests/e2e/**/*.spec.ts` (306 tests in 19 files), with a distinct one-project smoke config. Test Next servers run on loopback, use an OS-temp save directory and an allowlisted environment that excludes database/AI secrets. JSON/HTML reports, screenshots, and traces are kept under the OS temp evidence directory.
 - Added `docs/QUALITY_GATE.md` with P0/P1/P2 thresholds, required checks, skip allowlist and production-evidence boundaries.
 - Updated `tests/e2e/construction-v7.spec.ts` after a real-browser trace showed the fixture returned 503 for its own draft API, creating a spurious second error notice. It now models that draft API in memory with owner/revision checks. Locator updates target the displayed one-bedroom label and the matching validation notice; business assertions for saved state, owner, Gold, revision, and mutation count remain intact. This fixture is explicitly not database evidence.
+
+## Localhost build error follow-up
+
+- The screenshot showed Next Webpack failing at `@radix-ui/react-dialog` importing `RemoveScroll` from `react-remove-scroll`. The checked-in npm lock resolves Radix Dialog `1.3.1` with `react-remove-scroll` `2.7.2`; that installed package and the prior pnpm lock both export the named symbol. Direct ESM import, Turbopack build, and a fresh Webpack production build all succeeded, so no dependency upgrade or lock change was needed.
+- Fresh Webpack dev servers on `3335` (Node 22) and `3336` (Node 25) both served `/` with HTTP 200. The scheduled server on `3333` was using its old `.next/dev` Webpack output and repeatedly showed the stale export error. Its startup script now gives local development a dedicated `.next-local-dev` directory, separate from the production `.next`; that folder is ignored and its generated Next type paths are listed in `tsconfig.json`.
+- Restarted the existing per-user startup task. Real Playwright Chromium against `http://127.0.0.1:3333/` returned HTTP 200, title `LIFE//LEVEL — Neon Haven`, no Build Error text, and zero browser console/page errors. `/api/health/live` returned HTTP 200 with `{"status":"live"}`. Screenshot evidence: `%TEMP%\\lifelevel-localhost-3333-check.png`.
+- `npm run typecheck` passed, exit 0, on Node `22.23.4` / npm `10.9.9`; startup PowerShell script parse passed; `git diff --check` passed. The final real-browser check command was a Playwright Chromium navigation to `127.0.0.1:3333` and exited 0.
+- Next dev docs consulted: `node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/distDir.md` and `node_modules/next/dist/docs/01-app/02-guides/building.md`. Next owns the configured `distDir`; the local dev directory is dedicated to Next and isolated from production output.
 
 ## External CI audit
 
@@ -93,7 +102,6 @@ Counts sum to 72. Catalog/layout/source-shape mismatches are not declared harmle
 
 ## Next checkpoint
 
-1. The focused Construction browser rerun completed but failed at the `#curve-angle` lookup after the radius edit; inspect its trace if continuing this browser issue. Full E2E remains incomplete and must not be reported PASS.
-2. Review the 72 Vitest failures against source owners; fix only proven source defects or correct stale selectors/contracts without weakening expected behavior.
-3. Baseline `727b1e8` is the code checkpoint. `next-env.d.ts` is restored; `.tmp/` is ignored; the pre-existing `BossArena.tsx` edit remains unstaged.
-4. Continue only after the handoff and blockers are reviewed. This commit is a reproducible checkpoint, not release acceptance: Vitest, full E2E, shared rate limiting and PostgreSQL gates remain red/BLOCKED until independently resolved.
+1. Gameplay follow-up should re-read the feature matrix and acceptance sources, reconcile screen states with source/tests, then implement and verify one persisted end-to-end vertical slice at a time.
+2. Existing unresolved baseline gates remain: 72 Vitest failures, incomplete full E2E (focused Construction locator failure), P1 shared-rate-limit gap, and PostgreSQL-dependent migration/concurrency/restore checks BLOCKED.
+3. Baseline `727b1e8` and localhost cache fix `595a5e2` are local commits on `codex/baseline-repro-20261106`; neither is pushed. `.tmp/` is ignored and the pre-existing `BossArena.tsx` edit remains unstaged.
