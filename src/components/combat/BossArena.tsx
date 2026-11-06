@@ -29,7 +29,7 @@ export default function BossArena({state,act,busy,navigate}:Props){
   <header className="combat-hero-header">
    <div className="combat-hero-copy">
     <span className="eyebrow">NHẬP VAI / NEON HAVEN</span>
-    <h1><i aria-hidden="true">///</i> Đấu trường</h1>
+    <h1><i aria-hidden="true">{"///"}</i> Đấu trường</h1>
     <span className="combat-hero-kicker">CUỘC SỐNG THẬT. TIẾN BỘ THẬT.</span>
     <p>Chiến thắng bắt đầu từ những việc bạn làm hôm nay.</p>
    </div>
