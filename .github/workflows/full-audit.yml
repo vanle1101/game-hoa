@@ -1,0 +1,70 @@
+name: Full audit (isolated)
+on:
+  push:
+    branches:
+      - audit/full-suite-20261106
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      AI_PROVIDER: disabled
+      LOCAL_DEV_MODE: "true"
+      PLAYWRIGHT_EVIDENCE_DIR: /tmp/lifelevel-audit
+      PLAYWRIGHT_BASE_URL: http://127.0.0.1:3100
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Repair lock metadata in audit workspace only
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+      - name: Install using reconciled lock
+        run: npm ci --no-audit --no-fund
+      - name: Typecheck
+        if: always()
+        continue-on-error: true
+        run: npm run typecheck
+      - name: Lint
+        if: always()
+        continue-on-error: true
+        run: npm run lint
+      - name: Full Vitest
+        if: always()
+        continue-on-error: true
+        run: npm test -- --reporter=dot
+      - name: Dependency audit
+        if: always()
+        continue-on-error: true
+        run: npm audit --omit=dev
+      - name: Production build
+        if: always()
+        continue-on-error: true
+        run: npm run build
+      - name: Desktop security tests
+        if: always()
+        continue-on-error: true
+        run: node --test desktop/*.test.cjs
+      - name: Browser setup
+        if: always()
+        continue-on-error: true
+        run: npx playwright install --with-deps chromium
+      - name: Full E2E with independent local server
+        if: always()
+        continue-on-error: true
+        run: |
+          mkdir -p /tmp/lifelevel-audit
+          sed -e 's/testMatch: \["\*\*\/v7-smoke.spec.ts", "\*\*\/wall-insert-csg.spec.ts", "\*\*\/wall-drawing.spec.ts"\]/testMatch: ["**\/*.spec.ts"]/' playwright.config.ts > playwright.full-audit.config.ts
+          npm run dev -- --port 3100 > /tmp/lifelevel-audit/server.log 2>&1 &
+          echo $! > /tmp/lifelevel-audit/server.pid
+          for i in $(seq 1 90); do if curl -fsS http://127.0.0.1:3100/api/health/live >/dev/null; then break; fi; sleep 2; done
+          npx playwright test --config=playwright.full-audit.config.ts --workers=1 --retries=0 --timeout=120000
+      - name: Capture summary and logs
+        if: always()
+        run: |
+          git status --short
+          git diff -- package-lock.json | head -100
+          test ! -f /tmp/lifelevel-audit/server.log || tail -80 /tmp/lifelevel-audit/server.log
