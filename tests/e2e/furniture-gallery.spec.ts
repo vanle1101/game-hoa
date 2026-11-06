@@ -3,6 +3,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { createInitialState, applyAction } from "../../src/domain/engine";
 import type { Action, ActionResult } from "../../src/domain/types";
 import { FURNITURE_CATALOG } from "../../src/furniture/catalog";
+import { fulfillIsolatedGuestBootstrap } from "./support/isolated-guest-bootstrap";
 
 const NOW = "2026-10-16T08:00:00.000Z";
 const FIRST_36 = [
@@ -31,6 +32,7 @@ async function isolatedGame(page: Page) {
   });
   await page.route("**/api/**", async route => {
     const request = route.request();
+    if (await fulfillIsolatedGuestBootstrap(route, state.userId)) return;
     if (new URL(request.url()).pathname !== "/api/game") {
       unexpectedApi.push(`${request.method()} ${request.url()}`);
       await route.fulfill({ status: 503, json: { error: "API ngoài phạm vi kiểm thử." } });

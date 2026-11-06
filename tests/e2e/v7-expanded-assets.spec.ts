@@ -10,6 +10,7 @@ import { createInitialState, applyAction } from "../../src/domain/engine";
 import type { Action, ActionResult, GameState } from "../../src/domain/types";
 import { FURNITURE_CATALOG } from "../../src/furniture/catalog";
 import { COSMETICS } from "../../src/character/catalog";
+import { fulfillIsolatedGuestBootstrap } from "./support/isolated-guest-bootstrap";
 import { equipCosmetic } from "../../src/character/ownership";
 import type { CosmeticSlot } from "../../src/character/types";
 
@@ -87,6 +88,7 @@ async function isolatedGame(page: Page, advanced = false) {
   });
   await page.context().route("**/api/**", async route => {
     const request = route.request();
+    if (await fulfillIsolatedGuestBootstrap(route, state.userId)) return;
     if (new URL(request.url()).pathname !== "/api/game") {
       unexpectedApi.push(`${request.method()} ${request.url()}`);
       await route.fulfill({ status: 503, json: { error: "API ngoài phạm vi kiểm thử." } });

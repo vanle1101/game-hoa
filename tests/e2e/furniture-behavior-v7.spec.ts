@@ -6,6 +6,7 @@ import type { Action, GameState } from "../../src/domain/types";
 import { constructionContext, validateConstruction } from "../../src/construction/engine";
 import type { BuildingFurniture, BuildingPlan } from "../../src/construction/types";
 import { getFurnitureDefinition, getFurnitureRecipe } from "../../src/furniture/catalog";
+import { fulfillIsolatedGuestBootstrap } from "./support/isolated-guest-bootstrap";
 
 const NOW = "2026-10-16T08:00:00.000Z";
 const BLOCKED = "Đồ vật chưa có lối tiếp cận. Di chuyển nội thất hoặc thêm cửa.";
@@ -314,6 +315,7 @@ async function scenario(page: Page, info: TestInfo, entry: Entry, blocked: boole
   await installObserver(page, placements);
   await page.route("**/api/**", async route => {
     const request = route.request();
+    if (await fulfillIsolatedGuestBootstrap(route, state.userId)) return;
     const url = new URL(request.url());
     const record: (typeof requests)[number] = { method: request.method(), path: url.pathname };
     requests.push(record);

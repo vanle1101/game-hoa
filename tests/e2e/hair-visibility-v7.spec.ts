@@ -8,6 +8,7 @@ import type * as THREE from "three";
 import { createInitialState, applyAction } from "../../src/domain/engine";
 import type { Action, ActionResult, GameState } from "../../src/domain/types";
 import { COSMETICS } from "../../src/character/catalog";
+import { fulfillIsolatedGuestBootstrap } from "./support/isolated-guest-bootstrap";
 const NOW = "2026-10-16T08:00:00.000Z";
 const fashionSnapshot = structuredClone(COSMETICS);
 type Command = { key: string; action: Action; expectedOwnerId?: string };
@@ -31,6 +32,7 @@ async function isolatedGame(page: Page) {
   });
   await page.context().route("**/api/**", async route => {
     const request = route.request();
+    if (await fulfillIsolatedGuestBootstrap(route, state.userId)) return;
     if (new URL(request.url()).pathname !== "/api/game") {
       unexpectedApi.push(`${request.method()} ${request.url()}`);
       await route.fulfill({ status: 503, json: { error: "API ngoài phạm vi kiểm thử." } });

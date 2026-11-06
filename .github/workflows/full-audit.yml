@@ -1,0 +1,183 @@
+name: Full audit (diagnostic and fail-closed)
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "codex/**"
+      - "audit/**"
+permissions:
+  contents: read
+jobs:
+  audit:
+    name: Static and server gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      AI_PROVIDER: disabled
+      LOCAL_DEV_MODE: "false"
+      DATABASE_URL: ""
+      AI_API_KEY: ""
+      AI_BASE_URL: ""
+      AI_MODEL: ""
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Pin npm CLI (project dependencies still use npm ci)
+        run: npm install --global npm@10.9.9 --no-audit --no-fund
+      - name: Record runtime
+        run: |
+          node --version
+          npm --version
+      - name: Clean install from committed lock
+        id: install
+        continue-on-error: true
+        run: npm ci
+      - name: Typecheck
+        id: typecheck
+        if: ${{ always() && steps.install.outcome == 'success' }}
+        continue-on-error: true
+        run: npm run typecheck
+      - name: Lint
+        id: lint
+        if: ${{ always() && steps.install.outcome == 'success' }}
+        continue-on-error: true
+        run: npm run lint
+      - name: Full Vitest
+        id: vitest
+        if: ${{ always() && steps.install.outcome == 'success' }}
+        continue-on-error: true
+        run: npm test -- --reporter=dot
+      - name: Production dependency audit
+        id: audit
+        if: ${{ always() && steps.install.outcome == 'success' }}
+        continue-on-error: true
+        run: npm audit --omit=dev
+      - name: Production build
+        id: build
+        if: ${{ always() && steps.install.outcome == 'success' }}
+        continue-on-error: true
+        run: npm run build
+      - name: Desktop security tests
+        id: desktop
+        if: ${{ always() && steps.install.outcome == 'success' }}
+        continue-on-error: true
+        run: node --test desktop/*.test.cjs
+      - name: Summarize every static gate and fail on any failure
+        if: always()
+        env:
+          INSTALL: ${{ steps.install.outcome }}
+          TYPECHECK: ${{ steps.typecheck.outcome }}
+          LINT: ${{ steps.lint.outcome }}
+          VITEST: ${{ steps.vitest.outcome }}
+          AUDIT: ${{ steps.audit.outcome }}
+          BUILD: ${{ steps.build.outcome }}
+          DESKTOP: ${{ steps.desktop.outcome }}
+        run: |
+          failed=0
+          for gate in INSTALL TYPECHECK LINT VITEST AUDIT BUILD DESKTOP; do
+            value="${!gate:-skipped}"
+            printf '| %s | %s |\n' "$gate" "$value" >> "$GITHUB_STEP_SUMMARY"
+            if [[ "$value" != "success" ]]; then failed=1; fi
+          done
+          exit "$failed"
+
+  full-e2e:
+    name: Full Playwright shard ${{ matrix.shard }}/4
+    needs: audit
+    if: ${{ always() }}
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [1, 2, 3, 4]
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      AI_PROVIDER: disabled
+      LOCAL_DEV_MODE: "false"
+      DATABASE_URL: ""
+      AI_API_KEY: ""
+      AI_BASE_URL: ""
+      AI_MODEL: ""
+      PLAYWRIGHT_EVIDENCE_DIR: ${{ runner.temp }}/lifelevel-full-audit-${{ matrix.shard }}
+      PLAYWRIGHT_RUN_ID: ${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}
+      PLAYWRIGHT_CAPTURE_ALL: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Pin npm CLI (project dependencies still use npm ci)
+        run: npm install --global npm@10.9.9 --no-audit --no-fund
+      - name: Record runtime
+        run: |
+          node --version
+          npm --version
+      - name: Clean install from committed lock
+        id: install
+        continue-on-error: true
+        run: npm ci
+      - name: Install Playwright Chromium
+        id: browser
+        if: ${{ always() && steps.install.outcome == 'success' }}
+        continue-on-error: true
+        run: npx playwright install --with-deps chromium
+      - name: Full E2E against isolated server and save, shard ${{ matrix.shard }}/4
+        id: e2e
+        if: ${{ always() && steps.install.outcome == 'success' && steps.browser.outcome == 'success' }}
+        continue-on-error: true
+        run: npm run test:e2e:full -- --forbid-only --shard=${{ matrix.shard }}/4
+      - name: Validate JSON report and known skips
+        id: report
+        if: ${{ always() && steps.install.outcome == 'success' && steps.browser.outcome == 'success' }}
+        continue-on-error: true
+        shell: bash
+        run: |
+          report="$PLAYWRIGHT_EVIDENCE_DIR/$PLAYWRIGHT_RUN_ID/results.json"
+          if [[ ! -f "$report" ]]; then
+            echo "Playwright JSON report missing: $report" >&2
+            exit 1
+          fi
+          node tools/check-playwright-report.mjs "$report"
+      - name: Upload JSON, screenshots, traces and HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-full-${{ github.run_id }}-${{ github.run_attempt }}-shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/lifelevel-full-audit-${{ matrix.shard }}/**
+          if-no-files-found: warn
+      - name: Summarize shard and fail on any failure
+        if: always()
+        env:
+          INSTALL: ${{ steps.install.outcome }}
+          BROWSER: ${{ steps.browser.outcome }}
+          E2E: ${{ steps.e2e.outcome }}
+          REPORT: ${{ steps.report.outcome }}
+        run: |
+          failed=0
+          for gate in INSTALL BROWSER E2E REPORT; do
+            value="${!gate:-skipped}"
+            printf '| %s | %s |\n' "$gate" "$value" >> "$GITHUB_STEP_SUMMARY"
+            if [[ "$value" != "success" ]]; then failed=1; fi
+          done
+          exit "$failed"
+
+  audit-result:
+    name: Full audit result
+    needs: [audit, full-e2e]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require every gate and shard to pass
+        env:
+          STATIC_RESULT: ${{ needs.audit.result }}
+          E2E_RESULT: ${{ needs.full-e2e.result }}
+        run: |
+          printf '| Static/server gates | %s |\n| Full E2E shards | %s |\n' "$STATIC_RESULT" "$E2E_RESULT" >> "$GITHUB_STEP_SUMMARY"
+          [[ "$STATIC_RESULT" == "success" && "$E2E_RESULT" == "success" ]]

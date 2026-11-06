@@ -5,6 +5,7 @@ import { constructionContext, getBuilding, validateConstruction } from "../../sr
 import { edgeKey } from "../../src/construction/grid";
 import { withLotObject } from "../../src/construction/lot-objects";
 import type { WallSegment } from "../../src/construction/types";
+import { fulfillIsolatedGuestBootstrap } from "./support/isolated-guest-bootstrap";
 
 type ObservedScene = THREE.Scene & { __r3f?: { root: { getState: () => { gl: THREE.WebGLRenderer } } } };
 declare global {
@@ -45,6 +46,7 @@ test("a placed door leaves visible jambs and lintel in the actual Build Mode ren
   const errors: string[] = [];
   page.on("pageerror", error => errors.push(error.message));
   await page.route("**/api/**", async route => {
+    if (await fulfillIsolatedGuestBootstrap(route, state.userId)) return;
     if (new URL(route.request().url()).pathname === "/api/game" && route.request().method() === "GET") {
       await route.fulfill({ json: { state, mode: "local" } });
     } else {

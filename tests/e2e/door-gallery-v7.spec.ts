@@ -7,6 +7,7 @@ import { constructionContext, getBuilding, quoteConstruction, validateConstructi
 import { BUILDING_CATALOG, buildingItem } from "../../src/construction/catalog";
 import { DOOR_MODEL_IDS, getDoorRecipe, doorMotionKind } from "../../src/components/construction/door-models";
 import { wallParts } from "../../src/components/construction/render-geometry";
+import { fulfillIsolatedGuestBootstrap } from "./support/isolated-guest-bootstrap";
 
 const NOW = "2026-10-16T08:00:00.000Z";
 const WALL = { x: 0, z: -2, level: 0, orientation: "x" as const, materialId: "wall-basic" };
@@ -71,6 +72,7 @@ async function fixtureFor(page: Page) {
   page.on("pageerror", error => errors.push(error.message));
   await page.context().route("**/api/**", async route => {
     const request = route.request();
+    if (await fulfillIsolatedGuestBootstrap(route, state.userId)) return;
     if (new URL(request.url()).pathname !== "/api/game") {
       await route.fulfill({ status: 503, json: { error: "notliveDB fixture blocks unrelated APIs" } });
       return;

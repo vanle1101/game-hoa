@@ -4,7 +4,7 @@ Trò chơi quản lý cuộc sống với nhiệm vụ, nhân vật, căn hộ 3
 
 ## Chạy trên máy
 
-1. Cài Node.js 22 LTS và chạy `npm ci`.
+1. Cài Node.js theo `.nvmrc` (22.23.4), dùng npm 10.9.9 và chạy `npm ci`.
 2. Sao chép `.env.example` thành `.env.local`, đặt `LOCAL_DEV_MODE=true`.
 3. Chạy `npm run dev` rồi mở địa chỉ localhost được terminal thông báo.
 
@@ -23,6 +23,10 @@ npm run typecheck
 npm run lint
 npm test
 npm run build
+node --test desktop/*.test.cjs
+npm run test:e2e:smoke
 ```
+
+`npm` là package manager duy nhất cho ứng dụng và desktop shell; dependency được ghim trong hai `package-lock.json`. Bộ Playwright mặc định chạy toàn bộ `tests/e2e/**/*.spec.ts`; `npm run test:e2e:smoke` là luồng ngắn riêng. Playwright tự chạy Next.js trên loopback, dùng thư mục save tạm riêng, không kế thừa `DATABASE_URL` hay AI credentials. Những kiểm tra này không thay thế nghiệm thu PostgreSQL thật.
 
 Không đưa `.env.local`, cookie phiên hay thông tin kết nối cơ sở dữ liệu vào Git hoặc log chia sẻ. [Các vấn đề đã biết](docs/KNOWN_ISSUES.md) phân biệt chức năng còn thiếu với kết quả đã kiểm thử.

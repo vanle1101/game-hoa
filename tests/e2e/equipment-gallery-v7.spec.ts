@@ -8,6 +8,7 @@ import type { Action, ActionResult, GameState } from "../../src/domain/types";
 import { ITEMS } from "../../src/domain/catalog";
 import { EQUIPMENT_CATALOG, getEquipmentRecipe } from "../../src/equipment/catalog";
 import type { Camera, Mesh, Scene, WebGLRenderer } from "three";
+import { fulfillIsolatedGuestBootstrap } from "./support/isolated-guest-bootstrap";
 
 type ModelProjection = { id: string; meshNames: string[]; visibleTriangles: number; bounds: [number, number, number, number] | null; width: number; height: number };
 type ObservedScene = Scene & { __r3f?: { root: { getState: () => { camera: Camera; gl: WebGLRenderer } } } };
@@ -241,6 +242,7 @@ async function isolatedGame(page: Page) {
   page.on("console", message => { if (message.type() === "error") consoleErrors.push(message.text()); if (message.type() === "warning") warnings.push(message.text()); });
   await page.context().route("**/api/**", async route => {
     const request = route.request();
+    if (await fulfillIsolatedGuestBootstrap(route, state.userId)) return;
     if (new URL(request.url()).pathname !== "/api/game") { unexpectedApi.push(`${request.method()} ${request.url()}`); await route.fulfill({ status: 503, json: { error: "API ngoài phạm vi kiểm thử." } }); return; }
     if (request.method() === "GET") { await route.fulfill({ json: { state, mode: "local" } }); return; }
     if (request.method() !== "POST") { unexpectedApi.push(`${request.method()} ${request.url()}`); await route.fulfill({ status: 405, json: { error: "Phương thức không được hỗ trợ." } }); return; }

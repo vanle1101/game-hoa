@@ -33,7 +33,24 @@ async function isolatedGame(page: Page, failure: FailureMode = "none", options: 
   page.on("pageerror", error => errors.push(error.message));
   await page.context().route("**/api/**", async route => {
     const request = route.request();
-    if (new URL(request.url()).pathname !== "/api/game") {
+    const pathname = new URL(request.url()).pathname;
+    // The real app reads auth status during startup. This browser fixture is
+    // intentionally a local guest and must not fall through to a fake 503.
+    if (pathname === "/api/auth" && request.method() === "GET") {
+      await route.fulfill({ json: { authenticated: false, account: null, guestSaveAvailable: false, localMode: true } });
+      return;
+    }
+    if (pathname === "/api/game/intent" && request.method() === "GET") {
+      const ownerId = switched ? ownerB.userId : state.userId;
+      const expectedOwnerId = new URL(request.url()).searchParams.get("expectedOwnerId");
+      if (expectedOwnerId && expectedOwnerId !== ownerId) {
+        await route.fulfill({ status: 409, json: { code: "OWNER_CHANGED", error: "Phiên người chơi đã thay đổi." } });
+        return;
+      }
+      await route.fulfill({ json: { ownerId, mode: "local", intent: null } });
+      return;
+    }
+    if (pathname !== "/api/game") {
       await route.fulfill({ status: 503, json: { error: "API ngoài phạm vi kiểm thử giao diện." } });
       return;
     }

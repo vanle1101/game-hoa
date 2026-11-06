@@ -5,6 +5,7 @@ import { resolve } from "node:path";
 import { applyAction, createInitialState } from "../../src/domain/engine";
 import { emptyFinance } from "../../src/finance";
 import type { Action } from "../../src/domain/types";
+import { fulfillIsolatedGuestBootstrap } from "./support/isolated-guest-bootstrap";
 
 const NOW = "2026-10-16T08:00:00.000Z";
 const source = readFileSync(resolve(__dirname, "../../src/components/game/GameApp.tsx"), "utf8");
@@ -30,6 +31,7 @@ async function fixture(page: Page, mode: ApiMode = "ready", allowCareerSelection
   await page.context().route("**/api/**", async route => {
     const request = route.request();
     const path = new URL(request.url()).pathname;
+    if (await fulfillIsolatedGuestBootstrap(route, state.userId)) return;
     const record: { path: string; method: string; action?: string } = { path, method: request.method() };
     requests.push(record);
     if (path === "/api/game") {

@@ -2,6 +2,7 @@
   "name": "life-level",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "npm@10.9.9",
   "scripts": {
     "dev": "next dev --hostname 0.0.0.0",
     "build": "next build && npm run worker:build",
@@ -11,6 +12,9 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
+    "test:e2e": "playwright test --config=playwright.config.ts",
+    "test:e2e:smoke": "playwright test --config=playwright.smoke.config.ts",
+    "test:e2e:full": "playwright test --config=playwright.config.ts",
     "test:watch": "vitest",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate"

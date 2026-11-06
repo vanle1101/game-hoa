@@ -7,6 +7,7 @@ import { detectRooms } from "../../src/construction/topology";
 import { findBuildingPath } from "../../src/construction/navigation";
 import type { Action, ActionResult, GameState } from "../../src/domain/types";
 import type { BuildingPlan, WallSegment } from "../../src/construction/types";
+import { fulfillIsolatedGuestBootstrap } from "./support/isolated-guest-bootstrap";
 
 const NOW = "2026-10-16T08:00:00.000Z";
 const CONTRACT_READY = process.env.LIFE_LEVEL_V9_APARTMENT_CONTRACT === "1";
@@ -46,6 +47,7 @@ async function fixture(page: Page): Promise<Fixture> {
   page.on("pageerror", error => errors.push(error.message));
   await page.route("**/api/**", async route => {
     const request = route.request();
+    if (await fulfillIsolatedGuestBootstrap(route, state.userId)) return;
     if (new URL(request.url()).pathname !== "/api/game") {
       await route.fulfill({ status: 503, json: { error: "V9 fixture blocks unrelated APIs" } });
       return;

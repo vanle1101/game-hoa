@@ -1,9 +1,12 @@
 node_modules/
 .next/
 .next-verify/
+.next-playwright/
+.tmp/
 out/
 .env*
 !.env.example
+next-env.d.ts
 *.tsbuildinfo
 npm-debug.log*
 .local-data/

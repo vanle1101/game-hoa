@@ -5,22 +5,129 @@ on:
 permissions:
   contents: read
 jobs:
-  quality:
-    runs-on: ubuntu-latest
+  clean-install:
+    name: Clean install (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 20
-    env:
-      NEXT_TELEMETRY_DISABLED: "1"
-      LOCAL_DEV_MODE: "false"
-      AI_PROVIDER: disabled
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version-file: .nvmrc
           cache: npm
+      - name: Pin npm CLI (project dependencies still use npm ci)
+        run: npm install --global npm@10.9.9 --no-audit --no-fund
+      - run: node --version
+      - run: npm --version
+      - run: npm ci
+      - run: npm ci --prefix desktop
+      - run: node --test desktop/*.test.cjs
+
+  quality:
+    name: Linux quality gates
+    needs: clean-install
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      LOCAL_DEV_MODE: "false"
+      AI_PROVIDER: disabled
+      DATABASE_URL: ""
+      AI_API_KEY: ""
+      AI_BASE_URL: ""
+      AI_MODEL: ""
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Pin npm CLI (project dependencies still use npm ci)
+        run: npm install --global npm@10.9.9 --no-audit --no-fund
+      - run: node --version
+      - run: npm --version
       - run: npm ci
       - run: npm run typecheck
       - run: npm run lint
-      - run: npm test
+      - run: npm test -- --reporter=dot
       - run: npm audit --omit=dev
       - run: npm run build
+
+  e2e-smoke:
+    name: Isolated Playwright smoke
+    needs: clean-install
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PLAYWRIGHT_EVIDENCE_DIR: ${{ runner.temp }}/lifelevel-e2e-smoke
+      PLAYWRIGHT_RUN_ID: ${{ github.run_id }}-${{ github.run_attempt }}
+      PLAYWRIGHT_CAPTURE_ALL: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Pin npm CLI (project dependencies still use npm ci)
+        run: npm install --global npm@10.9.9 --no-audit --no-fund
+      - run: node --version
+      - run: npm --version
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e:smoke -- --forbid-only
+      - name: Upload isolated browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-smoke-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/lifelevel-e2e-smoke/**
+          if-no-files-found: warn
+
+  e2e-full:
+    name: Full Playwright shard ${{ matrix.shard }}/4
+    needs: clean-install
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [1, 2, 3, 4]
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    env:
+      PLAYWRIGHT_EVIDENCE_DIR: ${{ runner.temp }}/lifelevel-e2e-full-${{ matrix.shard }}
+      PLAYWRIGHT_RUN_ID: ${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}
+      PLAYWRIGHT_CAPTURE_ALL: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Pin npm CLI (project dependencies still use npm ci)
+        run: npm install --global npm@10.9.9 --no-audit --no-fund
+      - run: npm ci
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Run all browser tests against isolated server and save
+        run: npm run test:e2e:full -- --forbid-only --shard=${{ matrix.shard }}/4
+      - name: Validate JSON report and known skips
+        if: always()
+        shell: bash
+        run: |
+          report="$PLAYWRIGHT_EVIDENCE_DIR/$PLAYWRIGHT_RUN_ID/results.json"
+          if [[ ! -f "$report" ]]; then
+            echo "Playwright JSON report missing: $report" >&2
+            exit 1
+          fi
+          node tools/check-playwright-report.mjs "$report"
+      - name: Upload isolated browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-full-${{ github.run_id }}-${{ github.run_attempt }}-shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/lifelevel-e2e-full-${{ matrix.shard }}/**
+          if-no-files-found: warn

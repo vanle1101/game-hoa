@@ -7,6 +7,7 @@ import { constructionContext, getBuilding, quoteConstruction, validateConstructi
 import { createCurve } from "../../src/construction/curves";
 import { CURVE_MATERIALS } from "../../src/construction/types";
 import { curveGlassMaterial } from "../../src/components/construction/curve-material";
+import { fulfillIsolatedGuestBootstrap } from "./support/isolated-guest-bootstrap";
 
 const NOW = "2026-10-16T08:00:00.000Z";
 const LIMITS = {
@@ -48,6 +49,7 @@ async function fixtureFor(page: Page) {
   page.on("pageerror", error => errors.push(error.message));
   await page.context().route("**/api/**", async route => {
     const request = route.request();
+    if (await fulfillIsolatedGuestBootstrap(route, state.userId)) return;
     if (new URL(request.url()).pathname !== "/api/game") return route.fulfill({ status: 503, json: { error: "Unrelated API blocked by notliveDB fixture" } });
     if (request.method() === "GET") {
       reads++; lastRead = structuredClone(state);

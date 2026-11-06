@@ -4,6 +4,7 @@ import { PerspectiveCamera, Vector3 } from "three";
 import { applyAction, createInitialState } from "../../src/domain/engine";
 import { getFurnitureDefinition } from "../../src/furniture/catalog";
 import type { Action } from "../../src/domain/types";
+import { fulfillIsolatedGuestBootstrap } from "./support/isolated-guest-bootstrap";
 
 const NOW = "2026-10-16T08:00:00.000Z";
 
@@ -24,6 +25,7 @@ async function fixture(page: Page, furnitureId: string, blocked = false) {
   await page.addInitScript(() => localStorage.setItem("lifelevel-entered", "true"));
   await page.route("**/api/**", async route => {
     const request = route.request();
+    if (await fulfillIsolatedGuestBootstrap(route, state.userId)) return;
     if (new URL(request.url()).pathname !== "/api/game") return route.fulfill({ status: 503, json: { error: "Isolated fixture: unrelated API blocked" } });
     if (request.method() === "GET") return route.fulfill({ json: { state, mode: "local" } });
     const body = request.postDataJSON() as { action: Action; expectedOwnerId: string };

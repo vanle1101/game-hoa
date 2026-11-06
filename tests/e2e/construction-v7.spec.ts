@@ -6,6 +6,7 @@ import { constructionContext, getBuilding, quoteConstruction, validateConstructi
 import { createCurve } from "../../src/construction/curves";
 import type { BuildingPlan } from "../../src/construction/types";
 import { STARTER_FURNITURE_IDS } from "../../src/housing/catalog";
+import { fulfillIsolatedGuestBootstrap } from "./support/isolated-guest-bootstrap";
 
 const NOW = "2026-10-16T08:00:00.000Z";
 const PROFILE = { radius: 2, angle: 120, height: 2.4 };
@@ -47,13 +48,52 @@ async function notliveDB(page: Page, construction = true) {
   let state = initialState(construction);
   let reads = 0;
   let lastRead: GameState | undefined;
+  let draft: { plan: BuildingPlan; baseRevision: number; draftRevision: number } | null = null;
   const attempts: Attempt[] = [];
   const receipts = new Map<string, Receipt>();
   const errors: string[] = [];
   page.on("pageerror", error => errors.push(error.message));
   await page.context().route("**/api/**", async route => {
     const request = route.request();
-    if (new URL(request.url()).pathname !== "/api/game") {
+    if (await fulfillIsolatedGuestBootstrap(route, state.userId)) return;
+    const url = new URL(request.url());
+    if (url.pathname === "/api/construction/draft") {
+      if (request.method() === "GET") {
+        const expectedOwnerId = url.searchParams.get("expectedOwnerId");
+        if (expectedOwnerId && expectedOwnerId !== state.userId) {
+          await route.fulfill({ status: 409, json: { error: "Owner mismatch" } });
+          return;
+        }
+        await route.fulfill({ json: { ownerId: state.userId, ...(draft ?? { plan: null }) } });
+        return;
+      }
+      const payload = request.postDataJSON() as { expectedOwnerId?: string; expectedDraftRevision?: number | null; baseRevision?: number; plan?: BuildingPlan };
+      if (payload.expectedOwnerId !== state.userId) {
+        await route.fulfill({ status: 409, json: { error: "Owner mismatch" } });
+        return;
+      }
+      if (request.method() === "POST") {
+        if (payload.baseRevision === undefined || payload.baseRevision !== state.building?.revision || (draft?.draftRevision ?? null) !== payload.expectedDraftRevision || !payload.plan) {
+          await route.fulfill({ status: 409, json: { error: "Draft revision mismatch" } });
+          return;
+        }
+        draft = { plan: payload.plan, baseRevision: payload.baseRevision, draftRevision: (draft?.draftRevision ?? 0) + 1 };
+        await route.fulfill({ json: { ownerId: state.userId, ...draft } });
+        return;
+      }
+      if (request.method() === "DELETE") {
+        if ((draft?.draftRevision ?? null) !== payload.expectedDraftRevision) {
+          await route.fulfill({ status: 409, json: { error: "Draft revision mismatch" } });
+          return;
+        }
+        draft = null;
+        await route.fulfill({ json: { ownerId: state.userId, plan: null } });
+        return;
+      }
+      await route.fulfill({ status: 405, json: { error: "Method not supported by notliveDB fixture" } });
+      return;
+    }
+    if (url.pathname !== "/api/game") {
       await route.fulfill({ status: 503, json: { error: "notliveDB fixture blocks unrelated APIs" } });
       return;
     }
@@ -150,9 +190,9 @@ async function expectQuote(page: Page, state: GameState, plan: BuildingPlan) {
 
 async function editProfile(page: Page) {
   const selection = page.locator(".selection-details");
-  await selection.getByRole("spinbutton", { name: "Bán kính kính cong", exact: true }).fill(String(PROFILE.radius));
-  await selection.getByRole("spinbutton", { name: "Góc cung kính cong", exact: true }).fill(String(PROFILE.angle));
-  await selection.getByRole("spinbutton", { name: "Chiều cao kính cong", exact: true }).fill(String(PROFILE.height));
+  await selection.locator("#curve-radius").fill(String(PROFILE.radius));
+  await selection.locator("#curve-angle").fill(String(PROFILE.angle));
+  await selection.locator("#curve-height").fill(String(PROFILE.height));
 }
 
 async function evidence(page: Page, info: TestInfo, fixture: Fixture) {
@@ -186,10 +226,11 @@ test.describe("construction V7 · notliveDB domain-backed browser acceptance", (
     const profile = { radius: defaults.radius, angle: defaults.angle, height: defaults.height };
     let quote = await expectQuote(page, before, expectedPlan(before, profile));
     for (const [label, key] of [["Bán kính", "radius"], ["Góc cung", "angle"], ["Chiều cao", "height"]] as const) {
-      const input = page.locator(".selection-details").getByRole("spinbutton", { name: `${label} kính cong`, exact: true });
+      const input = page.locator(`.selection-details #curve-${key}`);
       await expect(input).toBeEditable();
+      await expect(input).toHaveAttribute("aria-label", `${label} kính cong`);
       await input.fill(String(PROFILE[key]));
-      await input.blur();
+      await input.press("Tab");
       profile[key] = PROFILE[key];
       const nextQuote = await expectQuote(page, before, expectedPlan(before, profile));
       expect(nextQuote.netCost, `${key} must affect the canonical quote`).not.toBe(quote.netCost);
@@ -267,7 +308,7 @@ test.describe("construction V7 · notliveDB domain-backed browser acceptance", (
       await enterEditor(page);
       const before = fixture.state();
       await placeCurve(page, placement.x, placement.z);
-      await expect(page.locator(".construction-notice")).toContainText(placement.error);
+      await expect(page.locator(".construction-notice").filter({ hasText: placement.error })).toBeVisible();
       await expect(page.getByRole("button", { name: "Lưu công trình", exact: true })).toBeDisabled();
       expect(fixture.mutations()).toHaveLength(0);
       expect(fixture.state()).toEqual(before);
@@ -322,7 +363,7 @@ test.describe("construction V7 · notliveDB domain-backed browser acceptance", (
     expect(fixture.state().residence).toBeUndefined();
     expect(fixture.state().gold).toBe(before.gold);
     await dialog.getByRole("button", { name: "Tiếp tục", exact: true }).click();
-    await page.getByRole("button", { name: /Một phòng ngủ.*10 × 10 ô/ }).click();
+    await page.getByRole("button", { name: /Một phòng ngủ/ }).click();
     await dialog.getByRole("button", { name: "Tiếp tục", exact: true }).click();
     await dialog.getByRole("button", { name: "Tiếp tục", exact: true }).click();
     await expect(page.locator(".housing-confirm dl > div").filter({ has: page.locator("dt", { hasText: /^Tầng$/ }) }).getByRole("definition")).toHaveText("24");

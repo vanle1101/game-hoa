@@ -3,6 +3,7 @@ import { randomUUID } from "node:crypto";
 import type * as THREE from "three";
 import { applyAction, createInitialState } from "../../src/domain/engine";
 import { getBuilding } from "../../src/construction/engine";
+import { fulfillIsolatedGuestBootstrap } from "./support/isolated-guest-bootstrap";
 
 type Scene = THREE.Scene & { __r3f?: { root: { getState: () => { camera: THREE.Camera; gl: THREE.WebGLRenderer; controls?: { target: THREE.Vector3; enabled: boolean; update: () => void } } } } };
 declare global {
@@ -41,11 +42,14 @@ test("consecutive pointer drags retain each wall and clear the ghost", async ({ 
   });
   const errors: string[] = [];
   page.on("pageerror", error => errors.push(error.message));
-  await page.route("**/api/**", route => route.fulfill(
-    new URL(route.request().url()).pathname === "/api/game" && route.request().method() === "GET"
-      ? { json: { state, mode: "local" } }
-      : { status: 503, json: { error: "Isolated fixture" } },
-  ));
+  await page.route("**/api/**", async route => {
+    if (await fulfillIsolatedGuestBootstrap(route, state.userId)) return;
+    return route.fulfill(
+      new URL(route.request().url()).pathname === "/api/game" && route.request().method() === "GET"
+        ? { json: { state, mode: "local" } }
+        : { status: 503, json: { error: "Isolated fixture" } },
+    );
+  });
   await page.goto("/");
   await expect(page.locator(".game-shell")).toBeVisible();
   const menu = page.getByRole("button", { name: "Mở điều hướng", exact: true });

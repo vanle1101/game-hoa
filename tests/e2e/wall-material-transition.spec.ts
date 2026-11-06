@@ -4,6 +4,7 @@ import type * as THREE from "three";
 import { applyAction, createInitialState } from "../../src/domain/engine";
 import type { Action, ActionResult, GameState } from "../../src/domain/types";
 import { constructionContext, getBuilding, validateConstruction } from "../../src/construction/engine";
+import { fulfillIsolatedGuestBootstrap } from "./support/isolated-guest-bootstrap";
 
 type Scene = THREE.Scene & { __r3f?: { root: { getState: () => { camera: THREE.Camera; gl: THREE.WebGLRenderer } } } };
 type ProbeWindow = Window & { __THREE_DEVTOOLS__?: EventTarget; __wallScenes?: Scene[] };
@@ -39,6 +40,7 @@ async function fixtureFor(page: Page) {
   page.on("console", message => { if (message.type() === "error") consoleErrors.push(message.text()); });
   await page.context().route("**/api/**", async route => {
     const request = route.request();
+    if (await fulfillIsolatedGuestBootstrap(route, state.userId)) return;
     if (new URL(request.url()).pathname !== "/api/game") { unexpectedApi.push(request.url()); return route.fulfill({ status: 503, json: { error: "Unrelated API blocked" } }); }
     if (request.method() === "GET") return route.fulfill({ json: { state: structuredClone(state), mode: "local" } });
     if (request.method() !== "POST") return route.fulfill({ status: 405 });
